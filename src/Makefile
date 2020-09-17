@@ -1,7 +1,7 @@
 CC := g++
 FLAGS := -Wall -O2 -march=native
 LIBS := -larmadillo
-OFILES := main.o create_tridiagonal_matrix.o diagonalize_armadillo.o
+OFILES := main.o create_tridiagonal_matrix.o diagonalize_armadillo.o jacobi_method.o
 
 .PHONY: all clean run
 
@@ -18,6 +18,9 @@ create_tridiagonal_matrix.o: create_tridiagonal_matrix.cpp
 
 diagonalize_armadillo.o: diagonalize_armadillo.cpp
 	$(CC) $(FLAGS) diagonalize_armadillo.cpp -c
+
+jacobi_method.o: jacobi_method.cpp
+	$(CC) $(FLAGS) jacobi_method.cpp -c
 
 clean:
 	rm -f *.o
