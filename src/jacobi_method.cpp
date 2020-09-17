@@ -15,12 +15,22 @@ void jacobi_method(mat& A, mat& R, int N)
   for (int i; i<N; ++i){
     for (int j; i<N; ++i){
       if (i==j){
-        R[i][j] = 1;
+        R(i,j) = 1;
       }
       else{
-        R[i][j] = 0;
+        R(i,j) = 0;
+      }
+    }double max = 0.0;
+  for (int i; i<N; ++i){
+    for (int j; i<N; ++j){
+      if (A(i,j)>max){
+        max = fabs(A(i,j));
+        *k = i;
+        *l = j;
       }
     }
+  }
+  return max;
   }
 
   int k,l;   // To store the location of the largest element not on the diagonal
@@ -50,8 +60,8 @@ double max_offdiag(mat& A, int& k, int& l, int N)
   double max = 0.0;
   for(int i = 0; i < n; i++ ){
     for(int j = i + 1; j < n; j++ ){
-      if( fabs(A[i][j]) > max ){
-        max = fabs(A[i][j]);
+      if( fabs(A(i,j)) > max ){
+        max = fabs(A(i,j));
         *l = i;
         *k = j;
       }
@@ -68,9 +78,9 @@ void rotate(mat& A, mat& R, int k, int l, int N)
   double s,c;
 
   // Find elements of rotation matrix
-  if (A[k][l] != 0.0){
+  if (A(k,l) != 0.0){
     double t,tau;
-    tau = (A[l][l]- A[k][k])/(2*A[k][l]);
+    tau = (A(l,l)- A(k,k))/(2*A(k,l));
     if (tau > 0){
       t = 1.0/(tau + sqrt(1.0 + tau*tau));
     }
@@ -88,30 +98,30 @@ void rotate(mat& A, mat& R, int k, int l, int N)
 
   // Create some variables needed later when overwriting the values stored in A.
   double a_kk, a_ll, a_ik, a_il, r_ik, r_il;
-  a_kk = A[k][k];
-  a_ll = A[l][l];
+  a_kk = A(k,k);
+  a_ll = A(l,l);
 
   // Changing the matrix elements with indices k and l
-  A[k][k] = c*c*a_kk - 2.0*c*s*A[k][l] + s*s*a_ll;
-  A[l][l] = s*s*a_kk + 2.0*c*s*A[k][l] + c*c*a_ll;
-  A[k][l] = 0.0; // hard-coding of the zeros
-  A[l][k] = 0.0;
+  A(k,k) = c*c*a_kk - 2.0*c*s*A(k,l) + s*s*a_ll;
+  A(l,l) = s*s*a_kk + 2.0*c*s*A(k,l) + c*c*a_ll;
+  A(k,l) = 0.0; // hard-coding of the zeros
+  A(l,k) = 0.0;
 
   // Changing the remaining elements
   for (int i; i<N; ++i){
     if (i != k && i != l) {
-      a_ik = A[i][k];
-      a_il = A[i][l];
-      A[i][k] = c*a_ik - s*a_il;
-      A[k][i] = A[i][k];
-      A[i][l] = c*a_il + s*a_ik;
-      A[l][i] = A[i][l];
+      a_ik = A(i,k);
+      a_il = A(i,l);
+      A(i,k) = c*a_ik - s*a_il;
+      A(k,i) = A(i,k);
+      A(i,l) = c*a_il + s*a_ik;
+      A(l,i) = A(i,l);
     }
 
     // Compute the new eigenvectors
-    r_ik = R[i][k];
-    r_il = R[i][l];
-    R[i][k] = c*r_ik - s*r_il;
-    R[i][l] = c*r_il + s*r_ik;
+    r_ik = R(i,k);
+    r_il = R(i,l);
+    R(i,k) = c*r_ik - s*r_il;
+    R(i,l) = c*r_il + s*r_ik;
   }
 }
