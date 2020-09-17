@@ -51,9 +51,9 @@ double max_offdiag(mat& A, int& k, int& l, int N)
   for (int i; i<N; ++i){
     for (int j; i<N; ++j){
       if (A[i][j]>max){
-        max = A[i][j]
-        *k = i
-        *l = j
+        max = fabs(A[i][j]);
+        *k = i;
+        *l = j;
       }
     }
   }
@@ -79,7 +79,7 @@ void rotate(mat& A, mat& R, int k, int l, int N)
     }
 
     c = 1.0/sqrt(1+t*t);
-    s = c*t
+    s = c*t;
   }
   else {
     c = 1.0;
