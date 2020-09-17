@@ -3,6 +3,8 @@
 #include <cmath>
 #include "functions.h"
 
+using namespace arma;
+
 void jacobi_method(mat& A, mat& R, int N)
 {
   /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
