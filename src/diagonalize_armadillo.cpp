@@ -5,9 +5,7 @@
 using namespace std;
 using namespace arma;
 
-cx_vec diagonalize_arma(mat A) {
-  cx_vec eigval;
-  eig_gen(eigval, A, "balance");
-
+vec diagonalize_arma(mat A) {
+  vec eigval = eig_sym(A);
   return eigval;
 }
