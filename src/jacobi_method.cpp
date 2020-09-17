@@ -53,7 +53,7 @@ void jacobi_method(mat& A, mat& R, int N)
 
 double max_offdiag(mat& A, int& k, int& l, int N)
 {
-  /* Function that returns the largest element in A that is not on the diagonal
+  /* Function that returns the largest element in A
   ** and stores its indices in k and l.
   */
 
