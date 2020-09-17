@@ -5,10 +5,17 @@
 
 void jacobi_method(mat& A, mat& R, int N)
 {
-  /* Function that takes an NxN matrix A, an NxN matrix R and an int N, and
-  ** uses the jacobi method to calculate the eigenvectors and eigenvalues of A.
-  ** The eigenvectors are stored in R, and the returned matrix A has the
-  ** eigenvalues as its diagonal elements.
+  /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
+  ** of A.
+  **
+  ** Returns A with eigenvalues on the diagonal. The eigenvectors are stored in
+  ** the rows of R (j-th component of i-th eigenvector is stored in R(i,j)).
+  ** The eigenvalue belonging to the eigenvector on row i is stored in diagonal
+  ** element i of A.
+  **
+  ** A: symmetric NxN matrix
+  ** R: NxN matrix
+  ** N: integer (dimension of matrices)
   */
 
   // Cleaning eigenvector matrix (making sure it is an identity matrix)
