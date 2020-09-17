@@ -5,7 +5,6 @@
 using namespace std;
 using namespace arma;
 
-vec diagonalize_arma(mat A) {
-  vec eigval = eig_sym(A);
-  return eigval;
+void diagonalize_arma(vec& eigval, mat A) {
+  eig_sym(eigval, A);
 }

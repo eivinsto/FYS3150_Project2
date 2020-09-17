@@ -3,7 +3,7 @@
 
 using namespace arma;
 
-void tridag_mat(mat& A, double a, double b, double c, int N) {
+void tridag_mat(mat& A, double a, double d, int N) {
   A(0,0) = b;
   A(0,1) = c;
   A(N-1,N-1) = b;
