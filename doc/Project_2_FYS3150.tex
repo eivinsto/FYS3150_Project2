@@ -132,6 +132,24 @@
 
 \section{Formalism} \label{sec:II}
 
+A unitary transformation of on orthogonal set of vectors $\textbf{v}_i$ will conserve the orthogonality of the set of vectors. We show this by writing down the transformed set of vectors as:
+
+\begin{align*}
+\textbf{w}_i &= \textbf{U} \textbf{v}_i \, ,
+\end{align*}
+
+where $U$ is a unitary matrix. We need to check that $\textbf{w}_i^T \textbf{w}_j = \delta_{ij}$ for arbitrary $i$ and $j$:
+
+\begin{align*}
+\textbf{w}_i^T \textbf{w}_j &= (\textbf{U}\textbf{v}_i)^T (\textbf{U}\textbf{v}_j) \\
+&= \textbf{v}_i^T \textbf{U}^T \textbf{U} \textbf{v}_j \\
+&= \textbf{v}_i^T \textbf{v}_j \\
+&= \delta_{ij} \, ,
+\end{align*}
+
+where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality of the set of vectors $\vec{v}_i$.
+
+
 \section{Implementation} \label{sec:III}
 
 \section{Analysis} \label{sec:IV} 
