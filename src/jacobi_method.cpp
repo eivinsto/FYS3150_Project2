@@ -5,6 +5,9 @@
 
 using namespace arma;
 
+double max_offdiag(mat& A, int* k, int* l, int N);
+void rotate(mat& A, mat& R, int k, int l, int N);
+
 void jacobi_method(mat& A, mat& R, int N)
 {
   /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
@@ -21,25 +24,15 @@ void jacobi_method(mat& A, mat& R, int N)
   */
 
   // Cleaning eigenvector matrix (making sure it is an identity matrix)
-  for (int i; i<N; ++i){
-    for (int j; i<N; ++i){
+  for (int i = 0; i<N; ++i){
+    for (int j = 0; i<N; ++i){
       if (i==j){
         R(i,j) = 1;
       }
       else{
         R(i,j) = 0;
       }
-    }double max = 0.0;
-  for (int i; i<N; ++i){
-    for (int j; i<N; ++j){
-      if (A(i,j)>max){
-        max = fabs(A(i,j));
-        *k = i;
-        *l = j;
-      }
     }
-  }
-  return max;
   }
 
   int k,l;   // To store the location of the largest element not on the diagonal
@@ -60,15 +53,14 @@ void jacobi_method(mat& A, mat& R, int N)
 
 }
 
-double max_offdiag(mat& A, int& k, int& l, int N)
+double max_offdiag(mat& A, int* k, int* l, int N)
 {
   /* Function that returns the largest element in A
   ** and stores its indices in k and l.
   */
-
   double max = 0.0;
-  for(int i = 0; i < n; i++ ){
-    for(int j = i + 1; j < n; j++ ){
+  for(int i = 0; i < N; i++ ){
+    for(int j = i + 1; j < N; j++ ){
       if( fabs(A(i,j)) > max ){
         max = fabs(A(i,j));
         *l = i;
@@ -117,7 +109,7 @@ void rotate(mat& A, mat& R, int k, int l, int N)
   A(l,k) = 0.0;
 
   // Changing the remaining elements
-  for (int i; i<N; ++i){
+  for (int i = 0; i<N; ++i){
     if (i != k && i != l) {
       a_ik = A(i,k);
       a_il = A(i,l);
