@@ -48,12 +48,12 @@ double max_offdiag(mat& A, int& k, int& l, int N)
   */
 
   double max = 0.0;
-  for (int i; i<N; ++i){
-    for (int j; i<N; ++j){
-      if (A[i][j]>max){
+  for(int i = 0; i < n; i++ ){
+    for(int j = i + 1; j < n; j++ ){
+      if( fabs(A[i][j]) > max ){
         max = fabs(A[i][j]);
-        *k = i;
-        *l = j;
+        *l = i;
+        *k = j;
       }
     }
   }
