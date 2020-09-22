@@ -5,7 +5,15 @@
 using namespace arma;
 
 void tridag_mat(mat& A, double a, double d, int N) {
-  // Generate general tridiagonal matrix
+  /*
+   Populates tridiagonal matrix.
+   Args:
+     A - NxN - zero-matrix to populate.
+     a - value of non-zero, off-diagonal elements.
+     d - value of diagonal elements.
+     N - dimensionality of matrix.
+  */
+
   A(0,0) = d;
   A(0,1) = a;
   A(N-1,N-1) = d;

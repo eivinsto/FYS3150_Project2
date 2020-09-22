@@ -9,7 +9,7 @@ TEST_CASE("Testing eigenvalues with armadillo diagonalizer."){
     double h = (pmax-pmin)/(double(n));
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(n,n);
-    vec anal_eigvals = zeros<vec>(n);
+    vec anal_eigvals(n);
     vec comp_eigvals(n);
 
     //initialize matrices and vector
@@ -21,6 +21,33 @@ TEST_CASE("Testing eigenvalues with armadillo diagonalizer."){
 
     anal_eigvals = sort(anal_eigvals);
     comp_eigvals = sort(comp_eigvals);
+
+    // testing results
+    for (int i = 0; i < n; i++) {
+      REQUIRE(comp_eigvals[i] == Approx(anal_eigvals[i]));
+    }
+}
+
+
+TEST_CASE("Testing eigenvalues with jacobi_solver."){
+    int n=3;
+    double pmin=0, pmax=1;
+    double h = (pmax-pmin)/(double(n));
+    double a = -1/(h*h), d = 2/(h*h);
+    mat A = zeros<mat>(n,n);
+    mat R = eye<mat>(n,n);
+    vec anal_eigvals(n);
+
+    //initialize matrices and vector
+    tridag_mat(A, a, d, n);
+    anal_eig(anal_eigvals, a, d, n);
+
+    // finding eigenvalues with armadillo
+    jacobi_solver jacobi(A, R, n);
+    jacobi.solve();
+
+    anal_eigvals = sort(anal_eigvals);
+    vec comp_eigvals = sort(A.diag());
 
     // testing results
     for (int i = 0; i < n; i++) {

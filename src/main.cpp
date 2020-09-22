@@ -19,6 +19,6 @@ int main(int argc, char const *argv[])
   jacobi_solver jacobi(A, R, N);
   jacobi.solve();
 
-  cout << sort(A.diag());
+  sort(A.diag()).print();
   return 0;
 }
