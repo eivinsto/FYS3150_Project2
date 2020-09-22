@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include "jacobi_solver.h"
+#include "functions.h"
 
 
 using namespace arma;
