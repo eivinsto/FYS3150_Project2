@@ -1,13 +1,13 @@
 CC := g++
 FLAGS := -Wall -O2 -march=native
 LIBS := -larmadillo
-OFILES := main.o diagonalize_armadillo.o jacobi_solver.o functions.o
+OFILES := diagonalize_armadillo.o jacobi_solver.o functions.o
 
-.PHONY: all clean run
+.PHONY: all clean cleanbin test
 
 all: main.exe
 
-main.exe: $(OFILES)
+main.exe: main.o $(OFILES)
 	$(CC) $(FLAGS) $(OFILES) -o main.exe $(LIBS)
 
 main.o: main.cpp
@@ -30,7 +30,15 @@ clean:
 cleanbin:
 	rm -f *.bin
 
-run:
-	./main.exe
+test: test_main.exe
+
+test_main.exe: test_main.o $(OFILES) test_functions.o
+	$(CC) $(FLAGS) test_main.o $(OFILES) test_functions.o -o test_main.exe $(LIBS)
+
+test_main.o: test_main.cpp
+	$(CC) $(FLAGS) test_main.cpp -c
+
+test_functions.o: test_functions.cpp
+	$(CC) $(FLAGS) test_functions.cpp -c
 
 print-% : ; @echo $* = $($*)

@@ -17,15 +17,17 @@ void tridag_mat(mat& A, double a, double d, int N) {
   }
 }
 
-void anal_eig(vec& eigval, double d, double a, int N) {
+void anal_eig(vec& eigval, double a, double d, int N) {
   // Analytic eigen values of general tridiagonal matrix
-  eigval = zeros<vec>(N);
-  double angval1 = 2*M_PI/N;
 
-  for (int i = 0; i < N; i++) {
-    double angval2 = (i + 1)*angval1;
-    eigval[i] = 2*a*cos(angval2);
+  // creating vector of j-values
+  vec j_val = zeros<vec>(N);
+  for (int i = 0; i < N + 1; i++) {
+    j_val[i] = 1 + i;
   }
+
+  // calculating eigenvalues element-wise
+  eigval = d - 2*a*cos(j_val*M_PI/(N+1));
 }
 
 void qdot_matrix(mat& A, double rho_max, int N){

@@ -5,7 +5,7 @@
 using namespace arma;
 
 // analytic_eigen_val.cpp:
-void anal_eig(vec& eigval, double d, double a, int N);
+void anal_eig(vec& eigval, double a, double d, int N);
 
 // functions.cpp
 void diagonalize_arma(vec& eigval, mat A);
