@@ -5,12 +5,12 @@
 using namespace arma;
 
 // diagonalize_armadillo.cpp:
-vec diagonalize_arma(mat A);
+void diagonalize_arma(vec& eigval, mat A);
 
 // create_tridiagonal_matrix.cpp:
-void tridag_mat(mat& A, double a, double b, double c, int N);
+void tridag_mat(mat& A, double a, double d, int N);
 
 // analytic_eigen_val.cpp:
-vec anal_eig(double d, double a, int N);
+void anal_eig(vec& eigval, double d, double a, int N);
 
 #endif
