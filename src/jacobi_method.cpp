@@ -7,15 +7,30 @@ using namespace arma;
 
 class jacobi_functions{
 public:
-  static double max_offdiag(mat& A, int* k, int* l, int N);
-  static void rotate(mat& A, mat& R, int k, int l, int N);
+  mat A;
+  mat R;
+  int N;
+  jacobi_functions(mat& Am, mat& Rm, int Nm){
+    A = Am;
+    R = Rm;
+    N = Nm;
+  }
+  double max_offdiag(int* k, int* l);
+  void rotate(int k, int l);
+
 };
 
 class jacobi_method: private jacobi_functions{
-  static void solve(mat& A, mat& R, int N);
+public:
+  jacobi_method(mat& Am, mat& Rm, int Nm)
+  : jacobi_functions(Am, Rm, Nm)
+  {
+  }
+
+  void solve();
 };
 
-double jacobi_functions::max_offdiag(mat& A, int* k, int* l, int N)
+double jacobi_functions::max_offdiag(int* k, int* l)
 {
   /* Function that returns the largest element in A
   ** and stores its indices in k and l.
@@ -33,7 +48,7 @@ double jacobi_functions::max_offdiag(mat& A, int* k, int* l, int N)
   return max;
 }
 
-void jacobi_functions::rotate(mat& A, mat& R, int k, int l, int N)
+void jacobi_functions::rotate(int k, int l)
 {
   /* Function that performs the rotation of A. Modifies A and R.
   */
@@ -89,7 +104,7 @@ void jacobi_functions::rotate(mat& A, mat& R, int k, int l, int N)
   }
 }
 
-void jacobi_method::solve(mat& A, mat& R, int N)
+void jacobi_method::solve()
 {
   /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
   ** of A.
@@ -121,14 +136,14 @@ void jacobi_method::solve(mat& A, mat& R, int N)
   double max_number_iterations = double(N)*double(N)*double(N);
   int iterations = 0;
 
-  double max_off_diag = max_offdiag(A, &k, &l, N);
+  double max_off_diag = max_offdiag(&k, &l);
 
   /* Perform rotations until the tolerance is satisfied, or the max number of
   ** iterations has been reached.
   */
   while ( fabs(max_off_diag)>epsilon && double(iterations)<max_number_iterations){
-    max_off_diag = max_offdiag(A, &k, &l, N);
-    rotate(A, R, k, l, N);
+    max_off_diag = max_offdiag(&k, &l);
+    rotate(k, l);
     iterations++;
   }
 }
