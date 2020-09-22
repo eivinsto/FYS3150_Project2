@@ -5,7 +5,13 @@
 
 using namespace arma;
 
+/* Splitting this into two classes allows us to test the individual functions
+** while still keeping them private in terms of the jacobi_solver class.
+*/
+
 class jacobi_functions{
+/* Class containing some of the functions used in jacobi_solver.
+*/
 public:
   mat* A;
   mat* R;
@@ -22,9 +28,13 @@ public:
 
 };
 
-class jacobi_method: private jacobi_functions{
+class jacobi_solver: private jacobi_functions{
+/* Class that finds eigenvalues and eigenvectors of a symmetric NxN matix A.
+** After running solve the matrix A will have the eigenvalues along its diagonal
+** and R will contain the eigenvectors as rows.
+*/
 public:
-  jacobi_method(mat& Am, mat& Rm, int Nm)
+  jacobi_solver(mat& Am, mat& Rm, int Nm)
   : jacobi_functions(Am, Rm, Nm)
   {
   }
