@@ -78,7 +78,7 @@ void jacobi_functions::rotate(int k, int l)
   }
 }
 
-void jacobi_method::solve()
+void jacobi_solver::solve()
 {
   /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
   ** of A.
