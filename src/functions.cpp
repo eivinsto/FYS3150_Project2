@@ -22,12 +22,12 @@ void anal_eig(vec& eigval, double a, double d, int N) {
 
   // creating vector of j-values
   vec j_val = zeros<vec>(N);
-  for (int i = 0; i < N + 1; i++) {
+  for (int i = 0; i <= N; i++) {
     j_val[i] = 1 + i;
   }
 
   // calculating eigenvalues element-wise
-  eigval = d - 2*a*cos(j_val*M_PI/(N+1));
+  eigval = d + 2*a*cos(j_val*M_PI/(N+1));
 }
 
 void qdot_matrix(mat& A, double rho_max, int N){
