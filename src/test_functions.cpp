@@ -84,7 +84,7 @@ TEST_CASE("Testing orthogonality of eigenvectors from jacobi_solver."){
 }
 
 
-TEST_CASE("Testing  jacobi_solver."){
+TEST_CASE("Testing max_offdiag in jacobi_solver."){
     int k, l;
     int n = 5;
     int p = 3, q = 4;
@@ -92,14 +92,16 @@ TEST_CASE("Testing  jacobi_solver."){
     mat A = eye<mat>(n,n);
     mat R = eye<mat>(n,n);
 
-    // setting largest non-zero diagonal at known indices
+    // setting largest non-zero, off-diagonal at known indices
     A(p, q) = -8.0;
 
-    // finding eigenvalues with armadillo
+    // finding indices of max non-zero, off-diagonal element
     jacobi_functions jacobi(A, R, n);
     jacobi.max_offdiag(&k, &l);
+
+    // checking that indices, and element match
     REQUIRE(l == p);
     REQUIRE(k == q);
-    REQUIRE(A(l, k) == Approx(-8.0).epsilon(0.001));
+    REQUIRE(A(l, k) == Approx(A(p, q)).epsilon(0.001));
 
 }
