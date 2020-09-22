@@ -5,55 +5,17 @@
 
 using namespace arma;
 
-double max_offdiag(mat& A, int* k, int* l, int N);
-void rotate(mat& A, mat& R, int k, int l, int N);
+class jacobi_functions{
+public:
+  static double max_offdiag(mat& A, int* k, int* l, int N);
+  static void rotate(mat& A, mat& R, int k, int l, int N);
+};
 
-void jacobi_method(mat& A, mat& R, int N)
-{
-  /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
-  ** of A.
-  **
-  ** Returns A with eigenvalues on the diagonal. The eigenvectors are stored in
-  ** the rows of R (j-th component of i-th eigenvector is stored in R(i,j)).
-  ** The eigenvalue belonging to the eigenvector on row i is stored in diagonal
-  ** element i of A.
-  **
-  ** A: symmetric NxN matrix
-  ** R: NxN matrix
-  ** N: integer (dimension of matrices)
-  */
+class jacobi_method: private jacobi_functions{
+  static void solve(mat& A, mat& R, int N);
+};
 
-  // Cleaning eigenvector matrix (making sure it is an identity matrix)
-  for (int i = 0; i<N; ++i){
-    for (int j = 0; i<N; ++i){
-      if (i==j){
-        R(i,j) = 1;
-      }
-      else{
-        R(i,j) = 0;
-      }
-    }
-  }
-
-  int k,l;   // To store the location of the largest element not on the diagonal
-  double epsilon = 1.0e-8;  // Tolerance
-  double max_number_iterations = double(N)*double(N)*double(N);
-  int iterations = 0;
-
-  double max_off_diag = max_offdiag(A, &k, &l, N);
-
-  /* Perform rotations until the tolerance is satisfied, or the max number of
-  ** iterations has been reached.
-  */
-  while ( fabs(max_off_diag)>epsilon && double(iterations)<max_number_iterations){
-    max_off_diag = max_offdiag(A, &k, &l, N);
-    rotate(A, R, k, l, N);
-    iterations++;
-  }
-
-}
-
-double max_offdiag(mat& A, int* k, int* l, int N)
+double jacobi_functions::max_offdiag(mat& A, int* k, int* l, int N)
 {
   /* Function that returns the largest element in A
   ** and stores its indices in k and l.
@@ -71,7 +33,7 @@ double max_offdiag(mat& A, int* k, int* l, int N)
   return max;
 }
 
-void rotate(mat& A, mat& R, int k, int l, int N)
+void jacobi_functions::rotate(mat& A, mat& R, int k, int l, int N)
 {
   /* Function that performs the rotation of A. Modifies A and R.
   */
@@ -124,5 +86,49 @@ void rotate(mat& A, mat& R, int k, int l, int N)
     r_il = R(i,l);
     R(i,k) = c*r_ik - s*r_il;
     R(i,l) = c*r_il + s*r_ik;
+  }
+}
+
+void jacobi_method::solve(mat& A, mat& R, int N)
+{
+  /* Function that performs Jacobi's method to find eigenvalues and eigenvectors
+  ** of A.
+  **
+  ** Returns A with eigenvalues on the diagonal. The eigenvectors are stored in
+  ** the rows of R (j-th component of i-th eigenvector is stored in R(i,j)).
+  ** The eigenvalue belonging to the eigenvector on row i is stored in diagonal
+  ** element i of A.
+  **
+  ** A: symmetric NxN matrix
+  ** R: NxN matrix
+  ** N: integer (dimension of matrices)
+  */
+
+  // Cleaning eigenvector matrix (making sure it is an identity matrix)
+  for (int i = 0; i<N; ++i){
+    for (int j = 0; i<N; ++i){
+      if (i==j){
+        R(i,j) = 1;
+      }
+      else{
+        R(i,j) = 0;
+      }
+    }
+  }
+
+  int k,l;   // To store the location of the largest element not on the diagonal
+  double epsilon = 1.0e-8;  // Tolerance
+  double max_number_iterations = double(N)*double(N)*double(N);
+  int iterations = 0;
+
+  double max_off_diag = max_offdiag(A, &k, &l, N);
+
+  /* Perform rotations until the tolerance is satisfied, or the max number of
+  ** iterations has been reached.
+  */
+  while ( fabs(max_off_diag)>epsilon && double(iterations)<max_number_iterations){
+    max_off_diag = max_offdiag(A, &k, &l, N);
+    rotate(A, R, k, l, N);
+    iterations++;
   }
 }
