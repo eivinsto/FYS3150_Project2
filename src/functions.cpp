@@ -43,3 +43,20 @@ void qdot_matrix(mat& A, double rho_max, int N){
     A(i,i) = d0 + rho(i)*rho(i);
   }
 }
+
+void qdot_matrix_double(mat& A, double rho_max, double omega_r, int N){
+  // Generates matrix for quantum dot problem with two electrons
+  double h = rho_max/double(N);
+  double hh = h*h;
+  double e = -1/hh;
+  double d0 = 2/hh;
+  double wr2 = omega_r*omega_r;
+  vec rho = linspace(h,rho_max-h,N);
+
+  A(0,0) = d0 + rho(0)*rho(0);
+  for (int i = 1; i<N; ++i){
+    A(i-1,i) = e;
+    A(i,i-1) = e;
+    A(i,i) = d0 + wr2*rho(i)*rho(i) + 1/rho(i);
+  }
+}
