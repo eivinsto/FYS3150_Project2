@@ -5,13 +5,12 @@
 using namespace arma;
 
 void tridag_mat(mat& A, double a, double d, int N) {
-  /*
-   Populates tridiagonal matrix.
-   Args:
-     A - NxN - zero-matrix to populate.
-     a - value of non-zero, off-diagonal elements.
-     d - value of diagonal elements.
-     N - dimensionality of matrix.
+  /* Populates tridiagonal matrix.
+  ** Args:
+  **   A - NxN - zero-matrix to populate.
+  **   a - value of non-zero, off-diagonal elements.
+  **   d - value of diagonal elements.
+  **   N - dimensionality of matrix.
   */
 
   A(0,0) = d;
@@ -26,7 +25,7 @@ void tridag_mat(mat& A, double a, double d, int N) {
 }
 
 void anal_eig(vec& eigval, double a, double d, int N) {
-  // Analytic eigen values of general tridiagonal matrix
+  // Analytic eigenvalues of symmetric tridiagonal matrix
 
   // creating vector of j-values
   vec j_val = zeros<vec>(N);
