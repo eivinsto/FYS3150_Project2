@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
   mat A = zeros<mat>(N,N);
   mat R = eye<mat>(N,N);
 
-  qdot_matrix_double(A,rho_max,0.5,N);
+  qdot_matrix_double(A,200,0.01,N);
 
   jacobi_solver jacobi(A, R, N);
   jacobi.solve();

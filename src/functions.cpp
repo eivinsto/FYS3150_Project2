@@ -69,3 +69,11 @@ void qdot_matrix_double(mat& A, double rho_max, double omega_r, int N){
     A(i,i) = d0 + wr2*rho(i)*rho(i) + 1/rho(i);
   }
 }
+
+void qdot_matrix_double_eigval(vec& e, double omega_r, int N){
+  // Finds analytic (approximate) eigenvalues of the double electron qdot matrix,
+  // and stores them in e.
+  for (int i = 0; i<N; ++i){
+    e(i) = 3*cbrt((omega_r/2)*(omega_r/2)) + 2*sqrt(3)*omega_r*(i+1/2)
+  }
+}
