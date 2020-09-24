@@ -328,6 +328,10 @@ This can similarly be solved using the Jacobi rotation method as the matrix is s
 
 \section{Method} \label{sec:III}
 
+\subsection{Implementation of Jacobi rotation algorithm}
+
+We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the rows of \textbf{R} will be the eigenvectors.
+
 \section{Results} \label{sec:IV}
 
 \section{Discussion} \label{sec:V} 
@@ -337,5 +341,7 @@ This can similarly be solved using the Jacobi rotation method as the matrix is s
 
 \bibliography{kilder.bib}{}
 
+\appendix
+\section{Project files} \label{A}
 
 \end{document}
