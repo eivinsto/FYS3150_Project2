@@ -24,14 +24,14 @@
     linkcolor={red!50!black},
     citecolor={blue!50!black},
     urlcolor={blue!80!black}}
-
+    
 %% Defines the style of the programming listing
 %% This is actually my personal template, go ahead and change stuff if you want
 \lstnewenvironment{python}{
 	\lstset{ %
 		inputpath=,
 		backgroundcolor=\color{white!88!black},
-		basicstyle={\ttfamily\notsotiny},
+		basicstyle={\ttfamily\scriptsize},
 		commentstyle=\color{magenta},
 		language=Python,
 		morekeywords={True,False},
@@ -48,7 +48,7 @@
 	\lstset{ %
 		inputpath=,
 		backgroundcolor=\color{white!88!black},
-		basicstyle={\ttfamily\notsotiny},
+		basicstyle={\ttfamily\scriptsize},
 		commentstyle=\color{magenta},
 		language=C++,
 		morekeywords={True,False},
@@ -328,9 +328,99 @@ This can similarly be solved using the Jacobi rotation method as the matrix is s
 
 \section{Method} \label{sec:III}
 
-\subsection{Implementation of Jacobi rotation algorithm}
+\subsection{Implementation of Jacobi rotation algorithm} \label{III:a}
 
-We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the rows of \textbf{R} will be the eigenvectors.
+We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the rows of \textbf{R} will be the eigenvectors. 
+
+The \verb+solve()+ method performs the following while-loop:
+
+\begin{cpp}
+double epsilon = 1.0e-8; 
+double max_number_iterations = double(N)*double(N)*double(N);
+int iterations = 0;
+double max_off_diag = max_offdiag();
+while ( fabs(max_off_diag)>epsilon &&
+        double(iterations)<max_number_iterations){
+    max_off_diag = max_offdiag();
+    rotate();
+    iterations++;
+}
+\end{cpp}
+
+A tolerance \verb+epsilon+ is set, along with a cap on the number of iterations, \verb+max_number_iterations+. For every iteration it checks whether the pivot element (the largest element not on the diagonal) is larger than the tolerance and that the cap on iterations has not been reached yet. In every iteration we get the pivot element using \verb+max_offdiag()+ and the \verb+rotate()+ function, which performs one transformation of the matrix, is called. 
+
+The \verb+max_offdiag()+ function works as follows:
+
+\begin{cpp}
+double max = 0.0;
+for(int i = 0; i < N; i++ ){
+  for(int j = i + 1; j < N; j++ ){
+    if( fabs((*A)(i,j)) > max ){
+      max = fabs((*A)(i,j));
+      l = i;
+      k = j;
+    }
+  }
+}
+\end{cpp}
+
+It simply checks all the elements in the upper triangular part of the matrix and finds the largest element. The largest element is stored in \verb+max+ and is returned by the function. The indices of the element is also stored in the integers \verb+k+ and \verb+l+ which are stored internally in the class.
+
+The \verb+rotate()+ function works as follows:
+
+\begin{cpp}
+double s,c;
+if ((*A)(k,l) != 0.0){
+  double t,tau;
+  tau = ((*A)(l,l)- (*A)(k,k))/(2*(*A)(k,l));
+  if (tau > 0){
+    t = 1.0/(tau + sqrt(1.0 + tau*tau));
+  }
+  else {
+    t = -1.0/(-tau + sqrt(1.0 + tau*tau));
+  }
+  c = 1.0/sqrt(1+t*t);
+  s = c*t;
+}
+else {
+  c = 1.0;
+  s = 0.0;
+}
+
+double a_kk, a_ll, a_ik, a_il, r_ik, r_il;
+a_kk = (*A)(k,k);
+a_ll = (*A)(l,l);
+
+(*A)(k,k) = c*c*a_kk - 2.0*c*s*(*A)(k,l) + s*s*a_ll;
+(*A)(l,l) = s*s*a_kk + 2.0*c*s*(*A)(k,l) + c*c*a_ll;
+(*A)(k,l) = 0.0; // hard-coding of the zeros
+(*A)(l,k) = 0.0;
+
+for (int i = 0; i<N; ++i){
+  if (i != k && i != l) {
+    a_ik = (*A)(i,k);
+    a_il = (*A)(i,l);
+    (*A)(i,k) = c*a_ik - s*a_il;
+    (*A)(k,i) = (*A)(i,k);
+    (*A)(i,l) = c*a_il + s*a_ik;
+    (*A)(l,i) = (*A)(i,l);
+  }
+
+  r_ik = (*R)(i,k);
+  r_il = (*R)(i,l);
+  (*R)(i,k) = c*r_ik - s*r_il;
+  (*R)(i,l) = c*r_il + s*r_ik;
+}
+\end{cpp}
+
+First it calculates the variables \verb+s+ and \verb+c+. These variables are as outlined in \citep{Hjorth-Jensen2015}. Then it performs the rotation by calculating the new elements of \verb+A+ and \verb+R+ and replacing the old ones.
+
+\subsubsection{Computational cost} \label{III:a:i}
+
+\subsubsection{Error sources} \label{III:a:ii}
+
+
+\subsection{Error sources when solving quantum mechanical problems} \label{III:b} 
 
 \section{Results} \label{sec:IV}
 
