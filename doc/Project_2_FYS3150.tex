@@ -193,19 +193,146 @@ As we have already seen that such transformations preserve the eigenvalues and t
 
 and in this way we can also find the eigenvectors of \textbf{A}. In general this is done as an iterative method were we get closer to a diagonal matrix with every iteration. The iteration is cut off once all the elements not on the diagonal are less than a specified tolerance. 
 
-For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}.
+For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric.
 
 
-\subsection{Quantum mechanical harmonic oscillator as an eigenvalue problem} \label{sec:II:c}
+\subsection{Quantum mechanical harmonic oscillator with one electron as an eigenvalue problem} \label{sec:II:c}
+
+The harmonic oscillator potential is central symmetric. This means that the Schrödinger equation can be split into a radial part and an angular part, where the angular part has an analytic solution. We ignore this part of the equation and instead focus only on the radial part:
+
+\begin{align*}
+-\frac{\hbar^2}{2m} \bigg( \frac{1}{r^2} \frac{d}{dr}r^2 \frac{d}{dr} - \frac{l(l+1)}{r^2} \bigg) R(r) + \frac{1}{2}m\omega^2r^2 R(r) = ER(r) \, ,
+\end{align*} 
+
+where $m$ is the mass, $\omega$ is the oscillator frequency, $r$ is the radial coordinate, $l$ is the angular momentum quantum number, $R(r)$ is the radial part of the wave equation, and $E$ is the energy. We can substitute $R(r) = u(r)/r$ which simplifies the equation:
+
+\begin{align*}
+-\frac{\hbar^2}{2m} \frac{d^2}{dr^2} u(r) + \bigg( \frac{1}{2}m\omega^2r^2 + \frac{l(l+1)}{r^2} \frac{\hbar^2}{2m} \bigg) u(r) &= Eu(r) \, ,
+\end{align*}
+
+where we have separated the differential from the rest of the equation as well, which will be useful later on. To further simplify we can scale the equation. We do this by introducing a dimensionless variable $\rho = r/\alpha$, where $\alpha$ is a constant. Inserting this gives:
+
+\begin{align*}
+-\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \bigg( \frac{1}{2}m\omega^2\alpha^2 \rho^2 + \frac{l(l+1)}{\rho^2} \frac{\hbar^2}{2m\alpha^2} \bigg) u(\rho) &= Eu(\rho) 
+\end{align*}
+
+From here on out we will assume the system to be in the lowest orbital state ($l=0$), which simplifies the equation above furter:
+
+\begin{align*}
+-\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \frac{1}{2}m\omega^2\alpha^2 \rho^2 u(\rho) &= Eu(\rho) 
+\end{align*}
+
+We multiply by $\frac{2m\alpha^2}{\hbar^2}$ on both sides:
+
+\begin{align*}
+-\frac{d^2}{d\rho^2} u(\rho) + \frac{m^2 \omega^2}{\hbar^2}\alpha^4 \rho^2 u(\rho) &= \frac{2m\alpha^2}{\hbar^2} Eu(\rho) 
+\end{align*}
+
+As $\alpha$ is an arbitrary constant we can choose $\alpha = \sqrt{\frac{\hbar}{m \omega}}$, and define $\lambda = \frac{2m\alpha^2}{\hbar^2} E$:
+
+\begin{align*}
+-\frac{d^2}{d\rho^2} u(\rho) + \rho^2 u(\rho) &= \lambda u(\rho) 
+\end{align*}
+
+This is possible to solve analytically and from said solution we have that $\lambda =3,7,11,...$. This can be compared with a numerical calculation later to check the accuracy of our results.
+ 
+In general we have that $u(0) = u(\infty) = 0$. This is not feasible on a computer and as such we define a $\rho_{\text{max}}$ and set boundary conditions $u(0) = u(\rho_{\text{max}}) = 0$. We then define a set of points $\rho_i = \rho_0 + ih$ where $i = 1,2,...,N$ and $h = \frac{\rho_N - \rho_0}{N}$, and set $\rho_0 = 0$ and $\rho_N  = \rho_{\text{max}}$. These points can be used to discretize the previous equation (approximating the derivative as well):
+
+\begin{align*}
+\frac{-u_{i+1} + 2u_i - u_{i-1}}{h^2} + \rho_i^2 u_i = \lambda u_i \, ,
+\end{align*}
+
+where $u_i = u(\rho_i)$. This can be set up as an eigenvalue problem:
+
+\begin{align*}
+\textbf{Au} = \lambda \textbf{u} \, ,
+\end{align*}
+
+where $\textbf{u}$ contains all the $u_i$. The matrix \textbf{A} will have diagonal elements:
+
+\begin{align*}
+d_i = \frac{2}{h^2} + \rho_i^2 \, ,
+\end{align*}
+
+and elements above and below the diagonal:
+
+\begin{align*}
+e = -\frac{1}{h^2}
+\end{align*}
+
+We can now use numerical methods such as the Jacobi rotation algorithm to find the eigenvalues and eigenvectors (solutions) of \textbf{A} as it is a symmetrical matrix.
 
 
+\subsection{Quantum mechanical harmonic oscillator with two electrons as an eigenvalue problem}
+ 
+Similarly to how we did in the previous section we can find a numerical solution to the Schrödinger equation where we have two electrons in a harmonic oscillator instead of one. As the electrons can interact we now need to add the Coulomb potential to the equation. We ignore this for now, but will add it later. The radial part of the Schrödinger equation with two electrons in a harmonic oscillator is (where some of the steps from the previous section has already been applied):
+
+\begin{align*}
+\bigg( -\frac{\hbar^2}{2m} \frac{d^2}{dr_1^2} - \frac{\hbar^2}{2m} \frac{d^2}{dr_2^2} + \frac{1}{2}kr_1^2 + \frac{1}{2}kr_2^2 \bigg) u(r_1,r_2) =  Eu(r_1,r_2) \, ,
+\end{align*}
+
+where $E$ now is the total energy of the system. Inserting the relative coordinate $\textbf{r} = \textbf{r}_1 - \textbf{r}_2$ and the center-of-mass coordinate $\textbf{R} = \frac{\textbf{r}_1 + \textbf{r}_2}{2}$ gives us:
+
+\begin{align*}
+\bigg( -\frac{\hbar^2}{m} \frac{d^2}{dr^2} - \frac{\hbar^2}{4m} \frac{d^2}{dR^2} + \frac{1}{4}kr^2 + kR^2\bigg) u(r,R) &= Eu(r,R)
+\end{align*}
+
+This can be separated again into an $R$-dependent and an $r$-dependent part by setting $u(r,R) = \psi(r) \phi(R)$ and separating the energy into $E = E_r + E_R$. The $R$-dependent part is essentially the same problem we discussed in the previous section and so we discuss only the $r$-dependent part from here on out.
+
+The Coulomb potential is given by $V(r) = \frac{\beta e^2}{r}$, where $\beta e^2 = 1.44$ eV nm. We add this to the equation:
+
+\begin{align*}
+\bigg( - \frac{\hbar^2}{m} \frac{d^2}{dr^2} + \frac{1}{4}kr^2 + \frac{\beta e^2}{r} \bigg) \psi(r) = E_r \psi(r)
+\end{align*}
+
+Again we introduce the dimensionless variable $\rho = r/\alpha$ and multiply by $\frac{m\alpha^2}{\hbar^2}$ on both sides of the equation:
+
+\begin{align*}
+\bigg( - \frac{d^2}{d\rho^2} + \frac{1}{4} \frac{mk}{\hbar^2} \alpha^4 \rho^2 + \frac{m\alpha \beta e^2}{\rho \hbar^2} \bigg) \psi (\rho) &= \frac{m\alpha^2}{\hbar^2} E_r \psi(\rho)
+\end{align*} 
+
+We define $\omega_r^2 = \frac{1}{4} \frac{mk}{\hbar^2} \alpha^4$ and $\lambda = \frac{m\alpha^2}{\hbar^2}E_r$, and set $\alpha = \frac{\hbar^2}{m\beta e^2}$. The equation can then be rewritten into:
+
+\begin{align*}
+- \frac{d^2}{d\rho^2} \psi(\rho) + \omega_r^2 \rho^2 \psi(\rho) + \frac{1}{\rho} \psi(\rho) = \lambda \psi(\rho)
+\end{align*}
+
+The boundary conditions will be the same as in the previous section, and we define the same discretization. This gives us:
+
+\begin{align*}
+\frac{-u_{i+1} + 2u_i - u_{i-1}}{h^2} + \bigg( \omega_r^2\rho_i^2 + \frac{1}{\rho_i} \bigg) u_i = \lambda u_i 
+\end{align*}
+
+This can be set up as an eigenvalue problem in the same way as in the previous section:
+
+\begin{align*}
+\textbf{Au} = \lambda \textbf{u} \, ,
+\end{align*}
+
+where the diagonal elements in \textbf{A} are given by:
+
+\begin{align*}
+d_i &= \frac{2}{h^2} + \omega_r^2 \rho_i^2 + \frac{1}{\rho_i}
+\end{align*}
+
+and the elements above and below the diagonal are:
+
+\begin{align*}
+e &= - \frac{1}{h^2}
+\end{align*}
+
+This can similarly be solved using the Jacobi rotation method as the matrix is symmetric.
+
+\newpage
 
 
-\section{Implementation} \label{sec:III}
+\section{Method} \label{sec:III}
 
-\section{Analysis} \label{sec:IV} 
+\section{Results} \label{sec:IV}
 
-\section{Conclusion} \label{sec:V}
+\section{Discussion} \label{sec:V} 
+
+\section{Conclusion} \label{sec:VI}
 
 
 \bibliography{kilder.bib}{}
