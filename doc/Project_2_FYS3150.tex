@@ -132,6 +132,31 @@
 
 \section{Formalism} \label{sec:II}
 
+\subsection{Unitary transformations and eigenvalues} \label{sec:II:a}
+
+We define a unitary transformation of a matrix \textbf{A} into a matrix \textbf{B} as:
+
+\begin{align*}
+\textbf{B} = \textbf{U}^T \textbf{AU} \, ,
+\end{align*}
+
+where \textbf{U} is a unitary matrix ($\textbf{U}^T\textbf{U} = \textbf{I}$, where \textbf{I} is the identity matrix). This type of transformation will preserve the eigenvalues of the system, meaning that \textbf{A} and \textbf{B} share the same eigenvalues. This can be seen by manipulating the eigenvalue equation for \textbf{A}:
+
+\begin{align*}
+\textbf{A}\textbf{v} = \lambda \textbf{v} \, , 
+\end{align*} 
+
+where $\lambda$ is the eigenvalue belonging to eigenvector \textbf{v}. We multiply by $\textbf{U}^T$ from the left and add the identity matrix in between \textbf{A} and \textbf{x}, and use that $\textbf{U}^T \textbf{U} = \textbf{UU}^T$:
+
+\begin{align*}
+\textbf{U}^T \textbf{AIv} &= \lambda \textbf{U}^T \textbf{v} \\
+\textbf{U}^T \textbf{AU}^T \textbf{Uv} &= \lambda \textbf{U}^T \textbf{v} \\
+(\textbf{U}^T \textbf{AU} ) (\textbf{U}^T \textbf{v}) &= \lambda (\textbf{U}^T \textbf{v}) \\
+\textbf{Bw} &= \lambda \textbf{w} \, ,
+\end{align*}
+
+where we have defined $\textbf{w} = \textbf{U}^T \textbf{v}$. This is now an eigenvalue equation for \textbf{B} with $\lambda$ as the eigenvalue belonging to eigenvector \textbf{w}. This shows that the eigenvalues of the matrix is preserved through a unitary transformation.
+
 A unitary transformation of on orthogonal set of vectors $\textbf{v}_i$ will conserve the orthogonality of the set of vectors. We show this by writing down the transformed set of vectors as:
 
 \begin{align*}
@@ -147,7 +172,33 @@ where $U$ is a unitary matrix. We need to check that $\textbf{w}_i^T \textbf{w}_
 &= \delta_{ij} \, ,
 \end{align*}
 
-where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality of the set of vectors $\vec{v}_i$.
+where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality of the set of vectors $\vec{v}_i$. This shows that during a unitary transformation of a matrix the orthogonality of the eigenvectors is preserved. 
+
+
+\subsection{Jacobi rotation method} \label{sec:II:b}
+
+One method based on such unitary transformations is the Jacobi rotation method \citep{Jacobi1846}. We perform a series of unitary transformations of a matrix \textbf{A} until it is a diagonal matrix \textbf{D}:
+
+\begin{align*}
+\textbf{D} &= \textbf{U}_n^T ... \textbf{U}_1^T \textbf{AU}_1 ... \textbf{U}_n^T
+\end{align*}  
+
+As we have already seen that such transformations preserve the eigenvalues and the eigenvectors of \textbf{A}, we automatically have that the diagonal elements of \textbf{D} are the eigenvalues of \textbf{A}. As the eigenvectors of \textbf{D} are the standard basis vectors $\textbf{e}_i$, we can also use this to find the eigenvectors of \textbf{A}, $\textbf{v}_i$. In order to do this we note that:
+
+\begin{align*}
+\textbf{e}_i &= \textbf{U}_n^T ... \textbf{U}_1^T \textbf{v}_i \\
+\textbf{U}_1 ... \textbf{U}_n \textbf{e}_i &= \textbf{U}_1 ... \textbf{U}_n \textbf{U}_n^T ... \textbf{U}_1^T \textbf{v}_i \\
+\textbf{U}_1 ... \textbf{U}_n \textbf{e}_i &= \textbf{v}_i \, ,
+\end{align*}
+
+and in this way we can also find the eigenvectors of \textbf{A}. In general this is done as an iterative method were we get closer to a diagonal matrix with every iteration. The iteration is cut off once all the elements not on the diagonal are less than a specified tolerance. 
+
+For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}.
+
+
+\subsection{Quantum mechanical harmonic oscillator as an eigenvalue problem} \label{sec:II:c}
+
+
 
 
 \section{Implementation} \label{sec:III}
@@ -157,6 +208,7 @@ where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality o
 \section{Conclusion} \label{sec:V}
 
 
+\bibliography{kilder.bib}{}
 
 
 \end{document}
