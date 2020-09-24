@@ -4,7 +4,7 @@
 #include "functions.h"
 #include "jacobi_solver.h"
 
-double jacobi_functions::max_offdiag(int* k, int* l)
+double jacobi_functions::max_offdiag()
 {
   /* Function that returns the largest element in A
   ** and stores its indices in k and l.
@@ -14,15 +14,15 @@ double jacobi_functions::max_offdiag(int* k, int* l)
     for(int j = i + 1; j < N; j++ ){
       if( fabs((*A)(i,j)) > max ){
         max = fabs((*A)(i,j));
-        *l = i;
-        *k = j;
+        l = i;
+        k = j;
       }
     }
   }
   return max;
 }
 
-void jacobi_functions::rotate(int k, int l)
+void jacobi_functions::rotate()
 {
   /* Function that performs the rotation of A. Modifies A and R.
   */
@@ -105,19 +105,18 @@ void jacobi_solver::solve()
     }
   }
 
-  int k,l;   // To store the location of the largest element not on the diagonal
   double epsilon = 1.0e-8;  // Tolerance
   double max_number_iterations = double(N)*double(N)*double(N);
   int iterations = 0;
 
-  double max_off_diag = max_offdiag(&k, &l);
+  double max_off_diag = max_offdiag();
 
   /* Perform rotations until the tolerance is satisfied, or the max number of
   ** iterations has been reached.
   */
   while ( fabs(max_off_diag)>epsilon && double(iterations)<max_number_iterations){
-    max_off_diag = max_offdiag(&k, &l);
-    rotate(k, l);
+    max_off_diag = max_offdiag();
+    rotate();
     iterations++;
   }
 }

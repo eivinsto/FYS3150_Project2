@@ -97,11 +97,11 @@ TEST_CASE("Testing max_offdiag in jacobi_solver."){
 
     // finding indices of max non-zero, off-diagonal element
     jacobi_functions jacobi(A, R, n);
-    jacobi.max_offdiag(&k, &l);
+    jacobi.max_offdiag();
 
     // checking that indices, and element match
-    REQUIRE(l == p);
-    REQUIRE(k == q);
+    REQUIRE(jacobi.l == p);
+    REQUIRE(jacobi.k == q);
     REQUIRE(A(l, k) == Approx(A(p, q)).epsilon(0.001));
 
 }

@@ -15,7 +15,7 @@ class jacobi_functions{
 public:
   mat* A;
   mat* R;
-  int N;
+  int N,k,l;
 
   jacobi_functions(mat& Am, mat& Rm, int Nm){
     A = &Am;
@@ -23,8 +23,8 @@ public:
     N = Nm;
   }
 
-  double max_offdiag(int* k, int* l);
-  void rotate(int k, int l);
+  double max_offdiag();
+  void rotate();
 
 };
 
