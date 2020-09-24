@@ -85,7 +85,6 @@ TEST_CASE("Testing orthogonality of eigenvectors from jacobi_solver."){
 
 
 TEST_CASE("Testing max_offdiag in jacobi_solver."){
-    int k, l;
     int n = 5;
     int p = 3, q = 4;
     // double pmax = 1;
@@ -102,6 +101,6 @@ TEST_CASE("Testing max_offdiag in jacobi_solver."){
     // checking that indices, and element match
     REQUIRE(jacobi.l == p);
     REQUIRE(jacobi.k == q);
-    REQUIRE(A(l, k) == Approx(A(p, q)).epsilon(0.001));
+    REQUIRE(A(jacobi.l, jacobi.k) == Approx(A(p, q)).epsilon(0.001));
 
 }
