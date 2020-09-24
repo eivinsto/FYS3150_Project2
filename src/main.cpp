@@ -12,17 +12,30 @@ int main(int argc, char const *argv[]) {
   int N = atoi(argv[1]);
   string strarg = string(argv[2]);
 
-  if (strarg == "Plot") {
+  if (strarg == "toeplitz") {
     double pmin = atof(argv[3]), pmax = atof(argv[4]);
     double h = (pmax-pmin)/(double(N));
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(N,N);
+    mat R = zeros<mat>(N,N);
+    mat anal_eigvec = zeros<mat>(N,N);
     vec anal_eigvals(N);
-    vec comp_eigvals(N);
 
     //initialize matrices and vector
     tridag_mat(A, a, d, N);
-    anal_eig(anal_eigvals, a, d, N);
+    anal_eig(anal_eigvals, anal_eigvec, a, d, N);
+    uvec anal_inx = sort_index(anal_eigvals);
+
+    // jacobi_solver
+    jacobi_solver jacobi(A, R, N);
+    jacobi.solve();
+    uvec comp_indx = sort_index(A.diag());
+
+    cout << (A.diag())[comp_indx[0]] << endl;
+    cout << anal_eigvals[anal_inx[0]] << endl;
+    (anal_eigvec.col(anal_inx[0])).print();
+    R.print();
+    A.print();
   }
   return 0;
 }

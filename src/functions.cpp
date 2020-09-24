@@ -37,6 +37,23 @@ void anal_eig(vec& eigval, double a, double d, int N) {
   eigval = d + 2*a*cos(j_val*M_PI/(N+1));
 }
 
+void anal_eig(vec& eigval, mat& eigvec, double a, double d, int N) {
+  // Analytic eigenvalues of symmetric tridiagonal matrix
+
+  // creating vector of j-values
+  vec j_val = zeros<vec>(N);
+  for (int i = 0; i < N; i++) {
+    j_val[i] = 1 + i;
+  }
+
+  // calculating eigenvalues element-wise
+  eigval = d + 2*a*cos(j_val*M_PI/(N+1));
+
+  for (int i = 0; i <N; i++) {
+    eigvec.col(i) = sin((i+1)*j_val*M_PI/N);
+  }
+}
+
 void qdot_matrix(mat& A, double rho_max, int N){
   // Generates matrix for quantum dot problem
   double h = rho_max/double(N);

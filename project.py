@@ -2,7 +2,6 @@ from subprocess import call, run
 import os
 
 wd = os.getcwd() + "/src"
-print(wd)
 
 
 def main():
