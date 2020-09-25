@@ -24,7 +24,6 @@ int main(int argc, char const *argv[]) {
     //initialize matrices and vector
     tridag_mat(A, a, d, N);
     anal_eig(anal_eigvals, anal_eigvec, a, d, N);
-    uvec anal_inx = stable_sort_index(anal_eigvals);
 
     // jacobi_solver
     jacobi_solver jacobi(A, R, N);
@@ -32,17 +31,17 @@ int main(int argc, char const *argv[]) {
     uvec comp_indx = stable_sort_index(A.diag());
 
     cout << (A.diag())[comp_indx[0]] << endl;
-    cout << anal_eigvals[anal_inx[0]] << endl;
-    (anal_eigvec.col(anal_inx[2])).print();
+    cout << anal_eigvals[0] << endl;
+    (anal_eigvec.col(0)).print();
     cout << endl;
-    // mat fac = R.t()/anal_eigvec;
-    (R.col(comp_indx[2])).print();
-    // cout << endl;
-    // (A.diag()).print();
-    // (anal_eigvec % fac).print();
-    cout << norm_dot(R.col(comp_indx[2]), anal_eigvec.col(2)) << endl;
-    // anal_eigvals.print();
-    // (R.print();
+
+    (R.col(comp_indx[0])).print();
+
+    anal_eigvec.print();
+    cout << endl;
+    cout << norm_dot(R.col(comp_indx[0]), anal_eigvec.col(0)) << endl;
+    cout << endl;
+    R.print();
   }
   return 0;
 }
