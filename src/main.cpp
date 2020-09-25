@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
     double h = (pmax-pmin)/(double(N));
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(N,N);
-    mat R = zeros<mat>(N,N);
+    mat R = eye<mat>(N,N);
     mat anal_eigvec = zeros<mat>(N,N);
     vec anal_eigvals(N);
 
@@ -35,7 +35,6 @@ int main(int argc, char const *argv[]) {
     cout << anal_eigvals[anal_inx[0]] << endl;
     (anal_eigvec.col(anal_inx[0])).print();
     R.print();
-    A.print();
   }
   return 0;
 }
