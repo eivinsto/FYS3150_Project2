@@ -84,8 +84,8 @@ void jacobi_solver::solve()
   ** of A.
   **
   ** Returns A with eigenvalues on the diagonal. The eigenvectors are stored in
-  ** the rows of R (j-th component of i-th eigenvector is stored in (*R)(i,j)).
-  ** The eigenvalue belonging to the eigenvector on row i is stored in diagonal
+  ** the columns of R (j-th component of i-th eigenvector is stored in (*R)(i,j)).
+  ** The eigenvalue belonging to the eigenvector in column i is stored in diagonal
   ** element i of A.
   **
   ** A: symmetric NxN matrix
@@ -95,12 +95,12 @@ void jacobi_solver::solve()
 
   // Cleaning eigenvector matrix (making sure it is an identity matrix)
   for (int i = 0; i<N; ++i){
-    for (int j = 0; i<N; ++i){
+    for (int j = 0; j<N; ++j){
       if (i==j){
-        (*R)(i,j) = 1;
+        (*R)(i,j) = 1.0;
       }
       else{
-        (*R)(i,j) = 0;
+        (*R)(i,j) = 0.0;
       }
     }
   }

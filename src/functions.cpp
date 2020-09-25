@@ -49,8 +49,8 @@ void anal_eig(vec& eigval, mat& eigvec, double a, double d, int N) {
   // calculating eigenvalues element-wise
   eigval = d + 2*a*cos(j_val*M_PI/(N+1));
 
-  for (int i = 0; i <N; i++) {
-    eigvec.col(i) = sin((i+1)*j_val*M_PI/N);
+  for (int i = 0; i < N; i++) {
+    eigvec.col(i) = sin((i+1)*j_val*M_PI/(N+1));
   }
 }
 

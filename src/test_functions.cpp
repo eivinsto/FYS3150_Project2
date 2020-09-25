@@ -73,9 +73,9 @@ TEST_CASE("Testing orthogonality of eigenvectors from jacobi_solver."){
     jacobi.solve();
 
     // taking dot-product between orthogonal eigenvectors
-    double result1 = abs(dot( R.row(0), R.row(1) ));
-    double result2 = abs(dot( R.row(0), R.row(2) ));
-    double result3 = abs(dot( R.row(1), R.row(2) ));
+    double result1 = abs(dot( R.col(0), R.col(1) ));
+    double result2 = abs(dot( R.col(0), R.col(2) ));
+    double result3 = abs(dot( R.col(1), R.col(2) ));
 
     // checking if dot-product of eigenvectors is sufficently close to zero
     REQUIRE(result1 < tol);
