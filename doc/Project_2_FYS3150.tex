@@ -511,6 +511,59 @@ First it calculates the variables \verb+s+ and \verb+c+. These variables are as 
 
 \subsubsection{Computational cost} \label{III:a:i}
 
+We are interested in how fast the solution converges to the correct one. To this end we define:
+
+\begin{align*}
+\text{off}(\textbf{A})^2 &= \sum\limits_{ij} |a_{ij}|^2 \, ,
+\end{align*}
+
+where $a_{ij}$ are the components of matrix \textbf{A}. We define the pivot element $p$ as the largest element in the matrix:
+
+\begin{align*}
+|p| = |\text{max}(a_{ij})|
+\end{align*}
+
+There are $N(N-1)$ elements not on the diagonal in the matrix, which means that at all times we have:
+
+\begin{align*}
+\text{off}(\textbf{A})^2 \leq N(N-1)|p|^2 \\
+\frac{\text{off}(\textbf{A})^2}{N(N-1)} \leq |p|^2
+\end{align*}
+
+For each rotation we reduce $\text{off}(\textbf{A})^2$ by $2|p|^2$, meaning that after a rotation we have (noting the amount of iterations the matrix has been through by a superscript):
+
+\begin{align*}
+\text{off}(\textbf{A}^{(1)})^2 = \text{off}(\textbf{A})^2 - 2|p|^2 \, ,
+\end{align*}
+
+By using the earlier inequality this gives us:
+
+\begin{align*}
+\text{off}(\textbf{A}^{(1)})^2 \leq (1 - \frac{2}{N(N-1)}) \text{off}(\textbf{A})^2 \\
+\text{off}(\textbf{A}^{(1)}) \leq \sqrt{1 - \frac{2}{N(N-1)}} \text{off}(\textbf{A}) 
+\end{align*}
+
+This means that:
+
+\begin{align*}
+\text{off}(\textbf{A}^{(k)}) \leq \bigg(1 - \frac{2}{N(N-1)}\bigg)^{k/2} \text{off}(\textbf{A}) 
+\end{align*}
+
+As long as $N$ is large we can approximate:
+
+\begin{align*}
+1 - \frac{2}{N(N-1)} \approx e^{-\frac{2}{N(N-1)}}
+\end{align*}
+
+After $k$ iterations we then have the approximate relation:
+
+\begin{align*}
+\text{off}(\textbf{A}^{(k)}) \lesssim e^{-\frac{k}{N(N-1)}} \text{off}(\textbf{A}) 
+\end{align*} 
+
+This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this.
+
+
 \subsubsection{Error sources} \label{III:a:ii}
 
 
