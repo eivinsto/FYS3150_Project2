@@ -18,30 +18,22 @@ int main(int argc, char const *argv[]) {
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(N,N);
     mat R(N,N);
-    mat anal_eigvec = zeros<mat>(N,N);
+    mat anal_eigvecs(N,N);
     vec anal_eigvals(N);
 
     //initialize matrices and vector
     tridag_mat(A, a, d, N);
-    anal_eig(anal_eigvals, anal_eigvec, a, d, N);
+    anal_eig(anal_eigvals, anal_eigvecs, a, d, N);
+
+    anal_eigvals.save("anal_eigvals_" + to_string(N) + ".bin", arma_ascii);
+    anal_eigvecs.save("anal_eigvecs_" + to_string(N) + ".bin", arma_ascii);
 
     // jacobi_solver
     jacobi_solver jacobi(A, R, N);
     jacobi.solve();
-    uvec comp_indx = stable_sort_index(A.diag());
 
-    cout << (A.diag())[comp_indx[0]] << endl;
-    cout << anal_eigvals[0] << endl;
-    (anal_eigvec.col(0)).print();
-    cout << endl;
-
-    (R.col(comp_indx[0])).print();
-
-    anal_eigvec.print();
-    cout << endl;
-    cout << norm_dot(R.col(comp_indx[0]), anal_eigvec.col(0)) << endl;
-    cout << endl;
-    R.print();
+    A.save("comp_eigvals_" + to_string(N) + ".bin", arma_ascii);
+    R.save("comp_eigvecs_" + to_string(N) + ".bin", arma_ascii);
   }
   return 0;
 }
