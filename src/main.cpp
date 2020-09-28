@@ -35,6 +35,10 @@ int main(int argc, char const *argv[]) {
     A.save("comp_eigvals_" + to_string(N) + ".bin", arma_ascii);
     R.save("comp_eigvecs_" + to_string(N) + ".bin", arma_ascii);
   }
+
+  if (strarg == "single_electron") {
+    /* code */
+  }
   return 0;
 }
 

@@ -34,7 +34,7 @@ if choose_run == "toeplitz":
 
     build_cpp()
     call(
-        ["./main.exe", f"{N}", "toeplitz", f"{rho_min:f}", f"{rho_max:f}"],
+        ["./main.exe", f"{N}", choose_run, f"{rho_min:f}", f"{rho_max:f}"],
         cwd=wd
     )
 
@@ -60,7 +60,10 @@ if choose_run == "toeplitz":
     plt.plot(rho, anal_eigvecs[:, 0], label=an_lab)
     plt.title(f"Eigenvector of smalest eigenvalue of {N}x{N} Toeplitz-matrix.")
     plt.xlabel(r"$\rho$")
-    plt.ylabel(r"Eigenvectors $u_{1}$ as functions of $\rho$.")
+    plt.ylabel(r"Eigenvector $u_{1}$ as function of $\rho$.")
     plt.legend()
     plt.grid()
     plt.show()
+
+if choose_run == "single_electron":
+    pass
