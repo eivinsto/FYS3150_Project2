@@ -9,7 +9,7 @@ using namespace arma;
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-  int N = atoi(argv[1]);
+  int N = atoi(argv[1]) - 1;
   string strarg = string(argv[2]);
 
   if (strarg == "toeplitz") {
@@ -25,15 +25,15 @@ int main(int argc, char const *argv[]) {
     tridag_mat(A, a, d, N);
     anal_eig(anal_eigvals, anal_eigvecs, a, d, N);
 
-    anal_eigvals.save("anal_eigvals_" + to_string(N) + ".dat", arma_ascii);
-    anal_eigvecs.save("anal_eigvecs_" + to_string(N) + ".dat", arma_ascii);
+    anal_eigvals.save("anal_eigvals_" + to_string(N+1) + ".dat", arma_ascii);
+    anal_eigvecs.save("anal_eigvecs_" + to_string(N+1) + ".dat", arma_ascii);
 
     // jacobi_solver
     jacobi_solver jacobi(A, R, N);
     jacobi.solve();
 
-    A.save("comp_eigvals_" + to_string(N) + ".dat", arma_ascii);
-    R.save("comp_eigvecs_" + to_string(N) + ".dat", arma_ascii);
+    A.save("comp_eigvals_" + to_string(N+1) + ".dat", arma_ascii);
+    R.save("comp_eigvecs_" + to_string(N+1) + ".dat", arma_ascii);
   }
 
   if (strarg == "single") {
@@ -49,8 +49,8 @@ int main(int argc, char const *argv[]) {
     jacobi.solve();
 
     vec eigvals = A.diag();
-    eigvals.save("quantum_eigvals_" + to_string(N) + ".dat", arma_ascii);
-    R.save("quantum_eigvecs_" + to_string(N) + ".dat", arma_ascii);
+    eigvals.save("quantum_eigvals_" + to_string(N+1) + ".dat", arma_ascii);
+    R.save("quantum_eigvecs_" + to_string(N+1) + ".dat", arma_ascii);
 
   }
   return 0;
