@@ -1,4 +1,4 @@
-from subprocess import call, run
+from subprocess import run
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -8,21 +8,19 @@ wd = os.getcwd() + "/src"
 
 
 def build_cpp():
-    call(["make", "all"], cwd=wd)
+    run(["make", "all"], cwd=wd)
 
 
 def test_cpp():
-    call(["make", "test"], cwd=wd)
+    run(["make", "test"], cwd=wd)
     run("./test_main.exe", cwd=wd)
 
 
 def clean():
-    call(["make", "cleanbin"], cwd=wd)
+    run(["make", "cleandat"], cwd=wd)
 
 
-choose_run = input(
-    "Choose test/toeplitz/single_electron/double_electron: "
-)
+choose_run = input("Choose test / toeplitz / single / double: ")
 
 if choose_run == "test":
     test_cpp()
@@ -33,18 +31,18 @@ if choose_run == "toeplitz":
     rho_max = float(input("rho_max = "))
 
     build_cpp()
-    call(
+    run(
         ["./main.exe", f"{N}", choose_run, f"{rho_min:f}", f"{rho_max:f}"],
         cwd=wd
     )
 
-    A = np.genfromtxt(wd+f"/comp_eigvals_{N}.bin", skip_header=2)
-    R = np.genfromtxt(wd+f"/comp_eigvecs_{N}.bin", skip_header=2)
+    A = np.genfromtxt(wd+f"/comp_eigvals_{N}.dat", skip_header=2)
+    R = np.genfromtxt(wd+f"/comp_eigvecs_{N}.dat", skip_header=2)
     comp_eigvals = A.diagonal()
     comp_inx = comp_eigvals.argsort(kind="stable")
 
-    anal_eigvals = np.genfromtxt(wd+f"/anal_eigvals_{N}.bin", skip_header=2)
-    anal_eigvecs = np.genfromtxt(wd+f"/anal_eigvecs_{N}.bin", skip_header=2)
+    anal_eigvals = np.genfromtxt(wd+f"/anal_eigvals_{N}.dat", skip_header=2)
+    anal_eigvecs = np.genfromtxt(wd+f"/anal_eigvecs_{N}.dat", skip_header=2)
     clean()
 
     eigval = comp_eigvals[comp_inx[0]]
@@ -65,5 +63,19 @@ if choose_run == "toeplitz":
     plt.grid()
     plt.show()
 
-if choose_run == "single_electron":
-    pass
+if choose_run == "single":
+    N = int(input("Size of matrix N = "))
+    rho_max = float(input("rho_max = "))
+
+    build_cpp()
+    run(
+        ["./main.exe", f"{N}", choose_run, f"{rho_max:f}"],
+        cwd=wd
+    )
+
+    comp_eigvals = np.genfromtxt(wd+f"/quantum_eigvals_{N}.dat", skip_header=2)
+    R = np.genfromtxt(wd+f"/quantum_eigvecs_{N}.dat", skip_header=2)
+    clean()
+
+    comp_inx = comp_eigvals.argsort(kind="stable")
+    print(comp_eigvals[comp_inx[:4]])

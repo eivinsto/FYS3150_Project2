@@ -25,19 +25,33 @@ int main(int argc, char const *argv[]) {
     tridag_mat(A, a, d, N);
     anal_eig(anal_eigvals, anal_eigvecs, a, d, N);
 
-    anal_eigvals.save("anal_eigvals_" + to_string(N) + ".bin", arma_ascii);
-    anal_eigvecs.save("anal_eigvecs_" + to_string(N) + ".bin", arma_ascii);
+    anal_eigvals.save("anal_eigvals_" + to_string(N) + ".dat", arma_ascii);
+    anal_eigvecs.save("anal_eigvecs_" + to_string(N) + ".dat", arma_ascii);
 
     // jacobi_solver
     jacobi_solver jacobi(A, R, N);
     jacobi.solve();
 
-    A.save("comp_eigvals_" + to_string(N) + ".bin", arma_ascii);
-    R.save("comp_eigvecs_" + to_string(N) + ".bin", arma_ascii);
+    A.save("comp_eigvals_" + to_string(N) + ".dat", arma_ascii);
+    R.save("comp_eigvecs_" + to_string(N) + ".dat", arma_ascii);
   }
 
-  if (strarg == "single_electron") {
-    /* code */
+  if (strarg == "single") {
+    double pmax = atof(argv[3]);
+    mat A = zeros<mat>(N,N);
+    mat R(N,N);
+
+    //initialize matrices and vector
+    qdot_matrix(A, pmax, N);
+
+    // jacobi_solver
+    jacobi_solver jacobi(A, R, N);
+    jacobi.solve();
+
+    vec eigvals = A.diag();
+    eigvals.save("quantum_eigvals_" + to_string(N) + ".dat", arma_ascii);
+    R.save("quantum_eigvecs_" + to_string(N) + ".dat", arma_ascii);
+
   }
   return 0;
 }

@@ -23,10 +23,10 @@ functions.o: functions.cpp
 clean:
 	rm -f *.o
 	rm -f *.exe
-	rm -f *.bin
+	rm -f *.dat
 
-cleanbin:
-	rm -f *.bin
+cleandat:
+	rm -f *.dat
 
 test: test_main.exe
 
