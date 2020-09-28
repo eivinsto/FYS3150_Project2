@@ -64,7 +64,6 @@ if choose_run == "toeplitz":
     plt.show()
 
 if choose_run == "single":
-    N = int(input("Size of matrix N = "))
     rho_max = float(input("rho_max = "))
 
     build_cpp()
