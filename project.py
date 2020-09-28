@@ -21,12 +21,12 @@ def clean():
 
 
 choose_run = input("Choose test / toeplitz / single / double: ")
+N = int(input("Size of matrix N + 1 = ")) - 1
 
 if choose_run == "test":
     test_cpp()
 
 if choose_run == "toeplitz":
-    N = int(input("Size of matrix N = "))
     rho_min = float(input("rho_min = "))
     rho_max = float(input("rho_max = "))
 
@@ -64,7 +64,6 @@ if choose_run == "toeplitz":
     plt.show()
 
 if choose_run == "single":
-    N = int(input("Size of matrix N = "))
     rho_max = float(input("rho_max = "))
 
     build_cpp()
