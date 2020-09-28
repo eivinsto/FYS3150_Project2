@@ -92,6 +92,6 @@ void qdot_matrix_double_eigval(vec& e, double omega_r, int N){
   // Finds analytic (approximate) eigenvalues of the double electron qdot matrix,
   // and stores them in e.
   for (int i = 0; i<N; ++i){
-    e(i) = 3*cbrt((omega_r/2)*(omega_r/2)) + 2*sqrt(3)*omega_r*(i+1/2);
+    e(i) = 3*cbrt((omega_r/2)*(omega_r/2)) + sqrt(3)*omega_r*(2*i+1);
   }
 }

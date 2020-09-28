@@ -193,48 +193,136 @@ As we have already seen that such transformations preserve the eigenvalues and t
 
 and in this way we can also find the eigenvectors of \textbf{A}. In general this is done as an iterative method were we get closer to a diagonal matrix with every iteration. The iteration is cut off once all the elements not on the diagonal are less than a specified tolerance. 
 
-For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric.
+For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric. 
+
+We will now present three problems based on one-dimensional wave equations. These can be recast into eigenvalue problems and in so doing we change them into something we can solve using the Jacobi rotation method. We can use the analytical solutions of these problems to verify the accuracy of the method.
 
 
-\subsection{Quantum mechanical harmonic oscillator with one electron as an eigenvalue problem} \label{sec:II:c}
+\subsection{Buckling beam problem} \label{sec:II:c}
+
+The buckling beam problem is one such problem. The equation is given by:
+
+\begin{align*}
+\gamma \frac{d^2 u }{dx^2} &= -Fu(x) \, ,
+\end{align*}
+
+where $u(x)$ is the displacement of the beam in the $y$ diretion, $F$ is a force applied at one of the ends of the beam, and $\gamma$ is a parameter defined by properties of the beam. We call the length of the beam $L$, which means that $x\in [0,L]$. We can set up a dimensionless variable $\rho = x/L$, where $\rho \in [0,1]$. This can be inserted into the equation:
+
+\begin{align*}
+\frac{\gamma}{L^2} \frac{d^2  }{d\rho^2} u(\rho) &= -Fu(\rho) \\
+\frac{d^2}{d\rho^2} u(\rho) &= -\frac{FL^2}{\gamma} u(\rho)
+\end{align*}
+
+We define $\lambda = \frac{FL^2}{\gamma}$, which gives us the simplified equation:
+
+\begin{align*}
+- \frac{d^2}{d\rho^2} u(\rho) &= \lambda u (\rho)
+\end{align*}
+
+We apply Dirichlet boundary conditions $u(\rho_0) = u(\rho_\text{max}) = 0$ and discretize the equation by defining a set of points $\rho_i = \rho_0 + ih$, where $i = 1,2,...,N$ and $h = \frac{\rho_\text{max} - \rho_0}{N}$. We already know from the definition of $\rho$ that $\rho_0 = 0$ and $\rho_\text{max} = 1$. We can approximate the derivative in the equation:
+
+\begin{align*}
+\frac{d^2}{d\rho^2} u(\rho) &=  \frac{u(\rho+h) - 2u (\rho)  + u(\rho - h) }{h^2} + \mathcal{O}(h^2)  \, ,
+\end{align*}
+
+where we select $N$ so that $h$ is small enough such that we can neglect the higher order terms $\mathcal{O}(h^2)$. We use this approximation along with our discretization to rewrite the equation:
+
+\begin{align*}
+-\frac{u_{i+1} - 2u_i + u_{i-1}}{h^2} &= \lambda u_i \, ,
+\end{align*} 
+
+where $u_i = u(\rho_i)$. This can be rewritten as an eigenvalue problem:
+
+\begin{align*}
+\textbf{Au} = \lambda \textbf{u} \, ,
+\end{align*}
+
+where $\textbf{u}$ contains the $u_i$ with $i = 1,...,N-1$ (the boundary conditions fixes $u_0$ and $u_N$) and $\textbf{A}$ is a tridiagonal matrix with diagonal elements:
+
+\begin{align*}
+d = -\frac{2}{h^2}
+\end{align*}
+
+and elements in the bands above and below the diagonal:
+
+\begin{align*}
+e = \frac{1}{h^2}
+\end{align*}
+
+In other words the matrix takes the form:
+
+\begin{align*}
+\textbf{A} = \begin{bmatrix}
+d & e & 0 & \cdots  & \cdots & \cdots & 0  \\
+e & d & e & 0 & \cdots & 0 & 0 \\
+0 & e & d & e & 0 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \ddots & \ddots & \vdots &  \vdots \\
+\vdots & \vdots & 0 & e & d & e & 0 \\
+0 & \cdots & \cdots & 0 & e & d & e \\
+0 & \cdots & \cdots & \cdots & 0 & e & d 
+\end{bmatrix}
+\end{align*}
+
+Thus by finding the eigenvalues and eigenvectors of $\textbf{A}$ we can solve the buckling beam problem. The analytical eigenvalues of this matrix are:
+
+\begin{align*}
+\lambda_j &= d + 2a \cos ( \frac{j\pi}{N}) \quad , \quad j = 1,2,...,N-1 \, ,
+\end{align*}
+
+and the eigenvectors are:
+
+\begin{align*}
+\textbf{u}_j &= \begin{bmatrix}
+\sin( \frac{j\pi}{N} ) \\
+\sin( \frac{2j\pi}{N} ) \\
+\vdots \\
+\sin( \frac{(N-1)j\pi}{N} ) 
+\end{bmatrix} \quad , \quad j = 1,2,...,N-1
+\end{align*}
+
+These can be compared with our numerical results. The derivation of this analytical solution is detailed in \citep{Lyche2017}. 
+
+
+
+\subsection{Quantum mechanical harmonic oscillator with one electron as an eigenvalue problem} \label{sec:II:d}
 
 The harmonic oscillator potential is central symmetric. This means that the Schrödinger equation can be split into a radial part and an angular part, where the angular part has an analytic solution. We ignore this part of the equation and instead focus only on the radial part:
 
 \begin{align*}
--\frac{\hbar^2}{2m} \bigg( \frac{1}{r^2} \frac{d}{dr}r^2 \frac{d}{dr} - \frac{l(l+1)}{r^2} \bigg) R(r) + \frac{1}{2}m\omega^2r^2 R(r) = ER(r) \, ,
+-\frac{\hbar^2}{2m} \bigg( \frac{1}{r^2} \frac{d}{dr}r^2 \frac{d}{dr} - \frac{l(l+1)}{r^2} \bigg) R(r) + \frac{1}{2}kr^2 R(r) = ER(r) \, ,
 \end{align*} 
 
-where $m$ is the mass, $\omega$ is the oscillator frequency, $r$ is the radial coordinate, $l$ is the angular momentum quantum number, $R(r)$ is the radial part of the wave equation, and $E$ is the energy. We can substitute $R(r) = u(r)/r$ which simplifies the equation:
+where $k = m\omega^2$ with $\omega$ being the oscillator frequency and $m$ being the mass. $r$ is the radial coordinate, $l$ is the angular momentum quantum number, $R(r)$ is the radial part of the wave equation, and $E$ is the energy. We can substitute $R(r) = u(r)/r$ which simplifies the equation:
 
 \begin{align*}
--\frac{\hbar^2}{2m} \frac{d^2}{dr^2} u(r) + \bigg( \frac{1}{2}m\omega^2r^2 + \frac{l(l+1)}{r^2} \frac{\hbar^2}{2m} \bigg) u(r) &= Eu(r) \, ,
+-\frac{\hbar^2}{2m} \frac{d^2}{dr^2} u(r) + \bigg( \frac{1}{2}kr^2 + \frac{l(l+1)}{r^2} \frac{\hbar^2}{2m} \bigg) u(r) &= Eu(r) \, ,
 \end{align*}
 
 where we have separated the differential from the rest of the equation as well, which will be useful later on. To further simplify we can scale the equation. We do this by introducing a dimensionless variable $\rho = r/\alpha$, where $\alpha$ is a constant. Inserting this gives:
 
 \begin{align*}
--\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \bigg( \frac{1}{2}m\omega^2\alpha^2 \rho^2 + \frac{l(l+1)}{\rho^2} \frac{\hbar^2}{2m\alpha^2} \bigg) u(\rho) &= Eu(\rho) 
+-\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \bigg( \frac{1}{2}k\alpha^2 \rho^2 + \frac{l(l+1)}{\rho^2} \frac{\hbar^2}{2m\alpha^2} \bigg) u(\rho) &= Eu(\rho) 
 \end{align*}
 
 From here on out we will assume the system to be in the lowest orbital state ($l=0$), which simplifies the equation above furter:
 
 \begin{align*}
--\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \frac{1}{2}m\omega^2\alpha^2 \rho^2 u(\rho) &= Eu(\rho) 
+-\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \frac{1}{2}k\alpha^2 \rho^2 u(\rho) &= Eu(\rho) 
 \end{align*}
 
 We multiply by $\frac{2m\alpha^2}{\hbar^2}$ on both sides:
 
 \begin{align*}
--\frac{d^2}{d\rho^2} u(\rho) + \frac{m^2 \omega^2}{\hbar^2}\alpha^4 \rho^2 u(\rho) &= \frac{2m\alpha^2}{\hbar^2} Eu(\rho) 
+-\frac{d^2}{d\rho^2} u(\rho) + \frac{mk}{\hbar^2}\alpha^4 \rho^2 u(\rho) &= \frac{2m\alpha^2}{\hbar^2} Eu(\rho) 
 \end{align*}
 
-As $\alpha$ is an arbitrary constant we can choose $\alpha = \sqrt{\frac{\hbar}{m \omega}}$, and define $\lambda = \frac{2m\alpha^2}{\hbar^2} E$:
+As $\alpha$ is an arbitrary constant we can choose $\alpha = \sqrt{\frac{\hbar}{m \omega}}$, and define $\lambda = \frac{2m\alpha^2}{\hbar^2} E = \frac{2}{\hbar \omega} E$:
 
 \begin{align*}
 -\frac{d^2}{d\rho^2} u(\rho) + \rho^2 u(\rho) &= \lambda u(\rho) 
 \end{align*}
 
-This is possible to solve analytically and from said solution we have that $\lambda =3,7,11,...$. This can be compared with a numerical calculation later to check the accuracy of our results.
+We know that the allowed energy levels for a quantum harmonic oscillator are $E_n = \hbar \omega (n + \frac{1}{2})$, which gives us that $\lambda_n = 2n+1$. This can be compared with a numerical calculation later to check the accuracy of our results.
  
 In general we have that $u(0) = u(\infty) = 0$. This is not feasible on a computer and as such we define a $\rho_{\text{max}}$ and set boundary conditions $u(0) = u(\rho_{\text{max}}) = 0$. We then define a set of points $\rho_i = \rho_0 + ih$ where $i = 1,2,...,N$ and $h = \frac{\rho_N - \rho_0}{N}$, and set $\rho_0 = 0$ and $\rho_N  = \rho_{\text{max}}$. These points can be used to discretize the previous equation (approximating the derivative as well):
 
@@ -263,7 +351,7 @@ e = -\frac{1}{h^2}
 We can now use numerical methods such as the Jacobi rotation algorithm to find the eigenvalues and eigenvectors (solutions) of \textbf{A} as it is a symmetrical matrix.
 
 
-\subsection{Quantum mechanical harmonic oscillator with two electrons as an eigenvalue problem}
+\subsection{Quantum mechanical harmonic oscillator with two electrons as an eigenvalue problem} \label{sec:II:e}
  
 Similarly to how we did in the previous section we can find a numerical solution to the Schrödinger equation where we have two electrons in a harmonic oscillator instead of one. As the electrons can interact we now need to add the Coulomb potential to the equation. We ignore this for now, but will add it later. The radial part of the Schrödinger equation with two electrons in a harmonic oscillator is (where some of the steps from the previous section has already been applied):
 
@@ -295,6 +383,12 @@ We define $\omega_r^2 = \frac{1}{4} \frac{mk}{\hbar^2} \alpha^4$ and $\lambda = 
 
 \begin{align*}
 - \frac{d^2}{d\rho^2} \psi(\rho) + \omega_r^2 \rho^2 \psi(\rho) + \frac{1}{\rho} \psi(\rho) = \lambda \psi(\rho)
+\end{align*}
+
+This equation has analytical solutions (detailed in \citep{PhysRevA.48.3561}) for $\lambda$:
+
+\begin{align*}
+\lambda_i &= 3 \omega_r^{3/2} +\sqrt{3} \omega_r (2i + 1)
 \end{align*}
 
 The boundary conditions will be the same as in the previous section, and we define the same discretization. This gives us:
