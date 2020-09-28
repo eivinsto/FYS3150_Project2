@@ -78,3 +78,6 @@ if choose_run == "single":
 
     comp_inx = comp_eigvals.argsort(kind="stable")
     print(comp_eigvals[comp_inx[:4]])
+
+if choose_run == "double":
+    pass
