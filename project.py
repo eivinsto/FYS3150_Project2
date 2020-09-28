@@ -46,7 +46,7 @@ if choose_run == "toeplitz":
     clean()
 
     eigval = comp_eigvals[comp_inx[0]]
-    rho = np.linspace(rho_min, rho_max, N)
+    rho = np.linspace(rho_min, rho_max, N-1)
     eigvec = R[:, comp_inx[0]]
 
     mpl.rcParams.update({"text.usetex": True})  # using latex.
