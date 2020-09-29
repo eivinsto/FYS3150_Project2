@@ -1,4 +1,4 @@
-Eigenvalues of single-electron atom.
+Eigenvalues of single-electron atom. N = 400, rho_max = 25.0
 Analytic:    Numerical:    Relative error:
     3           2.999       4.071e-04
     7           6.994       8.727e-04

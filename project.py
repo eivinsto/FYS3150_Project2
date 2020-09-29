@@ -93,7 +93,7 @@ if choose_run == "single":
     err = np.abs(anal_eigvals-comp_eigvals[comp_inx[:4]])/anal_eigvals
 
     with open(pwd + "/data/single_electron_data.dat", "w") as output:
-        header1 = "Eigenvalues of single-electron atom."
+        header1 = f"Eigenvalues of single-electron atom. {N = }, {rho_max = }"
         header2 = "Analytic:    Numerical:    Relative error:"
         print(header1)
         output.write(header1 + "\n")
@@ -111,3 +111,18 @@ if choose_run == "double":
     rho_max = float(input("rho_max = "))
 
     omega_r = np.array([0.01, 0.5, 1, 5])
+    N_omega = len(omega_r)
+    num_eigvals = np.empty((N, N_omega))
+    anal_eigvals = np.empty((N, N_omega))
+    build_cpp()
+
+    for i in range(N_omega):
+        run(
+            ["./main.exe", f"{N}", choose_run, f"{rho_max:f}", f"{omega_r[i]:f}"]
+        )
+        anal_eigvals[:, i] = np.genfromtxt(
+                             wd + f"/double_qdot_anal_eigvals_{N}.dat", skip_header=2
+                             )
+        anal_eigvals[:, i] = np.genfromtxt(
+                             wd + f"/double_qdot_anal_eigvals_{N}.dat", skip_header=2
+                             )

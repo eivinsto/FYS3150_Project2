@@ -68,7 +68,9 @@ int main(int argc, char const *argv[]) {
     jacobi_solver jacobi(A, R, N);
     jacobi.solve();
 
-
+    vec eigvals = A.diag();
+    anal_eigvals.save("double_qdot_anal_eigvals" + to_string(N+1) + ".dat", arma_ascii);
+    eigvals.save("double_qdot_num_eigvals" + to_string(N+1) + ".dat", arma_ascii);
   }
   return 0;
 }
