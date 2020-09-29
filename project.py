@@ -8,9 +8,9 @@ When executed, this script will ask you which part of the report to run:
     to / toeplitz - Solves the buckling beam problem, and plots the
                     analytic and numerical eigenvector for the smallest
                     eigenvalue.
-    s / single    - Solves 4 lowest eigenvalues of single-electron atom,
+    s / single    - Solves 4 lowest eigenvalues of single-electron quantum dot,
                     and compares them with analytic values.
-    d / double    - Finds ground-state energies of a two-electron atom, and
+    d / double    - Finds ground-state energies of a two-electron quantum dot, and
                     compares them with analytic approximate values.
 
 When prompted to enter value for N, you give the N used in the report
@@ -145,7 +145,7 @@ if choose_run == "single" or choose_run == "s":
 
     # writing results to file in data directory:
     with open(pwd + "/data/single_electron_data.dat", "w") as output:
-        header1 = f"Eigenvalues of single-electron atom. {N = }, {rho_max = }"
+        header1 = f"Eigenvalues of single-electron quantum dot. {N = }, {rho_max = }"
         header2 = "Analytic:    Numerical:    Relative error:"
         print(header1)
         output.write(header1 + "\n")
@@ -164,7 +164,7 @@ if choose_run == "single" or choose_run == "s":
 
 if choose_run == "double" or choose_run == "d":
     """
-    Finds ground-state energies of two-electron atom with
+    Finds ground-state energies of two-electron quantum dot with
     different values of omega_r.
     """
     N = int(input("Size of matrix N = "))  # retriveing N.
@@ -214,7 +214,7 @@ if choose_run == "double" or choose_run == "d":
 
     # writing results to file in data directory:
     with open(pwd + "/data/double_electron_data.dat", "w") as output:
-        header1 = f"Eigenvalues of two-electron atom. {N = }, {rho_max = }"
+        header1 = f"Eigenvalues of two-electron quantum dot. {N = }, {rho_max = }"
         header2 = "Omega_r:    Analytic:    Numerical:    Relative error:"
         print(header1)
         output.write(header1 + "\n")

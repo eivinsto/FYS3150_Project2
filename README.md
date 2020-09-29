@@ -7,8 +7,8 @@ When executed, this script will ask you which part of the report to run:
  * te / test     - Run unit-tests for the jacobi\_solver class.
  * b / benchmark - Runs benchmark of the jacobi\_solver and Armadillo eigen\_sym solver for comparison.
  * to / toeplitz - Solves the buckling beam problem, and plots the analytic and numerical eigenvector for the smallest eigenvalue.
- * s / single    - Solves 4 lowest eigenvalues of single-electron atom, and compares them with analytic values.
- * d / double    - Finds ground-state energies of a two-electron atom, and compares them with analytic approximate values.
+ * s / single    - Solves 4 lowest eigenvalues of single-electron quantum dot, and compares them with analytic values.
+ * d / double    - Finds ground-state energies of a two-electron quantum dot, and compares them with analytic approximate values.
 
 Example run:
 ```console
@@ -20,7 +20,7 @@ Size of matrix N = 400
 rho_max = 25
 make: Nothing to be done for 'all'.
 rm -f *.dat
-Eigenvalues of single-electron atom. N = 400, rho_max = 25.0
+Eigenvalues of single-electron quantum dot. N = 400, rho_max = 25.0
 Analytic:    Numerical:    Relative error:
        3        2.999          4.071e-04
        7        6.994          8.727e-04
