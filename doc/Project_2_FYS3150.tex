@@ -119,7 +119,7 @@
 
 
 \begin{document}
-\title{Project 2 FYS3150}   % self-explanatory
+\title{Numerical solutions of three eigenvalue problems using Jacobi's rotation method}   % self-explanatory
 \author{Eivind Støland, Anders P. Åsbø}               % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
@@ -600,7 +600,7 @@ In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. G
 
 \subsection{Buckling beam} \label{sec:IV:a}
 
-We calculated the first eigenvector numerically and plotted it against the analytical eigenvector with $N=100$. The plot is displayed in \hyperref[fig:IV:a:1]{Figure 1}. In order for them to be scaled similarly we chose to normalize both. As shown in the legend text of the plot in \hyperref[fig:IV:a:1]{Figure 1}, the eigenvalues belonging to the eigenvector found numerically and analytically are the same to the 10th digit.
+We calculated the first eigenvector numerically and plotted it against the analytical eigenvector with $N=100$. The plot is displayed in \hyperref[fig:IV:a:1]{Figure 1}. In order for them to be scaled similarly we chose to normalize both. Both the numerical and analytical value of the eigenvalue belonging to the eigenvector is written down in the legend text of the plot in \hyperref[fig:IV:a:1]{Figure 1}.
 
 \begin{figure}[h!] \label{fig:IV:a:1}
 \includegraphics[scale=0.6]{toeplitz.png}
@@ -608,6 +608,8 @@ We calculated the first eigenvector numerically and plotted it against the analy
 \end{figure}
 
 \subsection{Quantum harmonic oscillator with one electron} \label{sec:IV:b}
+
+We calculated the smallest four eigenvalues both numerically and analytically. They are listed in \hyperref[table:IV:b:1]{Table I} along with the relative error between them. The parameters used in this run were $N=400$ and $\rho_\text{max} = 25$.
 
 \begin{table}[h!] \label{table:IV:b:1}
 \caption{Table containing numerical and analytical eigenvalues, and the relative error between them for the single electron in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 25$.}
@@ -629,7 +631,24 @@ Analytic & Numerical & Relative error \\
 
 \subsection{Quantum harmonic oscillator with two electrons}\label{sec:IV:c}
 
+We calculated the smallest eigenvalue for four different values of $\omega_r$ with $N=400$ and $\rho_\text{max} = 115.625$ both numerically and analytically. The eigenvalues and the relative error between them can be found in \hyperref[table:IV:c:1]{Table II}. 
 
+\begin{table}[h!] \label{table:IV:c:1}
+\caption{Table containing the numerical and analytical first eigenvalue (lowest energy), and the relative error between them for the problem with two electrons in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 115.625$.}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+$\omega_r$ & Analytic & Numerical & Relative error \\
+\hline
+0.01 &    0     &      0.106  &    $6.966 \times 10^{-3}$ \\
+\hline
+0.5 &    2     &      2.189   &    $6.434 \times 10^{-2}$ \\
+\hline
+1 &   4     &     3.898   &    $7.623 \times 10^{-2}$ \\
+\hline
+5 &   14     &     14.118   &    $4.817 \times 10^{-3}$ \\
+\hline
+\end{tabular}
+\end{table}
 
 
 \section{Discussion} \label{sec:V} 
