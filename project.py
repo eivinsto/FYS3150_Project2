@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import os
+import shutil
 
 pwd = os.getcwd()
 wd = os.getcwd() + "/src"
@@ -44,6 +45,10 @@ if choose_run == "toeplitz":
 
     anal_eigvals = np.genfromtxt(wd+f"/anal_eigvals_{N}.dat", skip_header=2)
     anal_eigvecs = np.genfromtxt(wd+f"/anal_eigvecs_{N}.dat", skip_header=2)
+    shutil.move(wd+f"/anal_eigvals_{N}.dat", pwd + "/data/toeplitz_anal_eigvals.dat")
+    shutil.move(wd+f"/anal_eigvecs_{N}.dat", pwd + "/data/toeplitz_anal_eigvecs.dat")
+    shutil.move(wd+f"/comp_eigvals_{N}.dat", pwd + "/data/toeplitz_comp_eigvals.dat")
+    shutil.move(wd+f"/comp_eigvecs_{N}.dat", pwd + "/data/toeplitz_comp_eigvecs.dat")
     clean()
 
     eigval = comp_eigvals[comp_inx[0]]
@@ -53,6 +58,7 @@ if choose_run == "toeplitz":
     mpl.rcParams.update({"text.usetex": True})  # using latex.
     comp_lab = f"Jacobi result for {N}x{N} matrix."
     an_lab = r"Analytic result $\lambda_{1} = $ " + f"{anal_eigvals[0]}"
+
 
     plt.figure()
     plt.plot(rho, eigvec, label=comp_lab+r" $\lambda_{1} = $ " + f"{eigval}")
