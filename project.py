@@ -56,13 +56,16 @@ if choose_run == "toeplitz":
     rho = np.linspace(rho_min, rho_max, N-1)
     eigvec = R[:, comp_inx[0]]
 
+    anal_norm = np.linalg.norm(anal_eigvecs[:, 0])
+    comp_norm = np.linalg.norm(eigvec)
+
     mpl.rcParams.update({"text.usetex": True})  # using latex.
     comp_lab = f"Jacobi result for {N}x{N} matrix."
     an_lab = r"Analytic result $\lambda_{1} = $ " + f"{anal_eigvals[0]}"
 
     plt.figure()
-    plt.plot(rho, eigvec, label=comp_lab+r" $\lambda_{1} = $ " + f"{eigval}")
-    plt.plot(rho, anal_eigvecs[:, 0], label=an_lab)
+    plt.plot(rho, eigvec/comp_norm, label=comp_lab+r" $\lambda_{1} = $ " + f"{eigval}")
+    plt.plot(rho, anal_eigvecs[:, 0]/anal_norm, label=an_lab)
     plt.title(f"Eigenvector of smalest eigenvalue of {N}x{N} Toeplitz-matrix.")
     plt.xlabel(r"$\rho$")
     plt.ylabel(r"Eigenvector $u_{1}$ as function of $\rho$.")
