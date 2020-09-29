@@ -130,6 +130,14 @@
 
 \section{Introduction} \label{sec:I}
 
+Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. In this report we study the Jacobi rotation method, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this method is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix. 
+
+These three problems showcase some key differences, however. The buckling beam problem results in a simple tridiagonal matrix with constant values along the diagonal bands, which makes it easier to use this problem to test how well the method works. The single electron in a quantum harmonic oscillator potential results in the diagonal elements of the matrix no longer being constant, and the problem with two electrons result in yet more complex diagonal elements because of the Coulomb interaction between the electrons. This creates some specific error sources that we discuss in detail in \hyperref[sec:III:b]{section III.B.}
+
+Precision of the solutions is key, and thus we test the accuracy of the result against analytical answers for all three problems. For the buckling beam we compare the first numerical eigenvector against the analytical one, and in the two quantum harmonic oscillator problems we compare numerical and analytical eigenvalues. We also make an estimate on how many FLOPs at most which will be needed in order for the solution to converge. This lets us evaluate the computational cost of the method. 
+
+
+
 \section{Formalism} \label{sec:II}
 
 \subsection{Unitary transformations and eigenvalues} \label{sec:II:a}
@@ -422,9 +430,9 @@ This can similarly be solved using the Jacobi rotation method as the matrix is s
 
 \section{Method} \label{sec:III}
 
-\subsection{Implementation of Jacobi rotation algorithm} \label{III:a}
+\subsection{Implementation of Jacobi rotation algorithm} \label{sec:III:a}
 
-We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. It is worth noting that this is not the same $N$ defined in the \hyperref[sec:II]{section II}, as the dimensionality of the matrices is one less than $N$. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the rows of \textbf{R} will be the eigenvectors. 
+We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. It is worth noting that this is not the same $N$ defined in the \hyperref[sec:II]{section II}, as the dimensionality of the matrices is one less than $N$. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the columns of \textbf{R} will be the eigenvectors. 
 
 The \verb+solve()+ method performs the following while-loop:
 
@@ -509,7 +517,7 @@ for (int i = 0; i<N; ++i){
 
 First it calculates the variables \verb+s+ and \verb+c+. These variables are as outlined in \citep{Hjorth-Jensen2015}. Then it performs the rotation by calculating the new elements of \verb+A+ and \verb+R+ and replacing the old ones.
 
-\subsubsection{Computational cost} \label{III:a:i}
+\subsubsection{Computational cost} \label{sec:III:a:i}
 
 For each rotation we need to update the matrix elements of \textbf{A} and \textbf{R}. This takes $12N$ FLOPs total, where $N$ is the dimensionality of the matrix. In addition to this there are 29 FLOPs outside of the loop in the rotate function, meaning that for each rotation we have about $O(N) = 12N + 29$ FLOPs. Now we need to figure out an expression for how fast the solution converges, in order to determine the total amount of FLOPs for the algorithm. To this end we define:
 
@@ -564,11 +572,11 @@ After $k$ iterations we then have the approximate relation:
 This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The method is thus highly computationally expensive. 
 
 
-\subsection{Error sources and choices of parameters} \label{III:b}
+\subsection{Error sources and choices of parameters} \label{sec:III:b}
 
 The three problems we are solving all contain a double derivative which we approximate. This causes an error which is dependent on the step length squared. The step length is proportional to $\rho_\text{max}$ and inversely proportional to $N$, so in order to minimize the step length we need $\rho_\text{max}$ to be significantly less than $N$. Very large $N$ will cause rounding error in $h$, but we encounter memory issues before this starts to be a problem. However this is not the only thing we need to take into consideration with larger $N$. As $N$ gets large, so does the amount of FLOPs needed to perform the algorithm. FLOPs inherently cause a small error as numbers generally cannot be represented exactly, and thus a large amount of FLOPs cause this error to accumulate. How this all balances out in the end is something we will review.
 
-\subsubsection{Error sources when solving quantum mechanical problems} \label{III:b:i} 
+\subsubsection{Error sources when solving quantum mechanical problems} \label{sec:III:b:i} 
 
 The quantum mechanical problems have another more specific error in loss of numerical precision on the diagonal elements of the matrices. In the case of one electron in a harmonic oscillator potential we have the diagonal elements:
 
@@ -576,7 +584,7 @@ The quantum mechanical problems have another more specific error in loss of nume
 d_i = \frac{2}{h^2} + \rho_i^2
 \end{align*}
 
-The factor $\frac{2}{h^2}$ is a constant, and $rho_i^2$ varies. If they are not of a similar size we risk having a loss of numerical precision in setting up the matrix. In general the most notable issue here is if $h$ gets very small the constant factor grows very large, which means that we can't have $N$ being much larger than $\rho_\text{max}$. In general this means that there exists a value $N/\rho_\text{max}$ which has the most precise result. 
+The factor $\frac{2}{h^2}$ is a constant, and $\rho_i^2$ varies. If they are not of a similar size we risk having a loss of numerical precision in setting up the matrix. In general the most notable issue here is if $h$ gets very small the constant factor grows very large, which means that we can't have $N$ being much larger than $\rho_\text{max}$. In general this means that there exists a value $N/\rho_\text{max}$ which has the most precise result. 
 
 Similarly we have for the case with two electrons in a harmonic oscillator:
 
@@ -586,7 +594,41 @@ d_i &= \frac{2}{h^2} + \omega_r^2 \rho_i^2 + \frac{1}{\rho_i}
 
 In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. Generally most of the same arguments used in the previous case apply here as well, so we expect there to be a value $N/\rho_\text{max}$ which has the most precise the results. This will not be the same one as in the last case, and will also be different for different choices of $\omega_r$. 
 
+\newpage
+
 \section{Results} \label{sec:IV}
+
+\subsection{Buckling beam} \label{sec:IV:a}
+
+\begin{figure}[h!] \label{fig:IV:a:1}
+\includegraphics[scale=0.6]{toeplitz.png}
+\caption{Figure displaying first eigenvector calculated numerically in the buckling beam problem plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly.}
+\end{figure}
+
+\subsection{Quantum harmonic oscillator with one electron} \label{sec:IV:b}
+
+\begin{table}[h!] \label{table:IV:b:1}
+\caption{Table containing numerical and analytical eigenvalues, and the relative error between them for the single electron in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 25$.}
+\begin{tabular}{|c|c|c|}
+\hline 
+Analytic & Numerical & Relative error \\
+\hline
+    3     &      2.999   &    $4.071 \times 10^{-4}$ \\
+\hline
+    7     &      6.994   &    $8.727 \times 10^{-4}$ \\
+\hline
+   11     &     10.985   &    $1.356 \times 10^{-3}$ \\
+\hline
+   15     &     14.972   &    $1.843 \times 10^{-3}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Quantum harmonic oscillator with two electrons}\label{sec:IV:c}
+
+
+
 
 \section{Discussion} \label{sec:V} 
 
