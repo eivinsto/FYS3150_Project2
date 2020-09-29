@@ -4,8 +4,8 @@ To generate the data used in the report, run the python-script "project.py" in t
 
 ## Usage:
 When executed, this script will ask you which part of the report to run:
- * te / test     - Run unit-tests for the jacobi_solver class.
- * b / benchmark - Runs benchmark of the jacobi_solver and Armadillo eigen_sym solver for comparison.
+ * te / test     - Run unit-tests for the jacobi\_solver class.
+ * b / benchmark - Runs benchmark of the jacobi\_solver and Armadillo eigen\_sym solver for comparison.
  * to / toeplitz - Solves the buckling beam problem, and plots the analytic and numerical eigenvector for the smallest eigenvalue.
  * s / single    - Solves 4 lowest eigenvalues of single-electron atom, and compares them with analytic values.
  * d / double    - Finds ground-state energies of a two-electron atom, and compares them with analytic approximate values.
@@ -15,19 +15,19 @@ Example run:
 $ python project.py
 To select calculation, write whats in brackets, or whole word from list of options below:
 [te]st / [b]enchmark / [to]eplitz / [s]ingle / [d]ouble
-Choose run: d
+Choose run: s
 Size of matrix N = 400
-rho_max = 115.625
+rho_max = 25
 make: Nothing to be done for 'all'.
 rm -f *.dat
-Eigenvalues of two-electron atom. N = 400, rho_max = 115.625
-Omega_r:    Analytic:    Numerical:    Relative error:
-    0.01            0         0.106          6.966e-03
-    0.50            2         2.189          6.434e-02
-    1.00            4         3.898          7.623e-02
-    5.00           14        14.118          4.817e-03
+Eigenvalues of single-electron atom. N = 400, rho_max = 25.0
+Analytic:    Numerical:    Relative error:
+       3        2.999          4.071e-04
+       7        6.994          8.727e-04
+      11       10.985          1.356e-03
+      15       14.972          1.843e-03
 ```
 
 When prompted to enter value for N, you give the N used in the report
-methodology. Hence, N = 100 will create matrices of size (N-1)x(N-1) -> 100x100.
+methodology. Hence, N = 100 will create matrices of size (N-1)x(N-1) = 99x99.
 For the buckling beam problem, the plotted eigenvectors will have length N+1, with the first and last element fixed to zero.
