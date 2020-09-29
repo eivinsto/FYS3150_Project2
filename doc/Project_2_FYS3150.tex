@@ -511,7 +511,7 @@ First it calculates the variables \verb+s+ and \verb+c+. These variables are as 
 
 \subsubsection{Computational cost} \label{III:a:i}
 
-We are interested in how fast the solution converges to the correct one. To this end we define:
+For each rotation we need to update the matrix elements of \textbf{A} and \textbf{R}. This takes $12N$ FLOPs total, where $N$ is the dimensionality of the matrix. In addition to this there are 29 FLOPs outside of the loop in the rotate function, meaning that for each rotation we have about $O(N) = 12N + 29$ FLOPs. Now we need to figure out an expression for how fast the solution converges, in order to determine the total amount of FLOPs for the algorithm. To this end we define:
 
 \begin{align*}
 \text{off}(\textbf{A})^2 &= \sum\limits_{ij} |a_{ij}|^2 \, ,
@@ -561,13 +561,30 @@ After $k$ iterations we then have the approximate relation:
 \text{off}(\textbf{A}^{(k)}) \lesssim e^{-\frac{k}{N(N-1)}} \text{off}(\textbf{A}) 
 \end{align*} 
 
-This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this.
+This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The method is thus highly computationally expensive. 
 
 
-\subsubsection{Error sources} \label{III:a:ii}
+\subsection{Error sources and choices of parameters} \label{III:b}
 
+The three problems we are solving all contain a double derivative which we approximate. This causes an error which is dependent on the step length squared. The step length is proportional to $\rho_\text{max}$ and inversely proportional to $N$, so in order to minimize the step length we need $\rho_\text{max}$ to be significantly less than $N$. Very large $N$ will cause rounding error in $h$, but we encounter memory issues before this starts to be a problem. However this is not the only thing we need to take into consideration with larger $N$. As $N$ gets large, so does the amount of FLOPs needed to perform the algorithm. FLOPs inherently cause a small error as numbers generally cannot be represented exactly, and thus a large amount of FLOPs cause this error to accumulate. How this all balances out in the end is something we will review.
 
-\subsection{Error sources when solving quantum mechanical problems} \label{III:b} 
+\subsubsection{Error sources when solving quantum mechanical problems} \label{III:b:i} 
+
+The quantum mechanical problems have another more specific error in loss of numerical precision on the diagonal elements of the matrices. In the case of one electron in a harmonic oscillator potential we have the diagonal elements:
+
+\begin{align*}
+d_i = \frac{2}{h^2} + \rho_i^2
+\end{align*}
+
+The factor $\frac{2}{h^2}$ is a constant, and $rho_i^2$ varies. If they are not of a similar size we risk having a loss of numerical precision in setting up the matrix. In general the most notable issue here is if $h$ gets very small the constant factor grows very large, which means that we can't have $N$ being much larger than $\rho_\text{max}$. In general this means that there exists a value $N/\rho_\text{max}$ which has the most precise result. 
+
+Similarly we have for the case with two electrons in a harmonic oscillator:
+
+\begin{align*}
+d_i &= \frac{2}{h^2} + \omega_r^2 \rho_i^2 + \frac{1}{\rho_i}
+\end{align*}
+
+In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. Generally most of the same arguments used in the previous case apply here as well, so we expect there to be a value $N/\rho_\text{max}$ which has the most precise the results. This will not be the same one as in the last case, and will also be different for different choices of $\omega_r$. 
 
 \section{Results} \label{sec:IV}
 
