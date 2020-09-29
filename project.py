@@ -60,13 +60,13 @@ if choose_run == "toeplitz":
     comp_norm = np.linalg.norm(eigvec)
 
     mpl.rcParams.update({"text.usetex": True})  # using latex.
-    comp_lab = f"Jacobi result for {N}x{N} matrix."
+    comp_lab = f"Jacobi result for {N = }."
     an_lab = r"Analytic result $\lambda_{1} = $ " + f"{anal_eigvals[0]}"
 
     plt.figure()
     plt.plot(rho, eigvec/comp_norm, label=comp_lab+r" $\lambda_{1} = $ " + f"{eigval}")
     plt.plot(rho, anal_eigvecs[:, 0]/anal_norm, label=an_lab)
-    plt.title(f"Eigenvector of smallest eigenvalue of {N}x{N} Toeplitz-matrix.")
+    plt.title(f"Eigenvector of smallest eigenvalue of Toeplitz-matrix. {N = }")
     plt.xlabel(r"$\rho$")
     plt.ylabel(r"Eigenvector $u_{1}$ as function of $\rho$.")
     plt.legend()
@@ -103,8 +103,8 @@ if choose_run == "single":
 
         for i in range(len(err)):
             line = f"{anal_eigvals[i]:5.0f} {comp_eigvals[comp_inx[i]]:15.3f} {err[i]:15.3e}"
-            output.write(line + "\n")
             print(line)
+            output.write(line + "\n")
 
 if choose_run == "double":
     N = int(input("Size of matrix N = "))
@@ -112,17 +112,42 @@ if choose_run == "double":
 
     omega_r = np.array([0.01, 0.5, 1, 5])
     N_omega = len(omega_r)
-    num_eigvals = np.empty((N, N_omega))
-    anal_eigvals = np.empty((N, N_omega))
+    num_eigvals = np.empty((N-1, N_omega))
+    anal_eigvals = np.empty((N-1, N_omega))
+    err = np.empty(N_omega)
+
     build_cpp()
 
     for i in range(N_omega):
         run(
-            ["./main.exe", f"{N}", choose_run, f"{rho_max:f}", f"{omega_r[i]:f}"]
+            ["./main.exe", f"{N}", choose_run, f"{rho_max:f}", f"{omega_r[i]:f}"],
+            cwd=wd
         )
+
         anal_eigvals[:, i] = np.genfromtxt(
-                             wd + f"/double_qdot_anal_eigvals_{N}.dat", skip_header=2
-                             )
-        anal_eigvals[:, i] = np.genfromtxt(
-                             wd + f"/double_qdot_anal_eigvals_{N}.dat", skip_header=2
-                             )
+            wd + f"/double_qdot_anal_eigvals_{N}.dat", skip_header=2
+        )
+
+        num_eigvals[:, i] = np.genfromtxt(
+            wd + f"/double_qdot_num_eigvals_{N}.dat", skip_header=2
+        ).sort(kind="stable")
+
+        err[i] = np.abs(
+            (anal_eigvals[0, i]-num_eigvals[0, i]) /
+            anal_eigvals[0, i]
+        )
+
+    clean()
+    with open(pwd + "/data/double_electron_data.dat", "w") as output:
+        header1 = f"Eigenvalues of two-electron atom. {N = }, {rho_max = }"
+        header2 = "Omega_r:    Analytic:    Numerical:    Relative error:"
+        print(header1)
+        output.write(header1 + "\n")
+
+        print(header2)
+        output.write(header2 + "\n")
+
+        for i in range(len(omega_r)):
+            line = f"{omega_r[i]:5.2f} {anal_eigvals[0, i]:5.0f} {num_eigvals[0, i]:15.3f} {err[i]:15.3e}"
+            print(line)
+            output.write(line + "\n")
