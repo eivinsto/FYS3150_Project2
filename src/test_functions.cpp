@@ -8,7 +8,7 @@ TEST_CASE("Testing eigenvalues with armadillo diagonalizer."){
     double pmin = 0, pmax = 1;
     double h = (pmax-pmin)/(n+1);
     double a = -1/(h*h), d = 2/(h*h);
-    mat A = zeros<mat>(n,n);
+    mat A(n,n);
     vec anal_eigvals(n);
     vec comp_eigvals(n);
 
@@ -64,8 +64,8 @@ TEST_CASE("Testing orthogonality of eigenvectors from jacobi_solver."){
     double a = -1/(h*h), d = 2/(h*h);
 
     //initialize matrix
-    mat A = zeros<mat>(n,n);
-    mat R = eye<mat>(n,n);
+    mat A(n,n);
+    mat R(n,n);
     tridag_mat(A, a, d, n);
 
     // finding eigenvectors with jacobi_solver

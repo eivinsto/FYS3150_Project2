@@ -5,13 +5,15 @@
 using namespace arma;
 
 void tridag_mat(mat& A, double a, double d, int N) {
-  /* Populates tridiagonal matrix.
+  /*
+  ** Populates tridiagonal matrix.
   ** Args:
   **   A - NxN - zero-matrix to populate.
   **   a - value of non-zero, off-diagonal elements.
   **   d - value of diagonal elements.
   **   N - dimensionality of matrix.
   */
+  A = zeros<mat>(N,N);
 
   A(0,0) = d;
   A(0,1) = a;
@@ -25,7 +27,14 @@ void tridag_mat(mat& A, double a, double d, int N) {
 }
 
 void anal_eig(vec& eigval, double a, double d, int N) {
-  // Analytic eigenvalues of symmetric tridiagonal matrix
+  /*
+  ** calculates analytic eigenvalues for Toeplitz-matrix.
+  ** Args:
+  **   eigval - vector to populate.
+  **   a - value of non-zero, off-diagonal elements.
+  **   d - value of diagonal elements.
+  **   N - dimensionality of matrix.
+  */
 
   // creating vector of j-values
   vec j_val = zeros<vec>(N);
@@ -38,7 +47,15 @@ void anal_eig(vec& eigval, double a, double d, int N) {
 }
 
 void anal_eig(vec& eigval, mat& eigvec, double a, double d, int N) {
-  // Analytic eigenvalues of symmetric tridiagonal matrix
+  /*
+  ** calculates analytic eigenvalues and -vectors for Toeplitz-matrix.
+  ** Args:
+  **   eigval - vector to populate with eigenvalues.
+  **   eigvec - matrix to store eigenvectors in columns of.
+  **   a - value of non-zero, off-diagonal elements.
+  **   d - value of diagonal elements.
+  **   N - dimensionality of matrix.
+  */
 
   // creating vector of j-values
   vec j_val = zeros<vec>(N);
@@ -56,8 +73,16 @@ void anal_eig(vec& eigval, mat& eigvec, double a, double d, int N) {
 }
 
 void qdot_matrix(mat& A, double rho_max, int N){
-  // Generates matrix for quantum dot problem
-  double h = rho_max/double(N+1);
+  /*
+  ** populate tridag matrix for single-electron problem.
+  ** Args:
+  **   A - matix to populate.
+  **   rho_max - maximum value of rho.
+  **   N - dimensionality of matrix.
+  */
+
+  A = zeros<mat>(N,N);
+  double h = rho_max/(N+1);
   double hh = h*h;
   double e = -1/hh;
   double d0 = 2/hh;
@@ -72,8 +97,17 @@ void qdot_matrix(mat& A, double rho_max, int N){
 }
 
 void qdot_matrix_double(mat& A, double rho_max, double omega_r, int N){
-  // Generates matrix for quantum dot problem with two electrons
-  double h = rho_max/double(N+1);
+  /*
+  ** populate tridag matrix for two-electron problem.
+  ** Args:
+  **   A - matix to populate.
+  **   rho_max - maximum value of rho.
+  **   omega_r - value of omega_r.
+  **   N - dimensionality of matrix.
+  */
+
+  A = zeros<mat>(N,N);
+  double h = rho_max/(N+1);
   double hh = h*h;
   double e = -1/hh;
   double d0 = 2/hh;
@@ -89,8 +123,13 @@ void qdot_matrix_double(mat& A, double rho_max, double omega_r, int N){
 }
 
 void qdot_matrix_double_eigval(vec& e, double omega_r, int N){
-  // Finds analytic (approximate) eigenvalues of the double electron qdot matrix,
-  // and stores them in e.
+  /*
+  ** calculates analytic approximate of eigenvalues for two-electron problem.
+  ** Args:
+  **   e - vector to populate.
+  **   omega_r - value of omega_r.
+  **   N - dimensionality of matrix.
+  */
   for (int i = 0; i<N; ++i){
     e(i) = 3*cbrt((omega_r/2)*(omega_r/2)) + sqrt(3)*omega_r*(2*i+1);
   }

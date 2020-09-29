@@ -1,0 +1,4 @@
+Time spent solving 500x500 Toeplitz matrix.
+N = 501, rho_max = 1, rho_min = 0
+Jacobi solver: 0.0263 s ± 0.0007 s
+Armadillo solver: 0.1071 s ± 0.0011 s
