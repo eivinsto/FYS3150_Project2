@@ -14,7 +14,7 @@ int main(int argc, char const *argv[]) {
 
   if (strarg == "toeplitz") {
     double pmin = atof(argv[3]), pmax = atof(argv[4]);
-    double h = (pmax-pmin)/(double(N));
+    double h = (pmax-pmin)/(double(N+1));
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(N,N);
     mat R(N,N);

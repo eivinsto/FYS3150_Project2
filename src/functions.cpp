@@ -57,7 +57,7 @@ void anal_eig(vec& eigval, mat& eigvec, double a, double d, int N) {
 
 void qdot_matrix(mat& A, double rho_max, int N){
   // Generates matrix for quantum dot problem
-  double h = rho_max/double(N);
+  double h = rho_max/double(N+1);
   double hh = h*h;
   double e = -1/hh;
   double d0 = 2/hh;
@@ -73,7 +73,7 @@ void qdot_matrix(mat& A, double rho_max, int N){
 
 void qdot_matrix_double(mat& A, double rho_max, double omega_r, int N){
   // Generates matrix for quantum dot problem with two electrons
-  double h = rho_max/double(N);
+  double h = rho_max/double(N+1);
   double hh = h*h;
   double e = -1/hh;
   double d0 = 2/hh;
