@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <string>
+#include <time.h>
 #include "jacobi_solver.h"
 #include "functions.h"
 
@@ -14,7 +15,7 @@ int main(int argc, char const *argv[]) {
 
   if (strarg == "toeplitz" || strarg == "to") {
     double pmin = atof(argv[3]), pmax = atof(argv[4]);
-    double h = (pmax-pmin)/(double(N+1));
+    double h = (pmax-pmin)/(N+1);
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(N,N);
     mat R(N,N);
@@ -74,21 +75,35 @@ int main(int argc, char const *argv[]) {
   }
 
   if (strarg == "benchmark" || strarg == "b") {
-    double pmin = atof(argv[3]), pmax = atof(argv[4]);
-    double h = (pmax-pmin)/(double(N+1));
+    double pmin = 0, pmax = 1;
+    double h = (pmax-pmin)/(N+1);
     double a = -1/(h*h), d = 2/(h*h);
     mat A = zeros<mat>(N,N);
     mat R(N,N);
-    mat anal_eigvecs(N,N);
-    vec anal_eigvals(N);
+    mat eigvecs(N,N);
+    vec eigvals(N);
+    vec benchmark_times(N,2);
 
-    //initialize matrices and vector
-    tridag_mat(A, a, d, N);
+    clock_t start, finish;
 
-    eig_sym(A);
+    for (int i = 0; i < N; i++) {
+      //initialize matrices and vector
+      A = zeros<mat>(N,N);
+      tridag_mat(A, a, d, N);
 
-    jacobi_solver jacobi(A, R, N);
-    jacobi.solve();
+      start = clock();
+      eig_sym(eigvals, eigvecs, A);
+      finish = clock();
+
+      benchmark_times(i,0) = double(finish - start)/CLOCKS_PER_SEC;
+
+      jacobi_solver jacobi(A, R, N);
+      start = clock();
+      jacobi.solve();
+      start = clock();
+
+      benchmark_times(i,1) = double(finish - start)/CLOCKS_PER_SEC;
+    }
 
   }
   return 0;

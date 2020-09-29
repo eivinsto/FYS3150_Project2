@@ -21,6 +21,8 @@ public:
     A = &Am;
     R = &Rm;
     N = Nm;
+    // Cleaning eigenvector matrix (making sure it is an identity matrix)
+    (*R) = eye<mat>(N,N);
   }
 
   double max_offdiag();

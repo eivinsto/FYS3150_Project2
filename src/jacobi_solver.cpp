@@ -93,18 +93,6 @@ void jacobi_solver::solve()
   ** N: integer (dimension of matrices)
   */
 
-  // Cleaning eigenvector matrix (making sure it is an identity matrix)
-  for (int i = 0; i<N; ++i){
-    for (int j = 0; j<N; ++j){
-      if (i==j){
-        (*R)(i,j) = 1.0;
-      }
-      else{
-        (*R)(i,j) = 0.0;
-      }
-    }
-  }
-
   double epsilon = 1.0e-8;  // Tolerance
   double max_number_iterations = double(N)*double(N)*double(N);
   int iterations = 0;
