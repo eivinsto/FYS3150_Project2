@@ -4,6 +4,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import os
 
+pwd = os.getcwd()
 wd = os.getcwd() + "/src"
 
 
@@ -64,6 +65,7 @@ if choose_run == "toeplitz":
     plt.show()
 
 if choose_run == "single":
+    anal_eigvals = np.array([3, 7, 11, 15])
     rho_max = float(input("rho_max = "))
 
     build_cpp()
@@ -77,7 +79,21 @@ if choose_run == "single":
     clean()
 
     comp_inx = comp_eigvals.argsort(kind="stable")
-    print(comp_eigvals[comp_inx[:4]])
+    err = np.abs(anal_eigvals-comp_eigvals[comp_inx[:4]])/anal_eigvals
+
+    with open(pwd + "/data/single_electron_data.dat", "w") as output:
+        header1 = "Eigenvalues of single-electron atom."
+        header2 = "Analytic:    Numerical:    Relative error:"
+        print(header1)
+        output.write(header1 + "\n")
+
+        print(header2)
+        output.write(header2 + "\n")
+
+        for i in range(len(err)):
+            line = f"{anal_eigvals[i]:5.0f} {comp_eigvals[comp_inx[i]]:15.3f} {err[i]:15.3e}"
+            output.write(line + "\n")
+            print(line)
 
 if choose_run == "double":
     pass

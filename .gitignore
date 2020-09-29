@@ -38,7 +38,7 @@
 
 ### Data ###
 *.csv
-*.dat
+src/*.dat
 *.efx
 *.gbr
 *.key
