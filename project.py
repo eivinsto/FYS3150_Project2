@@ -66,7 +66,7 @@ if choose_run == "toeplitz":
     plt.figure()
     plt.plot(rho, eigvec/comp_norm, label=comp_lab+r" $\lambda_{1} = $ " + f"{eigval}")
     plt.plot(rho, anal_eigvecs[:, 0]/anal_norm, label=an_lab)
-    plt.title(f"Eigenvector of smalest eigenvalue of {N}x{N} Toeplitz-matrix.")
+    plt.title(f"Eigenvector of smallest eigenvalue of {N}x{N} Toeplitz-matrix.")
     plt.xlabel(r"$\rho$")
     plt.ylabel(r"Eigenvector $u_{1}$ as function of $\rho$.")
     plt.legend()
