@@ -6,7 +6,7 @@ import os
 import shutil
 
 pwd = os.getcwd()
-wd = os.getcwd() + "/src"
+wd = pwd + "/src"
 
 
 def build_cpp():
@@ -22,13 +22,15 @@ def clean():
     run(["make", "cleandat"], cwd=wd)
 
 
-choose_run = input("Write: test / toeplitz / single / double\n: ")
+print("This program allows you to choose which scenario to run")
+print("Write: [te]st / [b]enchmark / [to]eplitz / [s]ingle / [d]ouble: ")
+choose_run = input("Choose run: ")
 
 
-if choose_run == "test":
+if choose_run == "test" or choose_run == "te":
     test_cpp()
 
-if choose_run == "toeplitz":
+if choose_run == "toeplitz" or choose_run == "to":
     N = int(input("Size of matrix N = "))
     rho_min = float(input("rho_min = "))
     rho_max = float(input("rho_max = "))
@@ -73,7 +75,7 @@ if choose_run == "toeplitz":
     plt.grid()
     plt.show()
 
-if choose_run == "single":
+if choose_run == "single" or choose_run == "s":
     anal_eigvals = np.array([3, 7, 11, 15])
 
     N = int(input("Size of matrix N = "))
@@ -106,7 +108,7 @@ if choose_run == "single":
             print(line)
             output.write(line + "\n")
 
-if choose_run == "double":
+if choose_run == "double" or choose_run == "d":
     N = int(input("Size of matrix N = "))
     rho_max = float(input("rho_max = "))
 
@@ -153,3 +155,6 @@ if choose_run == "double":
             line = f"{omega_r[i]:8.2f}    {anal_eigvals[0, i]:9.0f}    {num_eigvals[0, i]:10.3f}    {err[i]:15.3e}"
             print(line)
             output.write(line + "\n")
+
+if choose_run == "benchmark" or choose_run == "b":
+    pass

@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]) {
   int N = atoi(argv[1]) - 1;
   string strarg = string(argv[2]);
 
-  if (strarg == "toeplitz") {
+  if (strarg == "toeplitz" || strarg == "to") {
     double pmin = atof(argv[3]), pmax = atof(argv[4]);
     double h = (pmax-pmin)/(double(N+1));
     double a = -1/(h*h), d = 2/(h*h);
@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
     R.save("comp_eigvecs_" + to_string(N+1) + ".dat", arma_ascii);
   }
 
-  if (strarg == "single") {
+  if (strarg == "single" || strarg == "s") {
     double pmax = atof(argv[3]);
     mat A = zeros<mat>(N,N);
     mat R(N,N);
@@ -54,7 +54,7 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  if (strarg == "double") {
+  if (strarg == "double" || strarg == "d") {
     double pmax = atof(argv[3]);
     double omega_r = atof(argv[4]);
     vec anal_eigvals(N);
@@ -71,6 +71,25 @@ int main(int argc, char const *argv[]) {
     vec eigvals = A.diag();
     anal_eigvals.save("double_qdot_anal_eigvals_" + to_string(N+1) + ".dat", arma_ascii);
     eigvals.save("double_qdot_num_eigvals_" + to_string(N+1) + ".dat", arma_ascii);
+  }
+
+  if (strarg == "benchmark" || strarg == "b") {
+    double pmin = atof(argv[3]), pmax = atof(argv[4]);
+    double h = (pmax-pmin)/(double(N+1));
+    double a = -1/(h*h), d = 2/(h*h);
+    mat A = zeros<mat>(N,N);
+    mat R(N,N);
+    mat anal_eigvecs(N,N);
+    vec anal_eigvals(N);
+
+    //initialize matrices and vector
+    tridag_mat(A, a, d, N);
+
+    eig_sym(A);
+
+    jacobi_solver jacobi(A, R, N);
+    jacobi.solve();
+
   }
   return 0;
 }
