@@ -53,6 +53,23 @@ int main(int argc, char const *argv[]) {
     R.save("quantum_eigvecs_" + to_string(N+1) + ".dat", arma_ascii);
 
   }
+
+  if (strarg == "double") {
+    double pmax = atof(argv[3]);
+    double omega_r = atof(argv[4]);
+    vec anal_eigvals(N);
+    mat A = zeros<mat>(N,N);
+    mat R(N,N);
+
+    qdot_matrix_double_eigval(anal_eigvals, omega_r, N);
+
+    qdot_matrix_double(A, pmax, omega_r, N);
+
+    jacobi_solver jacobi(A, R, N);
+    jacobi.solve();
+
+
+  }
   return 0;
 }
 

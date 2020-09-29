@@ -22,7 +22,7 @@ def clean():
     run(["make", "cleandat"], cwd=wd)
 
 
-choose_run = input("Write: test / toeplitz / single / double: ")
+choose_run = input("Write: test / toeplitz / single / double\n: ")
 
 
 if choose_run == "test":
@@ -104,4 +104,7 @@ if choose_run == "single":
             print(line)
 
 if choose_run == "double":
-    pass
+    N = int(input("Size of matrix N = "))
+    rho_max = float(input("rho_max = "))
+
+    omega_r = np.array([0.01, 0.5, 1, 5])
