@@ -22,13 +22,14 @@ def clean():
     run(["make", "cleandat"], cwd=wd)
 
 
-choose_run = input("Choose test / toeplitz / single / double: ")
-N = int(input("Size of matrix N = "))
+choose_run = input("Write: test / toeplitz / single / double: ")
+
 
 if choose_run == "test":
     test_cpp()
 
 if choose_run == "toeplitz":
+    N = int(input("Size of matrix N = "))
     rho_min = float(input("rho_min = "))
     rho_max = float(input("rho_max = "))
 
@@ -59,7 +60,6 @@ if choose_run == "toeplitz":
     comp_lab = f"Jacobi result for {N}x{N} matrix."
     an_lab = r"Analytic result $\lambda_{1} = $ " + f"{anal_eigvals[0]}"
 
-
     plt.figure()
     plt.plot(rho, eigvec, label=comp_lab+r" $\lambda_{1} = $ " + f"{eigval}")
     plt.plot(rho, anal_eigvecs[:, 0], label=an_lab)
@@ -72,6 +72,8 @@ if choose_run == "toeplitz":
 
 if choose_run == "single":
     anal_eigvals = np.array([3, 7, 11, 15])
+
+    N = int(input("Size of matrix N = "))
     rho_max = float(input("rho_max = "))
 
     build_cpp()
