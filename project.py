@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import os
+import shutil
 
+pwd = os.getcwd()
 wd = os.getcwd() + "/src"
 
 
@@ -20,13 +22,14 @@ def clean():
     run(["make", "cleandat"], cwd=wd)
 
 
-choose_run = input("Choose test / toeplitz / single / double: ")
-N = int(input("Size of matrix N = "))
+choose_run = input("Write: test / toeplitz / single / double: ")
+
 
 if choose_run == "test":
     test_cpp()
 
 if choose_run == "toeplitz":
+    N = int(input("Size of matrix N = "))
     rho_min = float(input("rho_min = "))
     rho_max = float(input("rho_max = "))
 
@@ -43,6 +46,10 @@ if choose_run == "toeplitz":
 
     anal_eigvals = np.genfromtxt(wd+f"/anal_eigvals_{N}.dat", skip_header=2)
     anal_eigvecs = np.genfromtxt(wd+f"/anal_eigvecs_{N}.dat", skip_header=2)
+    shutil.move(wd+f"/anal_eigvals_{N}.dat", pwd + "/data/toeplitz_anal_eigvals.dat")
+    shutil.move(wd+f"/anal_eigvecs_{N}.dat", pwd + "/data/toeplitz_anal_eigvecs.dat")
+    shutil.move(wd+f"/comp_eigvals_{N}.dat", pwd + "/data/toeplitz_comp_eigvals.dat")
+    shutil.move(wd+f"/comp_eigvecs_{N}.dat", pwd + "/data/toeplitz_comp_eigvecs.dat")
     clean()
 
     eigval = comp_eigvals[comp_inx[0]]
@@ -64,6 +71,9 @@ if choose_run == "toeplitz":
     plt.show()
 
 if choose_run == "single":
+    anal_eigvals = np.array([3, 7, 11, 15])
+
+    N = int(input("Size of matrix N = "))
     rho_max = float(input("rho_max = "))
 
     build_cpp()
@@ -77,7 +87,21 @@ if choose_run == "single":
     clean()
 
     comp_inx = comp_eigvals.argsort(kind="stable")
-    print(comp_eigvals[comp_inx[:4]])
+    err = np.abs(anal_eigvals-comp_eigvals[comp_inx[:4]])/anal_eigvals
+
+    with open(pwd + "/data/single_electron_data.dat", "w") as output:
+        header1 = "Eigenvalues of single-electron atom."
+        header2 = "Analytic:    Numerical:    Relative error:"
+        print(header1)
+        output.write(header1 + "\n")
+
+        print(header2)
+        output.write(header2 + "\n")
+
+        for i in range(len(err)):
+            line = f"{anal_eigvals[i]:5.0f} {comp_eigvals[comp_inx[i]]:15.3f} {err[i]:15.3e}"
+            output.write(line + "\n")
+            print(line)
 
 if choose_run == "double":
     pass

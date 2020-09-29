@@ -1,0 +1,6 @@
+Eigenvalues of single-electron atom.
+Analytic:    Numerical:    Relative error:
+    3           2.999       4.071e-04
+    7           6.994       8.727e-04
+   11          10.985       1.356e-03
+   15          14.972       1.843e-03

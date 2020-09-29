@@ -32,7 +32,7 @@ void jacobi_functions::rotate()
   // Find elements of rotation matrix
   if ((*A)(k,l) != 0.0){
     double t,tau;
-    tau = ((*A)(l,l)- (*A)(k,k))/(2*(*A)(k,l));
+    tau = ((*A)(l,l) - (*A)(k,k))/(2*(*A)(k,l));
     if (tau > 0){
       t = 1.0/(tau + sqrt(1.0 + tau*tau));
     }
