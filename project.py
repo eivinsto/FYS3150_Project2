@@ -102,7 +102,7 @@ if choose_run == "single":
         output.write(header2 + "\n")
 
         for i in range(len(err)):
-            line = f"{anal_eigvals[i]:5.0f} {comp_eigvals[comp_inx[i]]:15.3f} {err[i]:15.3e}"
+            line = f"{anal_eigvals[i]:8.0f}    {comp_eigvals[comp_inx[i]]:9.3f}    {err[i]:15.3e}"
             print(line)
             output.write(line + "\n")
 
@@ -130,7 +130,9 @@ if choose_run == "double":
 
         num_eigvals[:, i] = np.genfromtxt(
             wd + f"/double_qdot_num_eigvals_{N}.dat", skip_header=2
-        ).sort(kind="stable")
+        )
+
+        num_eigvals[:, i] = np.sort(num_eigvals[:, i], kind="stable")
 
         err[i] = np.abs(
             (anal_eigvals[0, i]-num_eigvals[0, i]) /
@@ -148,6 +150,6 @@ if choose_run == "double":
         output.write(header2 + "\n")
 
         for i in range(len(omega_r)):
-            line = f"{omega_r[i]:5.2f} {anal_eigvals[0, i]:5.0f} {num_eigvals[0, i]:15.3f} {err[i]:15.3e}"
+            line = f"{omega_r[i]:8.2f}    {anal_eigvals[0, i]:9.0f}    {num_eigvals[0, i]:10.3f}    {err[i]:15.3e}"
             print(line)
             output.write(line + "\n")
