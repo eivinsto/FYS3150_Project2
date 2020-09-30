@@ -606,15 +606,16 @@ We calculated the first eigenvector numerically and plotted it against the analy
 \caption{Plot displaying the first eigenvector calculated numerically in the buckling beam problem with $N=200$ plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly. The plot also shows the numerical and analytic eigenvalue belonging to this solution in the legend text.}
 \end{figure}
 
-We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and was averaged over 500 runs. The results are shown in \hyperref[table:IV:a:1]{Table I}.
+We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and 500x500 two-electron matrix. The result was averaged over 500 runs, and are shown in \hyperref[table:IV:a:1]{Table I}.
 
 \begin{table}[h!] \label{table:IV:a:1}
-\caption{Table showing the spent by the Jacobi rotation method and the built-in Armadillo functions for finding the eigenvalues of a 500x500 Toeplitz matrix. The time is averaged and the uncertainty is also included.}
+\caption{Table showing the time spent by the Jacobi rotation method and the built-in Armadillo function for finding the eigenvalues of a 500x500 Toeplitz matrix and a 500x500 two-electron matrix. The table shows mean time and standard deviation in seconds.}
 \begin{tabular}{|c|c|c|}
 \hline
- & Jacobi & Armadillo \\
+ & Toeplitz & Two-electron \\
 \hline
-Time spent & $0.0263 \pm 0.0007$ s & $0.1071 \pm 0.0011$ s \\
+Jacobi & $0.0259 s \pm 0.0007$ s & $0.3672 \pm 0.0076$ s \\
+Armadillo & $0.1054 \pm 0.0015$ s & $0.0910 \pm 0.0020$ s \\
 \hline
 \end{tabular}
 \end{table}
