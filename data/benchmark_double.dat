@@ -1,0 +1,4 @@
+Time spent solving 500x500 two-electron matrix.
+N = 501, rho_max = 144.53125, omega_r = 5.0
+Jacobi solver: 0.3672 s ± 0.0076 s
+Armadillo solver: 0.0910 s ± 0.0020 s

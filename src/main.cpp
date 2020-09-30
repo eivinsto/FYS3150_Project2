@@ -119,7 +119,7 @@ int main(int argc, char const *argv[]) {
     mat R(N,N);
     mat eigvecs(N,N);
     vec eigvals(N);
-    mat benchmark_times(N,2);
+    mat benchmark_times(N,4);
 
     // declaring clock_t objects for timing
     clock_t start, finish;
@@ -151,7 +151,36 @@ int main(int argc, char const *argv[]) {
       // saving result to matrix
       benchmark_times(i,1) = double(finish - start)/CLOCKS_PER_SEC;
     }
-    cout << "\n\tBenchmark complete!" << endl;
+    cout << "\n\t1st Benchmark complete!" << endl;
+
+    // performs solve N times for each solver
+    for (int i = 0; i < N; i++) {
+      cout << "\tPerforming benchmark: " << 100*(i+1)/N << "%\r";
+      cout.flush();
+
+      // initializing matrix
+      qdot_matrix_double(A, 144.53125, 5.0, N);
+
+      // benchmarking eig_sym
+      start = clock();
+      eig_sym(eigvals, eigvecs, A);
+      finish = clock();
+
+      // saving result to matrix
+      benchmark_times(i,2) = double(finish - start)/CLOCKS_PER_SEC;
+
+      // creating instance of jacobi_solver, this cleans R
+      jacobi_solver jacobi(A, R, N);
+
+      // benchmarking jacobi_solver
+      start = clock();
+      jacobi.solve();
+      finish = clock();
+
+      // saving result to matrix
+      benchmark_times(i,3) = double(finish - start)/CLOCKS_PER_SEC;
+    }
+    cout << "\n\t2nd Benchmark complete!" << endl;
 
     // saving results to file
     benchmark_times.save("benchmark_times.dat", arma_ascii);
