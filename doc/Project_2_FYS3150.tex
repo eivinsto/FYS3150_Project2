@@ -606,9 +606,25 @@ We calculated the first eigenvector numerically and plotted it against the analy
 \caption{Plot displaying the first eigenvector calculated numerically in the buckling beam problem with $N=200$ plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly. The plot also shows the numerical and analytic eigenvalue belonging to this solution in the legend text.}
 \end{figure}
 
+We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and was averaged over multiple runs. The results are shown in \hyperref[table:IV:a:1]{Table I}.
+
+\begin{table}[h!] \label{table:IV:a:1}
+\caption{Table showing the spent by the Jacobi rotation method and the built-in Armadillo functions for finding the eigenvalues of a 500x500 Toeplitz matrix. The time is averaged and the uncertainty is also included.}
+\begin{tabular}{|c|c|c|}
+\hline
+ & Jacobi & Armadillo \\
+\hline
+Time spent & $0.0263 \pm 0.0007$ s & $0.1071 \pm 0.0011$ s \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
 \subsection{Quantum harmonic oscillator with one electron} \label{sec:IV:b}
 
-We calculated the smallest four eigenvalues both numerically and analytically. They are listed in \hyperref[table:IV:b:1]{Table I} along with the relative error between them. The parameters used in this run were $N=400$ and $\rho_\text{max} = 25$.
+We calculated the smallest four eigenvalues both numerically and analytically. They are listed in \hyperref[table:IV:b:1]{Table II} along with the relative error between them. The parameters used in this run were $N=400$ and $\rho_\text{max} = 25$.
 
 \begin{table}[h!] \label{table:IV:b:1}
 \caption{Table containing numerical and analytical eigenvalues, and the relative error between them for the single electron in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 25$.}
@@ -630,7 +646,7 @@ Analytic & Numerical & Relative error \\
 
 \subsection{Quantum harmonic oscillator with two electrons}\label{sec:IV:c}
 
-We calculated the smallest eigenvalue for four different values of $\omega_r$ with $N=400$ and $\rho_\text{max} = 115.625$ both numerically and analytically. The eigenvalues and the relative error between them can be found in \hyperref[table:IV:c:1]{Table II}. 
+We calculated the smallest eigenvalue for four different values of $\omega_r$ with $N=400$ and $\rho_\text{max} = 115.625$ both numerically and analytically. The eigenvalues and the relative error between them can be found in \hyperref[table:IV:c:1]{Table III}. 
 
 \begin{table}[h!] \label{table:IV:c:1}
 \caption{Table containing the numerical and analytical first eigenvalue (lowest energy), and the relative error between them for the problem with two electrons in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 115.625$.}
@@ -655,9 +671,9 @@ $\omega_r$ & Analytic & Numerical & Relative error \\
 
 \subsection{Buckling beam} \label{sec:V:a}
 
-We can see in \hyperref[fig:IV:a:1]{Figure 1} that the numerically calculated eigenvector corresponds well with the analytically computed one. The numerical and analytical eigenvalues are also equal to the fourth digit, which together with the similar eigenvectors bode well for the accuracy of the method. There are two significant sources of errors here. One is from the approximation of the second derivative, and the other is from the FLOPs performed. This seems to indicate that both of these do not cause any significant error.
+We can see in \hyperref[fig:IV:a:1]{Figure 1} that the numerically calculated eigenvector corresponds well with the analytically computed one. The numerical and analytical eigenvalues are also equal to the fourth digit, which together with the similar eigenvectors bode well for the accuracy of the method. There are two significant sources of errors here. One is from the approximation of the second derivative, and the other is from the FLOPs performed. This seems to indicate that both of these do not cause any significant error. 
 
-Now it is important to put this back into a physical context. The eigenvectors found here correspond to stable solutions to the wave equation. In theory there is an infinite amount of these solutions, but when searching numerically we are limited by the dimensionality of the matrix. 
+Now it is important to put this back into a physical context. The eigenvectors found here correspond to stable solutions to the wave equation. In theory there is an infinite amount of these solutions, but when searching numerically the amount of solutions are limited by the dimensionality of the matrix. 
 
 
 \subsection{Quantum harmonic oscillator} \label{sec:V:b}
