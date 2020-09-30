@@ -1,6 +1,6 @@
-Eigenvalues of two-electron atom. N = 400, rho_max = 115.625
+Eigenvalues of two-electron quantum dot. N = 400, rho_max = 115.625
 Omega_r:    Analytic:    Numerical:    Relative error:
-    0.01            0         0.106          6.966e-03
-    0.50            2         2.189          6.434e-02
-    1.00            4         3.898          7.623e-02
-    5.00           14        14.118          4.817e-03
+    0.01        0.105         0.106          6.966e-03
+    0.50        2.057         2.189          6.434e-02
+    1.00        3.622         3.898          7.623e-02
+    5.00       14.186        14.118          4.817e-03

@@ -224,7 +224,7 @@ if choose_run == "double" or choose_run == "d":
 
         for i in range(len(omega_r)):
             omegastr = f"{omega_r[i]:8.2f}"
-            analstr = f"{anal_eigvals[0, i]:9.0f}"
+            analstr = f"{anal_eigvals[0, i]:9.3f}"
             numstr = f"{num_eigvals[0, i]:10.3f}"
             errstr = f"{err[i]:15.3e}"
 
