@@ -716,48 +716,62 @@ By solving the buckling beam problem, our implementation gave results that match
 
 For the two quantum harmonic oscillator problems we saw an expected increase in the relative error of our results. We conclude that these errors mostly arise from loss of numerical precision in generating the matrices we find the eigenvalues of, and from approximation of the second order derivative which are both unrelated to the algorithm used to find the eigenvalues. In the case of the one electron case specifically the choice of parameters that minimizes these sources of errors significance contradict eachother, creating difficulties in solving the problem numerically. This also makes it difficult to use the results here to assess the size of the relative error caused by the algorithm alone. In the case of two electrons we know even less about the behaviour of the relative error from setting up the problem. It would be necessary to quantify the behaviour of the relative error from setting up the matrix further in order to use this problem to evaluate our implementation, and as this is a project large enough to warrant a separate study we leave this for further research.
 
+\onecolumngrid
 \bibliography{kilder.bib}{}
-
 \newpage
+\twocolumngrid
+
 \appendix
 \section{Source code} \label{A}
-All code for this report was written in C++ and Python 3.8, and the complete set of files can be found at \url{https://github.com/eivinsto/FYS3150_Project2.git}.
+All code for this report was written in C++ and Python 3.8, and the complete set of files can be found at
+\url{https://github.com/eivinsto/FYS3150_Project2.git}.
 
 \cprotect\subsection{\verb+project.py+} \label{A.1}
 Main script for running project, plotting and data analysis.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/project.py}
 
 \cprotect\subsection{\verb+main.cpp+} \label{A.2}
 Main cpp file for running algorithms.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/main.cpp}
 
 \cprotect\subsection{\verb+functions.cpp+} \label{A.3}
 File contaning functions for creating the matrices used in the project, and calculating analytical eigenvalues and eigenvectors.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/functions.cpp}
 
 \cprotect\subsection{\verb+jacobi.h+} \label{A.4}
 File containing the decleration of a jacobi\_solver class, and jacobi\_functions class.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/jacobi_solver.h}
 
 \cprotect\subsection{\verb+jacobi.cpp+} \label{A.5}
 File containing the class-methods for the jacobi classes. Including the implementation of Jacobi's rotational algorithm.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/jacobi_solver.cpp}
 
 \cprotect\subsection{\verb+test_main.cpp+} \label{A.6}
 File running unit-tests using CATCH2 framework.
+
 \url{https://github.com/FunkMarvel/FYS3150_Project_1/blob/master/src/special_main.cpp}
 
 \cprotect\subsection{\verb+test_functions.cpp+} \label{A.7}
 File containing the unit-tests for the jacobi classes.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/test_functions.cpp}
 
+\newpage
 \section{Selected results} \label{B}
 Here is a folder of selected results from running our code.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/tree/master/data}
 
 Plot can be found in doc.
+
 \url{https://github.com/eivinsto/FYS3150_Project2/blob/master/doc/toeplitz.png}
 
+\newpage
 \section{System specifications} \label{C}
 All results included in this report were achieved by running the implementation on the following system:
 \begin{itemize}
