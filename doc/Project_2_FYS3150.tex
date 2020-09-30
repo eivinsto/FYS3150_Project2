@@ -603,7 +603,7 @@ In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. G
 
 \section{Results} \label{sec:IV}
 
-\subsection{Buckling beam and benchmark with Toeplitz matrix} \label{sec:IV:a}
+\subsection{Buckling beam and benchmark} \label{sec:IV:a}
 
 We calculated the first eigenvector numerically and plotted it against the analytical eigenvector with $N=200$. The plot is displayed in \hyperref[fig:IV:a:1]{Figure 1}. In order for them to be scaled similarly we chose to normalize both. Both the numerical and analytical value of the eigenvalue belonging to the eigenvector is written down in the legend text of the plot in \hyperref[fig:IV:a:1]{Figure 1}. Runs with a larger $N$ were also performed but they all produced similar results.
 
@@ -612,10 +612,10 @@ We calculated the first eigenvector numerically and plotted it against the analy
 \caption{Plot displaying the first eigenvector calculated numerically in the buckling beam problem with $N=200$ plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly. The plot also shows the numerical and analytic eigenvalue belonging to this solution in the legend text.}
 \end{figure}
 
-We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and 500x500 two-electron matrix. The result was averaged over 500 runs, and are shown in \hyperref[table:IV:a:1]{Table I}.
+We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and 500x500 matrix from the problem of two electrons in a quantum harmonic oscillator. The result was averaged over 500 runs, and are shown in \hyperref[table:IV:a:1]{Table I}.
 
 \begin{table}[h!] \label{table:IV:a:1}
-\caption{Table showing the time spent by the Jacobi rotation method and the built-in Armadillo function for finding the eigenvalues of a 500x500 Toeplitz matrix and a 500x500 two-electron matrix. The table shows mean time and standard deviation in seconds.}
+\caption{Table showing the time spent by the Jacobi rotation method and the built-in Armadillo function for finding the eigenvalues of a 500x500 Toeplitz matrix and a 500x500 matrix from the problem of two electrons in a quantum harmonic oscillator (referred to as two-electron in the table). The table shows mean time and standard deviation in seconds after 500 runs.}
 \begin{tabular}{|c|c|c|}
 \hline
  & Toeplitz & Two-electron \\
