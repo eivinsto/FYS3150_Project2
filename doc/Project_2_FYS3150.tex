@@ -17,6 +17,7 @@
 \usepackage{listings}         % display code
 \usepackage{subfigure}        % imports a lot of cool and useful figure commands
 \usepackage{cprotect}
+\usepackage{float}
 
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
@@ -130,7 +131,7 @@ Many problems can be rewritten as eigenvalue problems, which means that being ab
 
 The numerical solution to the buckling beam problem seems to be in agreement with the analytical results. There is a larger error however in both quantum harmonic oscillator problems, with the problem with two electrons having the larger error of the two. As there are significant sources of errors not related to the algorithm applied to solve these, these results tell little about the error caused by the algorithm itself. Further research would be necessary in order to use these problems to further evaluate our implementation of the algorithm, and the amount of research seemingly necessary would warrant a study of its own.
 
-We performed a benchmark of our implementation, and compared it to the built-in eig\_sym solver from the Armadillo C++ library. The benchmark revealed our Jacobi solver to be faster for the matrix used in the buckling beam problem, but slower for the matrix used in the two-electron problem. We concluded that our jacobi solver works well for simple symmetric matrices, but eig\_sym is better suited for more complicated symmetric matrices.
+We performed a benchmark of our implementation, and compared it to the built-in eig\_sym solver from the Armadillo C++ library. The benchmark revealed our Jacobi solver to be faster for the matrix used in the buckling beam problem, but slower for the matrix used in the two-electron problem. We concluded that our jacobi solver works well for simple symmetric matrices, but eig\_sym is better suited for more complicated symmetric matrices.`
 \end{abstract}
 
 
@@ -611,8 +612,8 @@ In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. G
 
 We calculated the first eigenvector numerically and plotted it against the analytical eigenvector with $N=200$. The plot is displayed in \hyperref[fig:IV:a:1]{Figure 1}. In order for them to be scaled similarly we chose to normalize both. Both the numerical and analytical value of the eigenvalue belonging to the eigenvector is written down in the legend text of the plot in \hyperref[fig:IV:a:1]{Figure 1}. Runs with a larger $N$ were also performed but they all produced similar results.
 
-\begin{figure}[h!] \label{fig:IV:a:1}
-\includegraphics[scale=0.6]{toeplitz.png}
+\begin{figure}[H] \label{fig:IV:a:1}
+\includegraphics[width=\columnwidth]{toeplitz.png}
 \caption{Plot displaying the first eigenvector calculated numerically in the buckling beam problem with $N=200$ plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly. The plot also shows the numerical and analytic eigenvalue belonging to this solution in the legend text.}
 \end{figure}
 

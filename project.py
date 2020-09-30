@@ -103,6 +103,10 @@ if choose_run == "toeplitz" or choose_run == "to":
     comp_norm = np.linalg.norm(eigvec)
 
     mpl.rcParams.update({"text.usetex": True})  # using latex.
+    font = {'family': 'normal',
+            'weight': 'bold',
+            'size': 15}
+    mpl.rc('font', **font)  # better font-size
     # creating labels for plot:
     comp_lab = r"Jacobi result $\lambda_{1} = $ " + f"{eigval:.3f}"
     an_lab = r"Analytic result $\lambda_{1} = $ " + f"{anal_eigvals[0]:.3f}"
