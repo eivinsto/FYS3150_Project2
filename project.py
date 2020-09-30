@@ -10,8 +10,8 @@ When executed, this script will ask you which part of the report to run:
                     eigenvalue.
     s / single    - Solves 4 lowest eigenvalues of single-electron quantum dot,
                     and compares them with analytic values.
-    d / double    - Finds ground-state energies of a two-electron quantum dot, and
-                    compares them with analytic approximate values.
+    d / double    - Finds ground-state energies of a two-electron quantum dot,
+                    and compares them with analytic approximate values.
 
 When prompted to enter value for N, you give the N used in the report
 methodology. Hence, N = 100 will create matrices of size (N-1)x(N-1)
