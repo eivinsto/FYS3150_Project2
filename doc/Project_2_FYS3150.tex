@@ -131,11 +131,11 @@
 
 \section{Introduction} \label{sec:I}
 
-Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. In this report we study the Jacobi rotation method, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this method is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
+Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. There are several methods and algorithms that can be used for this, and in this report we study Jacobi's rotation algorithm, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this algorithm is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
 
-These three problems showcase some key differences, however. The buckling beam problem results in a Toeplitz matrix, which makes it easier to use this problem to test how well the method works. The single electron in a quantum harmonic oscillator potential results in the diagonal elements of the matrix no longer being constant, and the problem with two electrons result in yet more complex diagonal elements because of the Coulomb interaction between the electrons. This creates some specific error sources that we discuss in detail in \hyperref[sec:III:b]{section III.B.}
+These three problems showcase some key differences, however. The buckling beam problem results in a Toeplitz matrix, which makes it easier to use this problem to test how well the algorithm works. The single electron in a quantum harmonic oscillator potential results in the diagonal elements of the matrix no longer being constant, and the problem with two electrons result in yet more complex diagonal elements because of the Coulomb interaction between the electrons. This creates some specific error sources that we discuss in detail in \hyperref[sec:III:b]{section III.B.}
 
-Precision of the solutions is key, and thus we test the accuracy of the result against analytical answers for all three problems. For the buckling beam we compare the first numerical eigenvector against the analytical one, and in the two quantum harmonic oscillator problems we compare numerical and analytical eigenvalues. We also make an estimate on how many FLOPs at most which will be needed in order for the solution to converge. This lets us evaluate the computational cost of the method.
+Precision of the solutions is key, and thus we test the accuracy of the result against analytical answers for all three problems. For the buckling beam we compare the first numerical eigenvector against the analytical one, and in the two quantum harmonic oscillator problems we compare numerical and analytical eigenvalues. We also make an estimate on how many FLOPs at most which will be needed in order for the solution to converge. This lets us evaluate the computational cost of the algorithm.
 
 \section{Formalism} \label{sec:II}
 
@@ -182,9 +182,9 @@ where $U$ is a unitary matrix. We need to check that $\textbf{w}_i^T \textbf{w}_
 where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality of the set of vectors $\vec{v}_i$. This shows that during a unitary transformation of a matrix the orthogonality of the eigenvectors is preserved.
 
 
-\subsection{Jacobi rotation method} \label{sec:II:b}
+\subsection{Jacobi's rotation algorithm} \label{sec:II:b}
 
-One method based on such unitary transformations is the Jacobi rotation method \citep{Jacobi1846}. We perform a series of unitary transformations of a matrix \textbf{A} until it is a diagonal matrix \textbf{D}:
+One method based on such unitary transformations is Jacobi's rotation algorithm \citep{Jacobi1846}. We perform a series of unitary transformations of a matrix \textbf{A} until it is a diagonal matrix \textbf{D}:
 
 \begin{align*}
 \textbf{D} &= \textbf{U}_n^T ... \textbf{U}_1^T \textbf{AU}_1 ... \textbf{U}_n^T
@@ -200,9 +200,9 @@ As we have already seen that such transformations preserve the eigenvalues and t
 
 and in this way we can also find the eigenvectors of \textbf{A}. In general this is done as an iterative method were we get closer to a diagonal matrix with every iteration. The iteration is cut off once all the elements not on the diagonal are less than a specified tolerance.
 
-For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric.
+For the specifics of how this algorithm is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this algorithm requires the matrix \textbf{A} to be symmetric.
 
-We will now present three problems based on one-dimensional wave equations. These can be recast into eigenvalue problems, and in doing so we change them into something we can solve using the Jacobi rotation method. We can use the analytical solutions of these problems to verify the accuracy of the method.
+We will now present three problems based on one-dimensional wave equations. These can be recast into eigenvalue problems, and in doing so we change them into something we can solve using Jacobi's rotation algorithm. We can use the analytical solutions of these problems to verify the accuracy of the algorithm.
 
 
 \subsection{Buckling beam problem} \label{sec:II:c}
@@ -355,7 +355,7 @@ and elements above and below the diagonal:
 e = -\frac{1}{h^2}
 \end{align*}
 
-We can now use numerical methods such as the Jacobi rotation algorithm to find the eigenvalues and eigenvectors (solutions) of \textbf{A} as it is a symmetrical matrix.
+We can now use numerical methods such as Jacobi's rotation algorithm to find the eigenvalues and eigenvectors (solutions) of \textbf{A} as it is a symmetrical matrix.
 
 
 \subsection{Quantum mechanical harmonic oscillator with two electrons as an eigenvalue problem} \label{sec:II:e}
@@ -422,16 +422,16 @@ and the elements above and below the diagonal are:
 e &= - \frac{1}{h^2}
 \end{align*}
 
-This can similarly be solved using the Jacobi rotation method as the matrix is symmetric.
+This can similarly be solved using Jacobi's rotation algorithm as the matrix is symmetric.
 
 \newpage
 
 
 \section{Method} \label{sec:III}
 
-\subsection{Implementation of Jacobi rotation algorithm} \label{sec:III:a}
+\subsection{Implementation of Jacobi's rotation algorithm} \label{sec:III:a}
 
-We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. It is worth noting that this is not the same $N$ defined in the \hyperref[sec:II]{section II}, as the dimensionality of the matrices is one less than $N$. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the columns of \textbf{R} will be the eigenvectors.
+We have implemented the Jacobi's rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. It is worth noting that this is not the same $N$ defined in the \hyperref[sec:II]{section II}, as the dimensionality of the matrices is one less than $N$. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the columns of \textbf{R} will be the eigenvectors.
 
 The \verb+solve()+ method performs the following while-loop:
 
@@ -568,7 +568,7 @@ After $k$ iterations we then have the approximate relation:
 \text{off}(\textbf{A}^{(k)}) \lesssim e^{-\frac{k}{N(N-1)}} \text{off}(\textbf{A})
 \end{align*}
 
-This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The method is thus highly computationally expensive.
+This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the solution can converge with Jacobi's rotation algorithm. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The algorithm is thus highly computationally expensive.
 
 
 \subsection{Error sources and choices of parameters} \label{sec:III:b}
@@ -606,10 +606,10 @@ We calculated the first eigenvector numerically and plotted it against the analy
 \caption{Plot displaying the first eigenvector calculated numerically in the buckling beam problem with $N=200$ plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly. The plot also shows the numerical and analytic eigenvalue belonging to this solution in the legend text.}
 \end{figure}
 
-We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and was averaged over 500 runs. The results are shown in \hyperref[table:IV:a:1]{Table I}.
+We also measured the time spent by the Jacobi's rotation algorithm and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and was averaged over 500 runs. The results are shown in \hyperref[table:IV:a:1]{Table I}.
 
 \begin{table}[h!] \label{table:IV:a:1}
-\caption{Table showing the spent by the Jacobi rotation method and the built-in Armadillo functions for finding the eigenvalues of a 500x500 Toeplitz matrix. The time is averaged and the uncertainty is also included.}
+\caption{Table showing the spent by Jacobi's rotation algorithm and the built-in Armadillo functions for finding the eigenvalues of a 500x500 Toeplitz matrix. The time is averaged and the uncertainty is also included.}
 \begin{tabular}{|c|c|c|}
 \hline
  & Jacobi & Armadillo \\
@@ -671,18 +671,18 @@ $\omega_r$ & Analytical & Numerical & Relative error \\
 
 \subsection{Buckling beam and benchmark with Toeplitz matrix} \label{sec:V:a}
 
-We can see in \hyperref[fig:IV:a:1]{Figure 1} that the numerically calculated eigenvector corresponds well with the analytically computed one. The numerical and analytical eigenvalues are also equal to the fourth digit, which together with the similar eigenvectors bode well for the accuracy of the method. There are two significant sources of errors here. One is from the approximation of the second derivative, and the other is from the FLOPs performed. It is worth noting here though that the error caused by the second order derivative is not taken into account here as the analytical eigenvalues and eigenvectors used are the solutions of the eigenvalue problem with the Toeplitz matrix, and not the wave equation in general. The small error here thus shows that the error generated by the method itself is not significant, but says nothing about the error from approximating the second order derivative.
+We can see in \hyperref[fig:IV:a:1]{Figure 1} that the numerically calculated eigenvector corresponds well with the analytically computed one. The numerical and analytical eigenvalues are also equal to the fourth digit, which together with the similar eigenvectors bode well for the accuracy of the algorithm. There are two significant sources of errors here. One is from the approximation of the second derivative, and the other is from the FLOPs performed. It is worth noting here though that the error caused by the second order derivative is not taken into account here as the analytical eigenvalues and eigenvectors used are the solutions of the eigenvalue problem with the Toeplitz matrix, and not the wave equation in general. The small error here thus shows that the error generated by the algorithm itself is not significant, but says nothing about the error from approximating the second order derivative.
 
 Now it is important to put this back into a physical context. The eigenvectors found here correspond to stable solutions to the wave equation. In theory there is an infinite amount of these solutions, but when searching numerically the amount of solutions are limited by the dimensionality of the matrix. Just as in the case with eigenvectors the solutions can always be multiplied with a constant and still remain a valid solution. This means that normalizing the eigenvectors in \hyperref[fig:IV:a:1]{Figure 1} also makes sense in the context of the solutions to the wave equation.
 
-From the benchmark results in \hyperref[table:IV:a:1]{table I}, it becomes clear that our implementation of the Jacobi rotational algorithm (\hyperref[sec:III:a]{section III A.}) finishes faster than Armadillo's eig\_sym function. The Armadillo eig\_sym solver uses the divide and conquer method \citep{Armadillo} for solving the eigenpairs of symmetrical matrices. The estimated maximum iterations needed for convergence, for a given \(N\times N\)-matrix, is \(\frac{8}{3}N^{3}\) with eigenvectors, or \(\frac{4}{3}N^{3}\) when solving for eigenvalues only \citep{Cuppen}. This is greater than the \(k=N^{3}\) we set as the maximum number of iterations for our implementation of the Jacobi rotational algorithm. In all likelihood, both the Jacobi solver and the eig\_sym solver reach their convergence tolerance in fewer than the maximum needed number of iterations. This, we assume, is the result of either the simplicity of the matrix being solved, or simply our tolerance for the largest non-diagonal element being quickly reachable for the Toeplitz matrix used.
+From the benchmark results in \hyperref[table:IV:a:1]{table I}, it becomes clear that our implementation of Jacobi's rotation algorithm (\hyperref[sec:III:a]{section III A.}) finishes faster than Armadillo's eig\_sym function. The Armadillo eig\_sym solver uses the divide and conquer method \citep{Armadillo} for solving the eigenpairs of symmetrical matrices. The estimated maximum iterations needed for convergence, for a given \(N\times N\)-matrix, is \(\frac{8}{3}N^{3}\) with eigenvectors, or \(\frac{4}{3}N^{3}\) when solving for eigenvalues only \citep{Cuppen}. This is greater than the \(k=N^{3}\) we set as the maximum number of iterations for our implementation of the Jacobi's rotation algorithm. In all likelihood, both the Jacobi solver and the eig\_sym solver reach their convergence tolerance in fewer than the maximum needed number of iterations. This, we assume, is the result of either the simplicity of the matrix being solved, or simply our tolerance for the largest non-diagonal element being quickly reachable for the Toeplitz matrix used.
 
 
 \subsection{Quantum harmonic oscillator} \label{sec:V:b}
 
 \subsubsection{One electron} \label{sec:V:b:i}
 
-We calculated the four lowest eigenvalues of the system using the Jacobi rotation method, and compared them with the analytical values as seen in \hyperref[table:IV:b:1]{Table II}. In general we see that the values found numerically correspond to the analytical values. At least four the smallest four eigenvalues however, we can clearly see the relative error increasing for the larger eigenvalues. There are three significant errors this time around. The analytical eigenvalues are found by solving the equation directly, which means that there is an error from approximating the second order derivative. We also have an error from the FLOPs performed and from the loss of numerical precision in the diagonal elements of the matrix as discussed in \hyperref[sec:III:b]{section III.B}. The error from the second order derivative and from the FLOPs should (logically at least) cause steady relative errors for all eigenvalues. This makes it likely that the increasing relative errors for larger eigenvalues are related to the loss of numerical precision in the diagonal elements.
+We calculated the four lowest eigenvalues of the system using Jacobi's rotation algorithm, and compared them with the analytical values as seen in \hyperref[table:IV:b:1]{Table II}. In general we see that the values found numerically correspond to the analytical values. At least four the smallest four eigenvalues however, we can clearly see the relative error increasing for the larger eigenvalues. There are three significant errors this time around. The analytical eigenvalues are found by solving the equation directly, which means that there is an error from approximating the second order derivative. We also have an error from the FLOPs performed and from the loss of numerical precision in the diagonal elements of the matrix as discussed in \hyperref[sec:III:b]{section III.B}. The error from the second order derivative and from the FLOPs should (logically at least) cause steady relative errors for all eigenvalues. This makes it likely that the increasing relative errors for larger eigenvalues are related to the loss of numerical precision in the diagonal elements.
 
 We also performed several runs of this keeping $N/\rho_\text{max} = 16$ constant. The relative error and calculated eigenvalues stayed pretty much the same for all these runs, unless we picked very small values for $\rho_\text{max}$ and $N$. Very large values of $N$ is not possible to due to computational limitations but they should in theory cause similar problems to small values being chosen. As the numerically calculated eigenvalues stayed pretty much the same we conclude that there is little reason to believe the error from the FLOPs are a large contribution to the total error. The error resulting from approximating the second order derivative should be the same as long as the step length $h$ is constant, which it is in this case as $h = \rho_\text{max}/N$. This specific value was chosen because they seemed to produce results accurate to the fourth digit for the first eigenvalue which was what we sought initially.
 
