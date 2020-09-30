@@ -25,7 +25,7 @@
     linkcolor={red!50!black},
     citecolor={blue!50!black},
     urlcolor={blue!80!black}}
-    
+
 %% Defines the style of the programming listing
 %% This is actually my personal template, go ahead and change stuff if you want
 \lstnewenvironment{python}{
@@ -131,11 +131,11 @@
 
 \section{Introduction} \label{sec:I}
 
-Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. In this report we study the Jacobi rotation method, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this method is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix. 
+Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. In this report we study the Jacobi rotation method, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this method is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
 
 These three problems showcase some key differences, however. The buckling beam problem results in a Toeplitz matrix, which makes it easier to use this problem to test how well the method works. The single electron in a quantum harmonic oscillator potential results in the diagonal elements of the matrix no longer being constant, and the problem with two electrons result in yet more complex diagonal elements because of the Coulomb interaction between the electrons. This creates some specific error sources that we discuss in detail in \hyperref[sec:III:b]{section III.B.}
 
-Precision of the solutions is key, and thus we test the accuracy of the result against analytical answers for all three problems. For the buckling beam we compare the first numerical eigenvector against the analytical one, and in the two quantum harmonic oscillator problems we compare numerical and analytical eigenvalues. We also make an estimate on how many FLOPs at most which will be needed in order for the solution to converge. This lets us evaluate the computational cost of the method. 
+Precision of the solutions is key, and thus we test the accuracy of the result against analytical answers for all three problems. For the buckling beam we compare the first numerical eigenvector against the analytical one, and in the two quantum harmonic oscillator problems we compare numerical and analytical eigenvalues. We also make an estimate on how many FLOPs at most which will be needed in order for the solution to converge. This lets us evaluate the computational cost of the method.
 
 \section{Formalism} \label{sec:II}
 
@@ -150,8 +150,8 @@ We define a unitary transformation of a matrix \textbf{A} into a matrix \textbf{
 where \textbf{U} is a unitary matrix ($\textbf{U}^T\textbf{U} = \textbf{I}$, where \textbf{I} is the identity matrix). This type of transformation will preserve the eigenvalues of the system, meaning that \textbf{A} and \textbf{B} share the same eigenvalues. This can be seen by manipulating the eigenvalue equation for \textbf{A}:
 
 \begin{align*}
-\textbf{A}\textbf{v} = \lambda \textbf{v} \, , 
-\end{align*} 
+\textbf{A}\textbf{v} = \lambda \textbf{v} \, ,
+\end{align*}
 
 where $\lambda$ is the eigenvalue belonging to eigenvector \textbf{v}. We multiply by $\textbf{U}^T$ from the left and add the identity matrix in between \textbf{A} and \textbf{x}, and use that $\textbf{U}^T \textbf{U} = \textbf{UU}^T$:
 
@@ -179,7 +179,7 @@ where $U$ is a unitary matrix. We need to check that $\textbf{w}_i^T \textbf{w}_
 &= \delta_{ij} \, ,
 \end{align*}
 
-where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality of the set of vectors $\vec{v}_i$. This shows that during a unitary transformation of a matrix the orthogonality of the eigenvectors is preserved. 
+where we have used that $\textbf{U}$ is a unitary matrix and the orthogonality of the set of vectors $\vec{v}_i$. This shows that during a unitary transformation of a matrix the orthogonality of the eigenvectors is preserved.
 
 
 \subsection{Jacobi rotation method} \label{sec:II:b}
@@ -188,7 +188,7 @@ One method based on such unitary transformations is the Jacobi rotation method \
 
 \begin{align*}
 \textbf{D} &= \textbf{U}_n^T ... \textbf{U}_1^T \textbf{AU}_1 ... \textbf{U}_n^T
-\end{align*}  
+\end{align*}
 
 As we have already seen that such transformations preserve the eigenvalues and the eigenvectors of \textbf{A}, we automatically have that the diagonal elements of \textbf{D} are the eigenvalues of \textbf{A}. As the eigenvectors of \textbf{D} are the standard basis vectors $\textbf{e}_i$, we can also use this to find the eigenvectors $\textbf{v}_i$ of \textbf{A}. In order to do this we note that:
 
@@ -198,9 +198,9 @@ As we have already seen that such transformations preserve the eigenvalues and t
 \textbf{U}_1 ... \textbf{U}_n \textbf{e}_i &= \textbf{v}_i \, ,
 \end{align*}
 
-and in this way we can also find the eigenvectors of \textbf{A}. In general this is done as an iterative method were we get closer to a diagonal matrix with every iteration. The iteration is cut off once all the elements not on the diagonal are less than a specified tolerance. 
+and in this way we can also find the eigenvectors of \textbf{A}. In general this is done as an iterative method were we get closer to a diagonal matrix with every iteration. The iteration is cut off once all the elements not on the diagonal are less than a specified tolerance.
 
-For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric. 
+For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric.
 
 We will now present three problems based on one-dimensional wave equations. These can be recast into eigenvalue problems, and in doing so we change them into something we can solve using the Jacobi rotation method. We can use the analytical solutions of these problems to verify the accuracy of the method.
 
@@ -236,7 +236,7 @@ where we select $N$ so that $h$ is small enough such that we can neglect the hig
 
 \begin{align*}
 -\frac{u_{i+1} - 2u_i + u_{i-1}}{h^2} &= \lambda u_i \, ,
-\end{align*} 
+\end{align*}
 
 where $u_i = u(\rho_i)$. This can be rewritten as an eigenvalue problem:
 
@@ -266,7 +266,7 @@ e & d & e & 0 & \cdots & 0 & 0 \\
 \vdots & \vdots & \ddots & \ddots & \ddots & \vdots &  \vdots \\
 \vdots & \vdots & 0 & e & d & e & 0 \\
 0 & \cdots & \cdots & 0 & e & d & e \\
-0 & \cdots & \cdots & \cdots & 0 & e & d 
+0 & \cdots & \cdots & \cdots & 0 & e & d
 \end{bmatrix}
 \end{align*}
 
@@ -283,11 +283,11 @@ and the eigenvectors are:
 \sin( \frac{j\pi}{N} ) \\
 \sin( \frac{2j\pi}{N} ) \\
 \vdots \\
-\sin( \frac{(N-1)j\pi}{N} ) 
+\sin( \frac{(N-1)j\pi}{N} )
 \end{bmatrix} \quad , \quad j = 1,2,...,N-1
 \end{align*}
 
-These can be compared with our numerical results. The derivation of this analytical solution is detailed in \citep{Lyche2017}. 
+These can be compared with our numerical results. The derivation of this analytical solution is detailed in \citep{Lyche2017}.
 
 
 
@@ -297,7 +297,7 @@ The harmonic oscillator potential is central symmetric. This means that the Schr
 
 \begin{align*}
 -\frac{\hbar^2}{2m} \bigg( \frac{1}{r^2} \frac{d}{dr}r^2 \frac{d}{dr} - \frac{l(l+1)}{r^2} \bigg) R(r) + \frac{1}{2}kr^2 R(r) = ER(r) \, ,
-\end{align*} 
+\end{align*}
 
 where $k = m\omega^2$ with $\omega$ being the oscillator frequency and $m$ being the mass. $r$ is the radial coordinate, $l$ is the angular momentum quantum number, $R(r)$ is the radial part of the wave equation, and $E$ is the energy. We can substitute $R(r) = u(r)/r$ which simplifies the equation:
 
@@ -308,29 +308,29 @@ where $k = m\omega^2$ with $\omega$ being the oscillator frequency and $m$ being
 where we have separated the differential from the rest of the equation as well, which will be useful later on. To further simplify we can scale the equation. We do this by introducing a dimensionless variable $\rho = r/\alpha$, where $\alpha$ is a constant. Inserting this gives:
 
 \begin{align*}
--\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \bigg( \frac{1}{2}k\alpha^2 \rho^2 + \frac{l(l+1)}{\rho^2} \frac{\hbar^2}{2m\alpha^2} \bigg) u(\rho) &= Eu(\rho) 
+-\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \bigg( \frac{1}{2}k\alpha^2 \rho^2 + \frac{l(l+1)}{\rho^2} \frac{\hbar^2}{2m\alpha^2} \bigg) u(\rho) &= Eu(\rho)
 \end{align*}
 
 From here on out we will assume the system to be in the lowest orbital state ($l=0$), which simplifies the equation above furter:
 
 \begin{align*}
--\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \frac{1}{2}k\alpha^2 \rho^2 u(\rho) &= Eu(\rho) 
+-\frac{\hbar^2}{2m\alpha^2} \frac{d^2}{d\rho^2} u(\rho) + \frac{1}{2}k\alpha^2 \rho^2 u(\rho) &= Eu(\rho)
 \end{align*}
 
 We multiply by $\frac{2m\alpha^2}{\hbar^2}$ on both sides:
 
 \begin{align*}
--\frac{d^2}{d\rho^2} u(\rho) + \frac{mk}{\hbar^2}\alpha^4 \rho^2 u(\rho) &= \frac{2m\alpha^2}{\hbar^2} Eu(\rho) 
+-\frac{d^2}{d\rho^2} u(\rho) + \frac{mk}{\hbar^2}\alpha^4 \rho^2 u(\rho) &= \frac{2m\alpha^2}{\hbar^2} Eu(\rho)
 \end{align*}
 
 As $\alpha$ is an arbitrary constant we can choose $\alpha = \sqrt{\frac{\hbar}{m \omega}}$, and define $\lambda = \frac{2m\alpha^2}{\hbar^2} E = \frac{2}{\hbar \omega} E$:
 
 \begin{align*}
--\frac{d^2}{d\rho^2} u(\rho) + \rho^2 u(\rho) &= \lambda u(\rho) 
+-\frac{d^2}{d\rho^2} u(\rho) + \rho^2 u(\rho) &= \lambda u(\rho)
 \end{align*}
 
 We know that the allowed energy levels for a quantum harmonic oscillator are $E_n = \hbar \omega (n + \frac{1}{2})$, which gives us that $\lambda_n = 2n+1$. This can be compared with a numerical calculation later to check the accuracy of our results.
- 
+
 In general we have that $u(0) = u(\infty) = 0$. This is not feasible on a computer and as such we define a $\rho_{\text{max}}$ and set boundary conditions $u(0) = u(\rho_{\text{max}}) = 0$. We then define a set of points $\rho_i = \rho_0 + ih$ where $i = 1,2,...,N$ and $h = \frac{\rho_N - \rho_0}{N}$, and set $\rho_0 = 0$ and $\rho_N  = \rho_{\text{max}}$. These points can be used to discretize the previous equation (approximating the derivative as well):
 
 \begin{align*}
@@ -359,7 +359,7 @@ We can now use numerical methods such as the Jacobi rotation algorithm to find t
 
 
 \subsection{Quantum mechanical harmonic oscillator with two electrons as an eigenvalue problem} \label{sec:II:e}
- 
+
 Similarly to how we did in the previous section we can find a numerical solution to the Schrödinger equation where we have two electrons in a harmonic oscillator instead of one. As the electrons can interact we now need to add the Coulomb potential to the equation. We ignore this for now, but will add it later. The radial part of the Schrödinger equation with two electrons in a harmonic oscillator is (where some of the steps from the previous section has already been applied):
 
 \begin{align*}
@@ -384,7 +384,7 @@ Again we introduce the dimensionless variable $\rho = r/\alpha$ and multiply by 
 
 \begin{align*}
 \bigg( - \frac{d^2}{d\rho^2} + \frac{1}{4} \frac{mk}{\hbar^2} \alpha^4 \rho^2 + \frac{m\alpha \beta e^2}{\rho \hbar^2} \bigg) \psi (\rho) &= \frac{m\alpha^2}{\hbar^2} E_r \psi(\rho)
-\end{align*} 
+\end{align*}
 
 We define $\omega_r^2 = \frac{1}{4} \frac{mk}{\hbar^2} \alpha^4$ and $\lambda = \frac{m\alpha^2}{\hbar^2}E_r$, and set $\alpha = \frac{\hbar^2}{m\beta e^2}$. The equation can then be rewritten into:
 
@@ -401,7 +401,7 @@ This equation has analytical solutions (detailed in \citep{PhysRevA.48.3561}) fo
 The boundary conditions will be the same as in the previous section, and we define the same discretization. This gives us:
 
 \begin{align*}
-\frac{-u_{i+1} + 2u_i - u_{i-1}}{h^2} + \bigg( \omega_r^2\rho_i^2 + \frac{1}{\rho_i} \bigg) u_i = \lambda u_i 
+\frac{-u_{i+1} + 2u_i - u_{i-1}}{h^2} + \bigg( \omega_r^2\rho_i^2 + \frac{1}{\rho_i} \bigg) u_i = \lambda u_i
 \end{align*}
 
 This can be set up as an eigenvalue problem in the same way as in the previous section:
@@ -431,12 +431,12 @@ This can similarly be solved using the Jacobi rotation method as the matrix is s
 
 \subsection{Implementation of Jacobi rotation algorithm} \label{sec:III:a}
 
-We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. It is worth noting that this is not the same $N$ defined in the \hyperref[sec:II]{section II}, as the dimensionality of the matrices is one less than $N$. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the columns of \textbf{R} will be the eigenvectors. 
+We have implemented the Jacobi rotation algorithm as a class in C++. The code is linked to in \hyperref[A]{appendix A}. It is instantiated with two Armadillo \citep{Armadillo} matrices \textbf{A} and \textbf{R} and the dimensionality of the matrices as an integer \verb+N+. It is worth noting that this is not the same $N$ defined in the \hyperref[sec:II]{section II}, as the dimensionality of the matrices is one less than $N$. At input the matrix \textbf{A} is the matrix for which we want to calculate eigenvalues and eigenvectors and \textbf{R} should be the identity matrix, but can be any matrix with the same dimensionality as \textbf{A} as the class sets it up correctly anyway. Running the \verb+solve()+ method belonging to the class will replace the elements in \textbf{A} and \textbf{R} such that the diagonal elements of \textbf{A} will be the eigenvalues and the columns of \textbf{R} will be the eigenvectors.
 
 The \verb+solve()+ method performs the following while-loop:
 
 \begin{cpp}
-double epsilon = 1.0e-8; 
+double epsilon = 1.0e-8;
 double max_number_iterations = double(N)*double(N)*double(N);
 int iterations = 0;
 double max_off_diag = max_offdiag();
@@ -448,7 +448,7 @@ while ( fabs(max_off_diag)>epsilon &&
 }
 \end{cpp}
 
-A tolerance \verb+epsilon+ is set, along with a cap on the number of iterations, \verb+max_number_iterations+. For every iteration it checks whether the pivot element (the largest element not on the diagonal) is larger than the tolerance and that the cap on iterations has not been reached yet. In every iteration we get the pivot element using \verb+max_offdiag()+ and the \verb+rotate()+ function, which performs one transformation of the matrix, is called. 
+A tolerance \verb+epsilon+ is set, along with a cap on the number of iterations, \verb+max_number_iterations+. For every iteration it checks whether the pivot element (the largest element not on the diagonal) is larger than the tolerance and that the cap on iterations has not been reached yet. In every iteration we get the pivot element using \verb+max_offdiag()+ and the \verb+rotate()+ function, which performs one transformation of the matrix, is called.
 
 The \verb+max_offdiag()+ function works as follows:
 
@@ -547,13 +547,13 @@ By using the earlier inequality this gives us:
 
 \begin{align*}
 \text{off}(\textbf{A}^{(1)})^2 \leq (1 - \frac{2}{N(N-1)}) \text{off}(\textbf{A})^2 \\
-\text{off}(\textbf{A}^{(1)}) \leq \sqrt{1 - \frac{2}{N(N-1)}} \text{off}(\textbf{A}) 
+\text{off}(\textbf{A}^{(1)}) \leq \sqrt{1 - \frac{2}{N(N-1)}} \text{off}(\textbf{A})
 \end{align*}
 
 This means that:
 
 \begin{align*}
-\text{off}(\textbf{A}^{(k)}) \leq \bigg(1 - \frac{2}{N(N-1)}\bigg)^{k/2} \text{off}(\textbf{A}) 
+\text{off}(\textbf{A}^{(k)}) \leq \bigg(1 - \frac{2}{N(N-1)}\bigg)^{k/2} \text{off}(\textbf{A})
 \end{align*}
 
 As long as $N$ is large we can approximate:
@@ -565,17 +565,17 @@ As long as $N$ is large we can approximate:
 After $k$ iterations we then have the approximate relation:
 
 \begin{align*}
-\text{off}(\textbf{A}^{(k)}) \lesssim e^{-\frac{k}{N(N-1)}} \text{off}(\textbf{A}) 
-\end{align*} 
+\text{off}(\textbf{A}^{(k)}) \lesssim e^{-\frac{k}{N(N-1)}} \text{off}(\textbf{A})
+\end{align*}
 
-This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The method is thus highly computationally expensive. 
+This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the method can converge. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The method is thus highly computationally expensive.
 
 
 \subsection{Error sources and choices of parameters} \label{sec:III:b}
 
 The three problems we are solving all contain a double derivative which we approximate. This causes an error which is dependent on the step length squared. The step length is proportional to $\rho_\text{max}$ and inversely proportional to $N$, so in order to minimize the step length we need $\rho_\text{max}$ to be significantly less than $N$. Very large $N$ will cause rounding error in $h$, but we encounter memory issues before this starts to be a problem. However this is not the only thing we need to take into consideration with larger $N$. As $N$ gets large, so does the amount of FLOPs needed to perform the algorithm. FLOPs inherently cause a small error as numbers generally cannot be represented exactly, and thus a large amount of FLOPs cause this error to accumulate. How this all balances out in the end is something we will review.
 
-\subsubsection{Error sources when solving quantum mechanical problems} \label{sec:III:b:i} 
+\subsubsection{Error sources when solving quantum mechanical problems} \label{sec:III:b:i}
 
 The quantum mechanical problems have another more specific error in loss of numerical precision on the diagonal elements of the matrices. In the case of one electron in a harmonic oscillator potential we have the diagonal elements:
 
@@ -583,7 +583,7 @@ The quantum mechanical problems have another more specific error in loss of nume
 d_i = \frac{2}{h^2} + \rho_i^2
 \end{align*}
 
-The factor $\frac{2}{h^2}$ is a constant, and $\rho_i^2$ varies. If they are not of a similar size we risk having a loss of numerical precision in setting up the matrix. In general the most notable issue here is if $h$ gets very small the constant factor grows very large, which means that we can't have $N$ being much larger than $\rho_\text{max}$. In general this means that there exists a value $N/\rho_\text{max}$ which has the most precise result. 
+The factor $\frac{2}{h^2}$ is a constant, and $\rho_i^2$ varies. If they are not of a similar size we risk having a loss of numerical precision in setting up the matrix. In general the most notable issue here is if $h$ gets very small the constant factor grows very large, which means that we can't have $N$ being much larger than $\rho_\text{max}$. In general this means that there exists a value $N/\rho_\text{max}$ which has the most precise result.
 
 Similarly we have for the case with two electrons in a harmonic oscillator:
 
@@ -591,7 +591,7 @@ Similarly we have for the case with two electrons in a harmonic oscillator:
 d_i &= \frac{2}{h^2} + \omega_r^2 \rho_i^2 + \frac{1}{\rho_i}
 \end{align*}
 
-In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. Generally most of the same arguments used in the previous case apply here as well, so we expect there to be a value $N/\rho_\text{max}$ which has the most precise the results. This will not be the same one as in the last case, and will also be different for different choices of $\omega_r$. 
+In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. Generally most of the same arguments used in the previous case apply here as well, so we expect there to be a value $N/\rho_\text{max}$ which has the most precise the results. This will not be the same one as in the last case, and will also be different for different choices of $\omega_r$.
 
 \newpage
 
@@ -629,7 +629,7 @@ We calculated the smallest four eigenvalues both numerically and analytically. T
 \begin{table}[h!] \label{table:IV:b:1}
 \caption{Table containing numerical and analytical eigenvalues, and the relative error between them for the single electron in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 25$.}
 \begin{tabular}{|c|c|c|}
-\hline 
+\hline
 Analytical & Numerical & Relative error \\
 \hline
     3     &      2.999   &    $4.071 \times 10^{-4}$ \\
@@ -646,12 +646,12 @@ Analytical & Numerical & Relative error \\
 
 \subsection{Quantum harmonic oscillator with two electrons}\label{sec:IV:c}
 
-We calculated the smallest eigenvalue for four different values of $\omega_r$ with $N=400$ and $\rho_\text{max} = 115.625$ both numerically and analytically. The eigenvalues and the relative error between them can be found in \hyperref[table:IV:c:1]{Table III}. 
+We calculated the smallest eigenvalue for four different values of $\omega_r$ with $N=400$ and $\rho_\text{max} = 115.625$ both numerically and analytically. The eigenvalues and the relative error between them can be found in \hyperref[table:IV:c:1]{Table III}.
 
 \begin{table}[h!] \label{table:IV:c:1}
 \caption{Table containing the numerical and analytical first eigenvalue (lowest energy), and the relative error between them for the problem with two electrons in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 115.625$.}
 \begin{tabular}{|c|c|c|c|}
-\hline 
+\hline
 $\omega_r$ & Analytical & Numerical & Relative error \\
 \hline
 0.01 &    0.105    &      0.106  &    $6.966 \times 10^{-3}$ \\
@@ -667,7 +667,7 @@ $\omega_r$ & Analytical & Numerical & Relative error \\
 
 \newpage
 
-\section{Discussion} \label{sec:V} 
+\section{Discussion} \label{sec:V}
 
 \subsection{Buckling beam and benchmark with Toeplitz matrix} \label{sec:V:a}
 
@@ -686,12 +686,12 @@ We calculated the four lowest eigenvalues of the system using the Jacobi rotatio
 
 We also performed several runs of this keeping $N/\rho_\text{max} = 16$ constant. The relative error and calculated eigenvalues stayed pretty much the same for all these runs, unless we picked very small values for $\rho_\text{max}$ and $N$. Very large values of $N$ is not possible to due to computational limitations but they should in theory cause similar problems to small values being chosen. As the numerically calculated eigenvalues stayed pretty much the same we conclude that there is little reason to believe the error from the FLOPs are a large contribution to the total error. The error resulting from approximating the second order derivative should be the same as long as the step length $h$ is constant, which it is in this case as $h = \rho_\text{max}/N$. This specific value was chosen because they seemed to produce results accurate to the fourth digit for the first eigenvalue which was what we sought initially.
 
-The eigenvalues here are proportional to the allowed energy values of the system with $l=0$ by $\lambda_n = \frac{2}{\hbar \omega} E_n$, where $E_{n+1} > E_n$ for all positive integers $n$. In theory, as long as we assume the harmonic oscillator potential to be infinitely deep we have an infinite amount of allowed energies as $n$ can go to infinity. When calculating numerically, similarly to the buckling beam problem, the amount of solutions we can find are limited by the dimensionality of the matrix. It is worth noting here that generally speaking when using a harmonic oscillator potential in quantum mechanics, this is only a local approximation of a potential. Thus it is often common to define a limit to how large the energy can get before the electron escapes the potential well. This is not done in this case, and that is why there is an infinite amount of allowed energies. As the increase in the energy is linear to the increase of the energy level $n$ the relative distance between neighbouring energy levels gets smaller as $n$ gets larger and in the classical limit we get a (at least approximately) continuous spectrum of allowed energies. It is not feasible to reach this point when solving this problem numerically however as this would mean having very large matrices which is just not possible without very large amounts of memory. 
+The eigenvalues here are proportional to the allowed energy values of the system with $l=0$ by $\lambda_n = \frac{2}{\hbar \omega} E_n$, where $E_{n+1} > E_n$ for all positive integers $n$. In theory, as long as we assume the harmonic oscillator potential to be infinitely deep we have an infinite amount of allowed energies as $n$ can go to infinity. When calculating numerically, similarly to the buckling beam problem, the amount of solutions we can find are limited by the dimensionality of the matrix. It is worth noting here that generally speaking when using a harmonic oscillator potential in quantum mechanics, this is only a local approximation of a potential. Thus it is often common to define a limit to how large the energy can get before the electron escapes the potential well. This is not done in this case, and that is why there is an infinite amount of allowed energies. As the increase in the energy is linear to the increase of the energy level $n$ the relative distance between neighbouring energy levels gets smaller as $n$ gets larger and in the classical limit we get a (at least approximately) continuous spectrum of allowed energies. It is not feasible to reach this point when solving this problem numerically however as this would mean having very large matrices which is just not possible without very large amounts of memory.
 
 
 \subsubsection{Two electrons} \label{sec:V:b:ii}
 
-We calculated the eigenvalues for the quantum harmonic oscillator system with two electrons for different choices of $\omega_r$ and recorded the smallest ones in \hyperref[table:IV:c:1]{Table III} along with the analytical values and the relative error between these. In this case $N/\rho_\text{max} \approx 3.46$ seemed to provide the best results. The relative error in this case is quite large compared to the previous two problems. Important things to note here compared to the problem with one electron in terms of possible sources of errors are that the step length is significantly larger, and that the error in the diagonal elements of the matrix are also generally larger due to the extra term (see \hyperref[sec:III:b]{section III.B.} and \hyperref[sec:II:e]{section II.E.}). The larger step length causes the error in the approximation of the second order derivative to be much worse, but it is unlikely that this is the only cause of the increase in relative error. The most similar case to the previous problem is when $\omega_r = 1$, and here the relative error is significantly larger.       
+We calculated the eigenvalues for the quantum harmonic oscillator system with two electrons for different choices of $\omega_r$ and recorded the smallest ones in \hyperref[table:IV:c:1]{Table III} along with the analytical values and the relative error between these. In this case $N/\rho_\text{max} \approx 3.46$ seemed to provide the best results. The relative error in this case is quite large compared to the previous two problems. Important things to note here compared to the problem with one electron in terms of possible sources of errors are that the step length is significantly larger, and that the error in the diagonal elements of the matrix are also generally larger due to the extra term (see \hyperref[sec:III:b]{section III.B.} and \hyperref[sec:II:e]{section II.E.}). The larger step length causes the error in the approximation of the second order derivative to be much worse, but it is unlikely that this is the only cause of the increase in relative error. The most similar case to the previous problem is when $\omega_r = 1$, and here the relative error is significantly larger.
 
 
 \section{Conclusion} \label{sec:VI}
