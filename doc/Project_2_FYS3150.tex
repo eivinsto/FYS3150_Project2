@@ -16,6 +16,7 @@
 \usepackage{tikz}             % draw figures manually
 \usepackage{listings}         % display code
 \usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{cprotect}
 
 % defines the color of hyperref objects
 % Blending two colors:  blue!80!black  =  80% blue and 20% black
@@ -667,6 +668,48 @@ Now it is important to put this back into a physical context. The eigenvectors f
 \bibliography{kilder.bib}{}
 
 \appendix
-\section{Project files} \label{A}
+\section{Source code} \label{A}
+All code for this report was written in C++ and Python 3.8, and the complete set of files can be found at \url{https://github.com/eivinsto/FYS3150_Project2.git}.
 
+\cprotect\subsection{\verb+project.py+} \label{A.1}
+Main script for running project, plotting and data analysis.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/project.py}
+
+\cprotect\subsection{\verb+main.cpp+} \label{A.2}
+Main cpp file for running algorithms.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/main.cpp}
+
+\cprotect\subsection{\verb+functions.cpp+} \label{A.3}
+File contaning functions for creating the matrices used in the project, and calculating analytical eigenvalues and eigenvectors.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/functions.cpp}
+
+\cprotect\subsection{\verb+jacobi.h+} \label{A.4}
+File containing the decleration of a jacobi\_solver class, and jacobi\_functions class.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/jacobi_solver.h}
+
+\cprotect\subsection{\verb+jacobi.cpp+} \label{A.5}
+File containing the class-methods for the jacobi classes. Including the implementation of Jacobi's rotational algorithm.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/jacobi_solver.cpp}
+
+\cprotect\subsection{\verb+test_main.cpp+} \label{A.6}
+File running unit-tests using CATCH2 framework.
+\url{https://github.com/FunkMarvel/FYS3150_Project_1/blob/master/src/special_main.cpp}
+
+\cprotect\subsection{\verb+test_functions.cpp+} \label{A.7}
+File containing the unit-tests for the jacobi classes.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/src/test_functions.cpp}
+
+\section{Selected results} \label{B}
+Here is a folder of selected results from running our code.
+\url{https://github.com/eivinsto/FYS3150_Project2/tree/master/data}
+
+Plot can be found in doc.
+\url{https://github.com/eivinsto/FYS3150_Project2/blob/master/doc/toeplitz.png}
+
+\section{System specifications} \label{C}
+All results included in this report were achieved by running the implementation on the following system:
+\begin{itemize}
+	\item CPU: AMD Ryzen \(9\) \(3900\)X
+	\item RAM: \(2\times\SI{8}{\giga\byte}\) Corsair Vengeance LPX DDR\(4\) \(\SI{3200}{\mega\hertz}\)
+\end{itemize}
 \end{document}
