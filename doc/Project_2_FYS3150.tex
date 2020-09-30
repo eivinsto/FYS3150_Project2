@@ -624,13 +624,13 @@ Time spent & $0.0263 \pm 0.0007$ s & $0.1071 \pm 0.0011$ s \\
 
 \subsection{Quantum harmonic oscillator with one electron} \label{sec:IV:b}
 
-We calculated the smallest four eigenvalues both numerically and analytically. They are listed in \hyperref[table:IV:b:1]{Table II} along with the relative error between them. The parameters used in this run were $N=400$ and $\rho_\text{max} = 25$.
+We calculated the smallest four eigenvalues both numerically and analytically. They are listed in \hyperref[table:IV:b:1]{Table II} along with the relative error between them. The parameters used in this run were $N=400$ and $\rho_\text{max} = 25$. Several runs were performed keeping $N/\rho_\text{max}$ constant and the relative errors and measured values stayed almost the same.
 
 \begin{table}[h!] \label{table:IV:b:1}
 \caption{Table containing numerical and analytical eigenvalues, and the relative error between them for the single electron in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 25$.}
 \begin{tabular}{|c|c|c|}
 \hline 
-Analytic & Numerical & Relative error \\
+Analytical & Numerical & Relative error \\
 \hline
     3     &      2.999   &    $4.071 \times 10^{-4}$ \\
 \hline
@@ -652,7 +652,7 @@ We calculated the smallest eigenvalue for four different values of $\omega_r$ wi
 \caption{Table containing the numerical and analytical first eigenvalue (lowest energy), and the relative error between them for the problem with two electrons in a harmonic oscillator potential. The parameters used were $N=400$ and $\rho_\text{max} = 115.625$.}
 \begin{tabular}{|c|c|c|c|}
 \hline 
-$\omega_r$ & Analytic & Numerical & Relative error \\
+$\omega_r$ & Analytical & Numerical & Relative error \\
 \hline
 0.01 &    0     &      0.106  &    $6.966 \times 10^{-3}$ \\
 \hline
@@ -679,6 +679,13 @@ From the benchmark results in \hyperref[table:IV:a:1]{table I}, it becomes clear
 
 
 \subsection{Quantum harmonic oscillator} \label{sec:V:b}
+
+We calculated the four lowest eigenvalues of the system using the Jacobi rotation method, and compared them with the analytical values as seen in \hyperref[table:IV:b:1]{Table II}. In general we see that the values found numerically correspond to the analytical values. At least four the smallest four eigenvalues however, we can clearly see the relative error increasing for the larger eigenvalues. There are three significant errors this time around. The analytical eigenvalues are found by solving the equation directly, which means that there is an error from approximating the second order derivative. We also have an error from the FLOPs performed and from the loss of numerical precision in the diagonal elements of the matrix as discussed in \hyperref[sec:III:b]{section III.B}. The error from the second order derivative and from the FLOPs should (logically at least) cause steady relative errors for all eigenvalues. This makes it likely that the increasing relative errors for larger eigenvalues are related to the loss of numerical precision in the diagonal elements.
+
+We also performed several runs of this keeping $N/\rho_\text{max} = 16$ constant. The relative error and calculated eigenvalues stayed pretty much the same for all these runs, unless we picked very small values for $\rho_\text{max}$ and $N$. Very large values of $N$ is not possible to due to computational limitations but they should in theory cause similar problems to small values being chosen. As the numerically calculated eigenvalues stayed pretty much the same we conclude that there is little reason to believe the error from the FLOPs are a large contribution to the total error. The error resulting from approximating the second order derivative should be the same as long as the step length $h$ is constant, which it is in this case as $h = \rho_\text{max}/N$. This specific value was chosen because they seemed to produce results accurate to the fourth digit for the first eigenvalue which was what we sought initially.
+
+The eigenvalues here are proportional to the allowed energy values of the system with $l=0$ by $\lambda_n = \frac{2}{\hbar \omega} E_n$, where $E_{n+1} > E_n$ for all positive integers $n$. In theory, as long as we assume the harmonic oscillator potential to be infinitely deep we have an infinite amount of allowed energies as $n$ can go to infinity. When calculating numerically, similarly to the buckling beam problem, the amount of solutions we can find are limited by the dimensionality of the matrix. It is worth noting here that generally speaking when using a harmonic oscillator potential in quantum mechanics, this is only a local approximation of a potential. Thus it is often common to define a limit to how large the energy can get before the electron escapes the potential well. This is not done in this case, and that is why there is an infinite amount of allowed energies. As the increase in the energy is linear to the increase of the energy level $n$ the relative distance between neighbouring energy levels gets smaller as $n$ gets larger and in the classical limit we get a (at least approximately) continuous spectrum of allowed energies. It is not feasible to reach this point when solving this problem numerically however as this would mean having very large matrices which is just not feasible without very large amounts of memory. 
+
 
 \section{Conclusion} \label{sec:VI}
 
