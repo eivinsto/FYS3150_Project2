@@ -124,6 +124,12 @@
 \author{Eivind Støland, Anders P. Åsbø}               % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
+
+\begin{abstract}
+Many problems can be rewritten as eigenvalue problems, which means that being able to solve eigenvalue problems numerically is important. In this report we present an implementation of Jacobi's rotation algorithm and use it to solve three different physical problems of varying complexity. We solve the problem of a buckling beam and a quantum harmonic oscillator with both one and two electrons. Both these problems reduce to a wave equation which can be represented as an eigenvalue problem by approximating a second order derivative.
+\end{abstract}
+
+
 \maketitle                                % creates the title, author, date
 
 
@@ -131,7 +137,7 @@
 
 \section{Introduction} \label{sec:I}
 
-Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. There are several methods and algorithms that can be used for this, and in this report we study Jacobi's rotation algorithm, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this algorithm is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
+Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able to find eigenvalues and eigenvectors numerically is of critical importance. There are several methods and algorithms that can be used for this, and in this report we study Jacobi's rotation algorithm, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this algorithm is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
 
 These three problems showcase some key differences, however. The buckling beam problem results in a Toeplitz matrix, which makes it easier to use this problem to test how well the algorithm works. The single electron in a quantum harmonic oscillator potential results in the diagonal elements of the matrix no longer being constant, and the problem with two electrons result in yet more complex diagonal elements because of the Coulomb interaction between the electrons. This creates some specific error sources that we discuss in detail in \hyperref[sec:III:b]{section III.B.}
 
@@ -568,7 +574,7 @@ After $k$ iterations we then have the approximate relation:
 \text{off}(\textbf{A}^{(k)}) \lesssim e^{-\frac{k}{N(N-1)}} \text{off}(\textbf{A})
 \end{align*}
 
-This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the solution can converge with Jacobi's rotation algorithm. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. The algorithm is thus highly computationally expensive.
+This means that the convergence of the solution is dependent on several things. It is obviously dependent on the amount of iterations $k$, but it is also dependent on $\text{off}(\textbf{A})$ and $N$. If we assume $\text{off}(\textbf{A})$ to be something of reasonable size we have that the factor $e^{-\frac{k}{N(N-1)}}$ needs to be small. In order for this to be small we need $\frac{k}{N(N-1)}$ to be large, and for this to be larger than 1 even we need at least $k \geq N(N-1) \approx N^2$. Thus, as we assume $N$ to be a large number, $k = N^3$ would result in $e^{-\frac{k}{N(N-1)}}$ being a small number, and that is what we have set as a cap on the maximum amount of iterations the solver performs. It is worth noting that what we derived above is an approximation to the \textit{slowest rate possible} that the solution can converge with Jacobi's rotation algorithm. Usually the solution converges faster than this. This also lets us put an approximate cap on the amount of FLOPs at $(12N + 29)N^3$. Generally we neglect all terms of lower order than that of the highest order, and thus we approximate the maximum number of FLOPs needed to be about $12N^4$. The algorithm can thus be highly computationally expensive. A guess at the likely amount of iterations needed in order for the solution to converge, however, is something between $3N^2$ and $5N^2$ \citep{Hjorth-Jensen2015}. This implies that the total amount of FLOPs to be expected is somewhere between $36N^3$ and $60N^3$.  
 
 
 \subsection{Error sources and choices of parameters} \label{sec:III:b}
@@ -597,7 +603,7 @@ In this case we introduce the factor $\omega_r$ and the extra term $1/\rho_i$. G
 
 \section{Results} \label{sec:IV}
 
-\subsection{Buckling beam and benchmark with Toeplitz matrix} \label{sec:IV:a}
+\subsection{Buckling beam and benchmark} \label{sec:IV:a}
 
 We calculated the first eigenvector numerically and plotted it against the analytical eigenvector with $N=200$. The plot is displayed in \hyperref[fig:IV:a:1]{Figure 1}. In order for them to be scaled similarly we chose to normalize both. Both the numerical and analytical value of the eigenvalue belonging to the eigenvector is written down in the legend text of the plot in \hyperref[fig:IV:a:1]{Figure 1}. Runs with a larger $N$ were also performed but they all produced similar results.
 
@@ -606,10 +612,10 @@ We calculated the first eigenvector numerically and plotted it against the analy
 \caption{Plot displaying the first eigenvector calculated numerically in the buckling beam problem with $N=200$ plotted together with the analytical result. Both the analytical and numerical solution have been normalized so they are scaled similarly. The plot also shows the numerical and analytic eigenvalue belonging to this solution in the legend text.}
 \end{figure}
 
-We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and 500x500 two-electron matrix. The result was averaged over 500 runs, and are shown in \hyperref[table:IV:a:1]{Table I}.
+We also measured the time spent by the Jacobi rotation method and the built-in functions in the Armadillo package. This was done using a 500x500 Toeplitz matrix and 500x500 matrix from the problem of two electrons in a quantum harmonic oscillator. The result was averaged over 500 runs, and are shown in \hyperref[table:IV:a:1]{Table I}.
 
 \begin{table}[h!] \label{table:IV:a:1}
-\caption{Table showing the time spent by the Jacobi rotation method and the built-in Armadillo function for finding the eigenvalues of a 500x500 Toeplitz matrix and a 500x500 two-electron matrix. The table shows mean time and standard deviation in seconds.}
+\caption{Table showing the time spent by the Jacobi rotation method and the built-in Armadillo function for finding the eigenvalues of a 500x500 Toeplitz matrix and a 500x500 matrix from the problem of two electrons in a quantum harmonic oscillator (referred to as two-electron in the table). The table shows mean time and standard deviation in seconds after 500 runs.}
 \begin{tabular}{|c|c|c|}
 \hline
  & Toeplitz & Two-electron \\
@@ -708,6 +714,8 @@ With these things taken into consideration it seems very difficult to solve this
 In this report we have presented an implementation of Jacobi's rotational algorithm for finding the eigenpairs of symmetric matrices. We used our implementation to obtain approximate solutions for the eigenpairs of the \(1\)st vibrational mode of a buckling beam, the four lowest energies of a single electron in a quantum harmonic oscillator potential, as well as the ground-state energies of two electrons in a quantum harmonic oscillator potential with different values of the scaled frequency \(\omega_{r}\).
 
 By solving the buckling beam problem, our implementation gave results that matched the analytic solution (se \hyperref[fig:IV:a:1]{Figure 1.}). Furthermore, we compared the computational speed of our implementation to the eigenpair solver for symmetric matrices, eig\_sym, in the Armadillo C++ library. The benchmark comparison revealed our implementation to be faster than the eig\_sym solver (se \hyperref[table:IV:a:1]{Table I.}). This might be because the maximum number of iterations of our implementation is about \(N^{3}\) for an \(N\times N\)-matrix, while the method employed by eig\_sym requires a maximum of \(\frac{8}{3}N^{3}\) iterations to complete \citep{Cuppen}. Moreover, the benchmark was performed on a \(500\times 500\)-Toeplitz matrix. This is a rather simple matrix, and likely does not require many iterations to reach the tolerance of \(\num{1e-08}\) set for the maximum non-diagonal element.
+
+For the two quantum harmonic oscillator problems we saw an expected increase in the relative error of our results. We conclude that these errors mostly arise from loss of numerical precision in generating the matrices we find the eigenvalues of, and from approximation of the second order derivative which are both unrelated to the algorithm used to find the eigenvalues. In the case of the one electron case specifically the choice of parameters that minimizes these sources of errors significance contradict eachother, creating difficulties in solving the problem numerically. This also makes it difficult to use the results here to assess the size of the relative error caused by the algorithm alone. In the case of two electrons we know even less about the behaviour of the relative error from setting up the problem. It would be necessary to quantify the behaviour of the relative error from setting up the matrix further in order to use this problem to evaluate our implementation, and as this is a project large enough to warrant a separate study we leave this for further research.
 
 \bibliography{kilder.bib}{}
 
