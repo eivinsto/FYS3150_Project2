@@ -131,7 +131,7 @@ Many problems can be rewritten as eigenvalue problems, which means that being ab
 
 The numerical solution to the buckling beam problem seems to be in agreement with the analytical results. However, there is a larger error in both quantum harmonic oscillator problems, with the two-electron problem having the largest error. As there are significant sources of errors not related to the algorithm applied to solve these, these results tell little about the error caused by the algorithm itself. Further research would be necessary in order to use these problems to further evaluate our implementation of the algorithm, and the amount of research seemingly necessary would warrant a study of its own.
 
-We performed a benchmark of our implementation, and compared it to the built-in eig\_sym solver from the Armadillo C++ library. The benchmark revealed our Jacobi solver to be faster for the matrix used in the buckling beam problem, but slower for the matrix used in the two-electron problem. We concluded that our jacobi solver works well for simple symmetric matrices, but eig\_sym is better suited for more complicated symmetric matrices.
+We performed a benchmark of our implementation, and compared it to the built-in eig\_sym solver from the Armadillo C++ library. The benchmark revealed our Jacobi solver to be faster for the matrix used in the buckling beam problem, but slower for the matrix used in the two-electron problem. We concluded that our Jacobi solver works well for simple symmetric matrices, but eig\_sym is better suited for more complicated symmetric matrices.
 \end{abstract}
 
 
