@@ -257,25 +257,46 @@ if choose_run == "benchmark" or choose_run == "b":
     clean()  # clean data from src directory.
 
     # calculating mean and standard deviation for Armadillo:
-    arma_mean = np.mean(benchmark_times[:, 0])
-    arma_std = np.std(benchmark_times[:, 0])
+    arma_toeplitz_mean = np.mean(benchmark_times[:, 0])
+    arma_toeplitz_std = np.std(benchmark_times[:, 0])
+    arma_qdot_mean = np.mean(benchmark_times[:, 2])
+    arma_qdot_std = np.std(benchmark_times[:, 2])
 
     # calculating mean and standard deviation for jacobi_solver:
-    jacobi_mean = np.mean(benchmark_times[:, 1])
-    jacobi_std = np.std(benchmark_times[:, 1])
+    jacobi_toeplitz_mean = np.mean(benchmark_times[:, 1])
+    jacobi_toeplitz_std = np.std(benchmark_times[:, 1])
+    jacobi_qdot_mean = np.mean(benchmark_times[:, 3])
+    jacobi_qdot_std = np.std(benchmark_times[:, 3])
 
     # printing results:
     header1 = f"Time spent solving {N-1}x{N-1} Toeplitz matrix."
     header2 = f"{N = }, rho_max = 1, rho_min = 0"
-    jacobistr = f"Jacobi solver: {jacobi_mean:.4f} s \u00B1 {jacobi_std:.4f} s"
-    armastr = f"Armadillo solver: {arma_mean:.4f} s \u00B1 {arma_std:.4f} s"
+    jacobistr = f"Jacobi solver: {jacobi_toeplitz_mean:.4f} s \u00B1 {jacobi_toeplitz_std:.4f} s"
+    armastr = f"Armadillo solver: {arma_toeplitz_mean:.4f} s \u00B1 {arma_toeplitz_std:.4f} s"
     print(header1)
     print(header2)
     print(jacobistr)
     print(armastr)
 
     # writing results to file in data directory:
-    with open(pwd + "/data/benchmark.dat", "w") as output:
+    with open(pwd + "/data/benchmark_toeplitz.dat", "w") as output:
+        output.write(header1 + "\n")
+        output.write(header2 + "\n")
+        output.write(jacobistr + "\n")
+        output.write(armastr + "\n")
+
+    # printing results:
+    header1 = f"Time spent solving {N-1}x{N-1} two-electron matrix."
+    header2 = f"{N = }, rho_max = 144.53125, omega_r = 5.0"
+    jacobistr = f"Jacobi solver: {jacobi_qdot_mean:.4f} s \u00B1 {jacobi_qdot_std:.4f} s"
+    armastr = f"Armadillo solver: {arma_qdot_mean:.4f} s \u00B1 {arma_qdot_std:.4f} s"
+    print(header1)
+    print(header2)
+    print(jacobistr)
+    print(armastr)
+
+    # writing results to file in data directory:
+    with open(pwd + "/data/benchmark_double.dat", "w") as output:
         output.write(header1 + "\n")
         output.write(header2 + "\n")
         output.write(jacobistr + "\n")

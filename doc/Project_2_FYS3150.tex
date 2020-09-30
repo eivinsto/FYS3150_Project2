@@ -702,7 +702,9 @@ With these things taken into consideration it seems very difficult to solve this
 
 
 \section{Conclusion} \label{sec:VI}
+In this report we have presented an implementation of Jacobi's rotational algorithm for finding the eigenpairs of symmetric matrices. We used our implementation to obtain approximate solutions for the eigenpairs of the \(1\)st vibrational mode of a buckling beam, the four lowest energies of a single electron in a quantum harmonic oscillator potential, as well as the ground-state energies of two electrons in a quantum harmonic oscillator potential with diffrent values of the scaled frequency \(\omega_{r}\).
 
+By solving the buckling beam problem, our implementation gave results that matched the analytic solution (se \hyperref[fig:IV:a:1]{Figure 1.}). Furthermore, we compared the computational speed of our implementation to the eigenpair solver for symmetric matrices, eig\_sym, in the Armadillo C++ library. The benchmark comparison revealed our implementation to be faster than the eig\_sym solver (se \hyperref[table:IV:a:1]{Table I.}). This is likely because we have set the maximum number of iterations of our implementation to be \(N^{3}\) for an \(N\times N\)-matrix, while the method employed by eig\_sym requires a maximum of \(\frac{8}{3}N^{3}\) iterations to complete \citep{Cuppen}. Moreover, the benchmark was performed on a \(500\times 500\)-Toeplitz matrix. This is a rather simple matrix, and likely does not require many iterations to reach the tolerance of \(\num{1e-08}\) set for the maximum non-diagonal element.
 
 \bibliography{kilder.bib}{}
 
