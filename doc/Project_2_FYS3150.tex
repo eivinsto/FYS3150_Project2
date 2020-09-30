@@ -164,7 +164,7 @@ where $\lambda$ is the eigenvalue belonging to eigenvector \textbf{v}. We multip
 
 where we have defined $\textbf{w} = \textbf{U}^T \textbf{v}$. This is now an eigenvalue equation for \textbf{B} with $\lambda$ as the eigenvalue belonging to eigenvector \textbf{w}. This shows that the eigenvalues of the matrix is preserved through a unitary transformation.
 
-A unitary transformation of on orthogonal set of vectors $\textbf{v}_i$ will conserve the orthogonality of the set of vectors. We show this by writing down the transformed set of vectors as:
+A unitary transformation of an orthogonal set of vectors $\textbf{v}_i$ will conserve the orthogonality of the set of vectors. We show this by writing down the transformed set of vectors as:
 
 \begin{align*}
 \textbf{w}_i &= \textbf{U} \textbf{v}_i \, ,
@@ -190,7 +190,7 @@ One method based on such unitary transformations is the Jacobi rotation method \
 \textbf{D} &= \textbf{U}_n^T ... \textbf{U}_1^T \textbf{AU}_1 ... \textbf{U}_n^T
 \end{align*}  
 
-As we have already seen that such transformations preserve the eigenvalues and the eigenvectors of \textbf{A}, we automatically have that the diagonal elements of \textbf{D} are the eigenvalues of \textbf{A}. As the eigenvectors of \textbf{D} are the standard basis vectors $\textbf{e}_i$, we can also use this to find the eigenvectors of \textbf{A}, $\textbf{v}_i$. In order to do this we note that:
+As we have already seen that such transformations preserve the eigenvalues and the eigenvectors of \textbf{A}, we automatically have that the diagonal elements of \textbf{D} are the eigenvalues of \textbf{A}. As the eigenvectors of \textbf{D} are the standard basis vectors $\textbf{e}_i$, we can also use this to find the eigenvectors $\textbf{v}_i$ of \textbf{A}. In order to do this we note that:
 
 \begin{align*}
 \textbf{e}_i &= \textbf{U}_n^T ... \textbf{U}_1^T \textbf{v}_i \\
@@ -202,7 +202,7 @@ and in this way we can also find the eigenvectors of \textbf{A}. In general this
 
 For the specifics of how this method is performed, including the unitary matrices used we refer to \citep{Hjorth-Jensen2015}. One important thing to note is that this method requires the matrix \textbf{A} to be symmetric. 
 
-We will now present three problems based on one-dimensional wave equations. These can be recast into eigenvalue problems and in so doing we change them into something we can solve using the Jacobi rotation method. We can use the analytical solutions of these problems to verify the accuracy of the method.
+We will now present three problems based on one-dimensional wave equations. These can be recast into eigenvalue problems, and in doing so we change them into something we can solve using the Jacobi rotation method. We can use the analytical solutions of these problems to verify the accuracy of the method.
 
 
 \subsection{Buckling beam problem} \label{sec:II:c}
