@@ -124,6 +124,12 @@
 \author{Eivind Støland, Anders P. Åsbø}               % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
+
+\begin{abstract}
+Many problems can be rewritten as eigenvalue problems, which means that being able to solve eigenvalue problems numerically is important. In this report we present an implementation of Jacobi's rotation algorithm and use it to solve three different physical problems of varying complexity. We solve the problem of a buckling beam and a quantum harmonic oscillator with both one and two electrons. Both these problems reduce to a wave equation which can be represented as an eigenvalue problem by approximating a second order derivative.
+\end{abstract}
+
+
 \maketitle                                % creates the title, author, date
 
 
@@ -131,7 +137,7 @@
 
 \section{Introduction} \label{sec:I}
 
-Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able find eigenvalues and eigenvectors numerically is of critical importance. There are several methods and algorithms that can be used for this, and in this report we study Jacobi's rotation algorithm, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this algorithm is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
+Some of the most important physical problems can be formulated numerically as eigenvalue problems. Thus being able to find eigenvalues and eigenvectors numerically is of critical importance. There are several methods and algorithms that can be used for this, and in this report we study Jacobi's rotation algorithm, and discuss its merits and failings. We also apply it on three different problems, namely that of a buckling beam, and that of one and two electrons in a quantum harmonic oscillator potential. In general this algorithm is applicable to any physical problem which can be formulated as an eigenvalue problem with a symmetrical matrix.
 
 These three problems showcase some key differences, however. The buckling beam problem results in a Toeplitz matrix, which makes it easier to use this problem to test how well the algorithm works. The single electron in a quantum harmonic oscillator potential results in the diagonal elements of the matrix no longer being constant, and the problem with two electrons result in yet more complex diagonal elements because of the Coulomb interaction between the electrons. This creates some specific error sources that we discuss in detail in \hyperref[sec:III:b]{section III.B.}
 
